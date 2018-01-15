@@ -9,11 +9,6 @@ package org.opendaylight.netvirt.simple;
 
 import org.opendaylight.infrautils.simple.Main;
 
-/**
- * Netvirt full distribution main class.
- *
- * @author Michael Vorburger.ch
- */
 public final class NetvirtMain {
 
     private NetvirtMain() { }
