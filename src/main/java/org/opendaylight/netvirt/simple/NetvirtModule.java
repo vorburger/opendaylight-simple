@@ -7,17 +7,16 @@
  */
 package org.opendaylight.netvirt.simple;
 
+import org.opendaylight.genius.simple.GeniusModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
 
-/**
- * Guice Module with Bindings for netvirt services.
- *
- * @author Michael Vorburger.ch
- */
 public class NetvirtModule extends AbstractGuiceJsr250Module {
 
     @Override
     protected void configureBindings() throws Exception {
+        install(new GeniusModule());
+
+        install(new AclServiceModule());
     }
 
 }
