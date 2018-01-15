@@ -14,39 +14,79 @@
     <groupId>org.opendaylight.infrautils</groupId>
     <artifactId>parent</artifactId>
     <version>1.3.0-SNAPSHOT</version>
-    <relativePath/>
+    <relativePath />
   </parent>
 
   <groupId>ch.vorburger.opendaylight.simple</groupId>
   <artifactId>poc</artifactId>
 
-   <dependencyManagement>
-        <dependencies>
-            <dependency>
-                <groupId>org.opendaylight.infrautils</groupId>
-                <artifactId>infrautils-artifacts</artifactId>
-                <version>1.3.0-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.opendaylight.controller</groupId>
-                <artifactId>mdsal-artifacts</artifactId>
-                <version>1.7.0-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <dependency>
-                <groupId>org.opendaylight.daexim</groupId>
-                <artifactId>daexim-artifacts</artifactId>
-                <version>1.3.0-SNAPSHOT</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
+  <dependencyManagement>
+        <!-- Order not alphabetically but by dependency tree hierarchy -->
+    <dependencies>
+      <dependency>
+        <groupId>org.opendaylight.infrautils</groupId>
+        <artifactId>infrautils-artifacts</artifactId>
+        <version>1.3.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.opendaylight.controller</groupId>
+        <artifactId>mdsal-artifacts</artifactId>
+        <version>1.7.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+<!--
+      <dependency>
+        <groupId>org.opendaylight.neutron</groupId>
+        <artifactId>neutron-artifacts</artifactId>
+        <version>0.10.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.opendaylight.daexim</groupId>
+        <artifactId>daexim-artifacts</artifactId>
+        <version>1.3.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+  -->
+      <dependency>
+        <groupId>org.opendaylight.netvirt</groupId>
+        <artifactId>vpnservice-artifacts</artifactId>
+        <version>0.6.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <!-- TODO remove this temporary v0.1 hack; see org.opendaylight.controller.simple.ControllerModule -->
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>sal-binding-broker-impl</artifactId>
+      <type>test-jar</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netvirt</groupId>
+      <artifactId>odl-netvirt-openstack</artifactId>
+      <classifier>features</classifier>
+      <type>xml</type>
+      <exclusions>
+        <!-- Figure out why M2E breaks down over (just) neutronvpn-impl's <classifier>config <type>xml ... -->
+        <exclusion>
+          <groupId>org.opendaylight.netvirt</groupId>
+          <artifactId>neutronvpn-impl</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+    <!-- Now <scope>test... -->
     <dependency>
       <groupId>org.opendaylight.infrautils</groupId>
       <artifactId>infrautils-testutils</artifactId>
