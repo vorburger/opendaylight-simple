@@ -7,12 +7,15 @@
  */
 package org.opendaylight.genius.simple;
 
+import org.opendaylight.controller.simple.ControllerModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
 
 public class GeniusModule extends AbstractGuiceJsr250Module {
 
     @Override
     protected void configureBindings() throws Exception {
+        install(new ControllerModule());
+
         install(new MdsalUtilModule());
         install(new AlivenessMonitorModule());
         install(new InterfaceManagerModule());
