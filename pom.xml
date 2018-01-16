@@ -83,6 +83,11 @@
           <groupId>org.opendaylight.netvirt</groupId>
           <artifactId>neutronvpn-impl</artifactId>
         </exclusion>
+        <!-- This leads to various duplicate classpath entries (and won't work anyway) -->
+        <exclusion>
+          <groupId>org.apache.karaf.shell</groupId>
+          <artifactId>org.apache.karaf.shell.console</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
