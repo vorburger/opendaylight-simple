@@ -21,7 +21,7 @@
   <artifactId>poc</artifactId>
 
   <dependencyManagement>
-        <!-- Order not alphabetically but by dependency tree hierarchy -->
+    <!-- Order not alphabetically but by dependency tree hierarchy -->
     <dependencies>
       <dependency>
         <groupId>org.opendaylight.infrautils</groupId>
@@ -100,6 +100,11 @@
         <exclusion>
           <groupId>org.opendaylight.netconf</groupId>
           <artifactId>odl-restconf-noauth</artifactId>
+        </exclusion>
+        <!-- TODO Remove when this is merged and we bumped to an odlparent with it: https://git.opendaylight.org/gerrit/#/c/67184/ -->
+        <exclusion>
+          <groupId>javax.annotation</groupId>
+          <artifactId>jsr250-api</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
