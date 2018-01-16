@@ -70,6 +70,12 @@
       <artifactId>sal-binding-broker-impl</artifactId>
       <type>test-jar</type>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.core</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -78,7 +84,7 @@
       <classifier>features</classifier>
       <type>xml</type>
       <exclusions>
-        <!-- Figure out why M2E breaks down over (just) neutronvpn-impl's <classifier>config <type>xml ... -->
+        <!-- TODO Figure out why M2E breaks down over (just) neutronvpn-impl's <classifier>config <type>xml ... -->
         <exclusion>
           <groupId>org.opendaylight.netvirt</groupId>
           <artifactId>neutronvpn-impl</artifactId>
@@ -88,7 +94,17 @@
           <groupId>org.apache.karaf.shell</groupId>
           <artifactId>org.apache.karaf.shell.console</artifactId>
         </exclusion>
-        <!-- AAA Shiro leads to various duplicate classpath entries which really should be cleaned up, and is not needed at least for now -->
+        <!-- osgi.core overlaps (x5) with felix.configadmin, and we don't need it here anyway -->
+        <exclusion>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.core</artifactId>
+        </exclusion>
+        <!-- osgi.compendium (big) overlaps (x12) with (small) felix.configadmin, and with org.osgi.service.event (x9) -->
+        <exclusion>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.compendium</artifactId>
+        </exclusion>
+        <!-- TODO AAA Shiro leads to various duplicate classpath entries which really should be cleaned up, and is not needed at least for now -->
         <exclusion>
           <groupId>org.opendaylight.aaa</groupId>
           <artifactId>odl-aaa-shiro</artifactId>
@@ -105,6 +121,11 @@
         <exclusion>
           <groupId>javax.annotation</groupId>
           <artifactId>jsr250-api</artifactId>
+        </exclusion>
+        <!-- TODO Remove when this is merged and we bumped to an odlparent with it: https://git.opendaylight.org/gerrit/#/c/67185/ -->
+        <exclusion>
+          <groupId>org.iq80.leveldb</groupId>
+          <artifactId>leveldb-api</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
