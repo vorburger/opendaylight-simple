@@ -7,15 +7,14 @@
  */
 package org.opendaylight.genius.simple;
 
-import java.net.UnknownHostException;
+import com.google.inject.AbstractModule;
 import org.opendaylight.genius.alivenessmonitor.internal.AlivenessMonitor;
-import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.alivenessmonitor.rev160411.AlivenessMonitorService;
 
-public class AlivenessMonitorModule extends AbstractGuiceJsr250Module {
+public class AlivenessMonitorWiring extends AbstractModule {
 
     @Override
-    protected void configureBindings() throws UnknownHostException {
+    protected void configure() {
         bind(AlivenessMonitorService.class).to(AlivenessMonitor.class);
     }
 

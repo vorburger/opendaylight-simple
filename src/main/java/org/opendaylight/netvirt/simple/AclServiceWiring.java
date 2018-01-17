@@ -7,7 +7,7 @@
  */
 package org.opendaylight.netvirt.simple;
 
-import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
+import com.google.inject.AbstractModule;
 import org.opendaylight.netvirt.aclservice.AclServiceManagerImpl;
 import org.opendaylight.netvirt.aclservice.api.AclServiceManager;
 import org.opendaylight.netvirt.aclservice.listeners.AclEventListener;
@@ -16,10 +16,10 @@ import org.opendaylight.netvirt.aclservice.listeners.AclInterfaceStateListener;
 import org.opendaylight.netvirt.aclservice.listeners.AclNodeListener;
 
 // TODO This is copy/pasted from org.opendaylight.netvirt.aclservice.tests.AclServiceModule, but should not be..
-public class AclServiceModule extends AbstractGuiceJsr250Module {
+public class AclServiceWiring extends AbstractModule {
 
     @Override
-    protected void configureBindings() {
+    protected void configure() {
         bind(AclServiceManager.class).to(AclServiceManagerImpl.class);
         bind(AclInterfaceStateListener.class);
         bind(AclNodeListener.class);

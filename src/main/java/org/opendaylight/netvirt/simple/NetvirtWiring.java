@@ -7,16 +7,16 @@
  */
 package org.opendaylight.netvirt.simple;
 
-import org.opendaylight.genius.simple.GeniusModule;
-import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
+import com.google.inject.AbstractModule;
+import org.opendaylight.genius.simple.GeniusWiring;
 
-public class NetvirtModule extends AbstractGuiceJsr250Module {
+public class NetvirtWiring extends AbstractModule {
 
     @Override
-    protected void configureBindings() throws Exception {
-        install(new GeniusModule());
+    protected void configure() {
+        install(new GeniusWiring());
 
-        install(new AclServiceModule());
+        install(new AclServiceWiring());
     }
 
 }

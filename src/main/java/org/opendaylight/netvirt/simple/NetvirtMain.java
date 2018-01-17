@@ -14,7 +14,7 @@ public final class NetvirtMain {
     private NetvirtMain() { }
 
     public static void main(String[] args) {
-        new Main(new NetvirtModule()).awaitShutdown();
+        new Main(new NetvirtWiring()).awaitShutdown();
     }
 
 }

@@ -7,14 +7,14 @@
  */
 package org.opendaylight.mdsal.simple;
 
-import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
+import com.google.inject.AbstractModule;
 import org.opendaylight.mdsal.eos.binding.api.EntityOwnershipService;
 import org.opendaylight.mdsal.eos.binding.dom.adapter.BindingDOMEntityOwnershipServiceAdapter;
 
-public class MdsalModule extends AbstractGuiceJsr250Module {
+public class MdsalWiring extends AbstractModule {
 
     @Override
-    protected void configureBindings() throws Exception {
+    protected void configure() {
         bind(EntityOwnershipService.class).to(BindingDOMEntityOwnershipServiceAdapter.class);
         // TODO bind(EntityOwnershipService.class).toInstance(new BindingDOMEntityOwnershipServiceAdapter(..., ...));
     }
