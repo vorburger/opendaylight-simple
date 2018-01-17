@@ -7,6 +7,7 @@
  */
 package org.opendaylight.genius.simple;
 
+import com.google.inject.AbstractModule;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.genius.idmanager.IdManager;
 import org.opendaylight.genius.interfacemanager.InterfacemgrProvider;
@@ -26,16 +27,15 @@ import org.opendaylight.genius.interfacemanager.servicebindings.flowbased.listen
 import org.opendaylight.genius.interfacemanager.servicebindings.flowbased.listeners.FlowBasedServicesInterfaceStateListener;
 import org.opendaylight.genius.lockmanager.impl.LockListener;
 import org.opendaylight.genius.lockmanager.impl.LockManagerServiceImpl;
-import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.idmanager.rev160406.IdManagerService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.interfacemanager.rpcs.rev160406.OdlInterfaceRpcService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.lockmanager.rev160413.LockManagerService;
 
 // TODO unify with org.opendaylight.genius.interfacemanager.test.InterfaceManagerTestModule
-public class InterfaceManagerModule extends AbstractGuiceJsr250Module {
+public class InterfaceManagerWiring extends AbstractModule {
 
     @Override
-    protected void configureBindings() {
+    protected void configure() {
         bind(DataImportBootReady.class).toInstance(new DataImportBootReady() {});
 
         bind(LockManagerService.class).to(LockManagerServiceImpl.class);

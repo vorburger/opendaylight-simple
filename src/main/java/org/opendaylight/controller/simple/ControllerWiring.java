@@ -7,14 +7,14 @@
  */
 package org.opendaylight.controller.simple;
 
+import com.google.inject.AbstractModule;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.test.DataBrokerTestModule;
-import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
 
-public class ControllerModule extends AbstractGuiceJsr250Module {
+public class ControllerWiring extends AbstractModule {
 
     @Override
-    protected void configureBindings() throws Exception {
+    protected void configure() {
         // TODO this is just for early stage POC! switch to real CDS wiring here, eventually..
         DataBroker dataBroker = DataBrokerTestModule.dataBroker();
         bind(DataBroker.class).toInstance(dataBroker);

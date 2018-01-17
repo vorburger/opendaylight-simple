@@ -7,14 +7,15 @@
  */
 package org.opendaylight.genius.simple;
 
-import org.opendaylight.infrautils.simple.Main;
+import com.google.inject.AbstractModule;
+import org.opendaylight.genius.idmanager.IdManager;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.idmanager.rev160406.IdManagerService;
 
-public final class GeniusMain {
+public class IdManagerWiring extends AbstractModule {
 
-    private GeniusMain() { }
-
-    public static void main(String[] args) {
-        new Main(new GeniusWiring()).awaitShutdown();
+    @Override
+    protected void configure() {
+        bind(IdManagerService.class).to(IdManager.class);
     }
 
 }

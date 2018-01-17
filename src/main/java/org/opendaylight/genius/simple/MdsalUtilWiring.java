@@ -7,15 +7,14 @@
  */
 package org.opendaylight.genius.simple;
 
-import java.net.UnknownHostException;
+import com.google.inject.AbstractModule;
 import org.opendaylight.genius.mdsalutil.interfaces.IMdsalApiManager;
 import org.opendaylight.genius.mdsalutil.internal.MDSALManager;
-import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
 
-public class MdsalUtilModule extends AbstractGuiceJsr250Module {
+public class MdsalUtilWiring extends AbstractModule {
 
     @Override
-    protected void configureBindings() throws UnknownHostException {
+    protected void configure() {
         bind(IMdsalApiManager.class).to(MDSALManager.class);
     }
 }
