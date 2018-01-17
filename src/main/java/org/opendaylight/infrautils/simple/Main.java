@@ -13,6 +13,7 @@ import com.google.inject.Module;
 import com.google.inject.Stage;
 import com.mycila.guice.ext.closeable.CloseableInjector;
 import java.io.IOException;
+import org.opendaylight.infrautils.inject.PostFullSystemInjectionListener;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,6 +33,8 @@ public class Main {
         // TODO share why PRODUCTION Javadoc, or more, w. org.opendaylight.infrautils.inject.guice.testutils.GuiceRule
         this.injector = Guice.createInjector(Stage.PRODUCTION, mainModule);
         LOG.info("Start up of dependency injection completed; Guice injector is now ready.");
+        injector.getInstance(PostFullSystemInjectionListener.class).onFullSystemInjected();
+        LOG.info("Commpled invoking PostFullSystemInjectionListener.onFullSystemInjected");
     }
 
     public void close() {
