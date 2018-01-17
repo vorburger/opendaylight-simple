@@ -9,7 +9,12 @@ package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.controller.simple.ControllerWiring;
+import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
+import org.opendaylight.infrautils.simple.JobCoordinatorWiring;
+import org.opendaylight.infrautils.simple.ReadyWiring;
+import org.opendaylight.mdsal.simple.MdsalWiring;
+import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 
 public class GeniusWiring extends AbstractModule {
 
@@ -17,12 +22,25 @@ public class GeniusWiring extends AbstractModule {
     protected void configure() {
         install(new AnnotationsModule());
 
+        install(new ReadyWiring());
+        // TODO install(new DiagStatusWiring());
+        install(new JobCoordinatorWiring());
+
         install(new ControllerWiring());
+        install(new MdsalWiring());
+
+        // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
+        bind(DataImportBootReady.class).toInstance(new DataImportBootReady() {});
+
+        install(new OpenFlowPluginWiring());
 
         install(new MdsalUtilWiring());
+        install(new LockManagerWiring());
         install(new IdManagerWiring());
         install(new AlivenessMonitorWiring());
         install(new InterfaceManagerWiring());
+        // TODO install(new ItmWiring());
+        // TODO install(new ResourceManagerWiring());
     }
 
 }

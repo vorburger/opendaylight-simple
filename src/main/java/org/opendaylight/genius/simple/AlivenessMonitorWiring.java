@@ -9,6 +9,8 @@ package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.genius.alivenessmonitor.internal.AlivenessMonitor;
+import org.opendaylight.genius.alivenessmonitor.protocols.AlivenessProtocolHandlerRegistry;
+import org.opendaylight.genius.alivenessmonitor.protocols.internal.AlivenessProtocolHandlerRegistryImpl;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.alivenessmonitor.rev160411.AlivenessMonitorService;
 
 public class AlivenessMonitorWiring extends AbstractModule {
@@ -16,6 +18,7 @@ public class AlivenessMonitorWiring extends AbstractModule {
     @Override
     protected void configure() {
         bind(AlivenessMonitorService.class).to(AlivenessMonitor.class);
+        bind(AlivenessProtocolHandlerRegistry.class).to(AlivenessProtocolHandlerRegistryImpl.class);
     }
 
 }

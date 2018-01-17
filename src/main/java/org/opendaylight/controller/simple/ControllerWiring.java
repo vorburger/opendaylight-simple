@@ -9,6 +9,8 @@ package org.opendaylight.controller.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
+import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
+import org.opendaylight.controller.md.sal.binding.impl.BindingDOMNotificationPublishServiceAdapter;
 import org.opendaylight.controller.md.sal.binding.test.DataBrokerTestModule;
 
 public class ControllerWiring extends AbstractModule {
@@ -18,6 +20,8 @@ public class ControllerWiring extends AbstractModule {
         // TODO this is just for early stage POC! switch to real CDS wiring here, eventually..
         DataBroker dataBroker = DataBrokerTestModule.dataBroker();
         bind(DataBroker.class).toInstance(dataBroker);
+
+        bind(NotificationPublishService.class).to(BindingDOMNotificationPublishServiceAdapter.class);
     }
 
 }
