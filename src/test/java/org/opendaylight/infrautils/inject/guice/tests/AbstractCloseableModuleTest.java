@@ -5,14 +5,13 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-package org.opendaylight.infrautils.inject.guice.testutils.tests;
+package org.opendaylight.infrautils.inject.guice.tests;
 
 import static com.google.common.truth.Truth.assertThat;
 
-import com.google.inject.AbstractModule;
-import javax.annotation.PreDestroy;
 import org.junit.Test;
 import org.junit.runners.model.Statement;
+import org.opendaylight.infrautils.inject.guice.AbstractCloseableModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 
@@ -21,22 +20,24 @@ import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
  *
  * @author Michael Vorburger.ch
  */
-public class ModuleWithPreDestroyTest {
+public class AbstractCloseableModuleTest {
 
-    public static class TestModule extends AbstractModule {
+    public static class TestModule extends AbstractCloseableModule {
         boolean isClosed = false;
 
-        @Override protected void configure() {
-            bind(TestModule.class).toInstance(this);
+        @Override
+        public void close() {
+            isClosed = true;
         }
 
-        @PreDestroy void close() {
-            isClosed = true;
+        @Override protected void configureCloseables() {
+            // IRL: bind(...)
         }
     }
 
     @SuppressWarnings("checkstyle:IllegalThrows")
     @Test public void testModuleWithPreDestroy() throws Throwable {
+        @SuppressWarnings("resource")
         TestModule testModule = new TestModule();
         new GuiceRule(testModule, new AnnotationsModule()).apply(EMPTY_STATEMENT, null, new Object()).evaluate();
         assertThat(testModule.isClosed).isTrue();
