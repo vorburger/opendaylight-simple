@@ -24,6 +24,7 @@ public class OpenFlowPluginWiring extends AbstractModule {
         // TODO <odl:action-provider ?!
         bind(PacketProcessingService.class).to(PacketProcessingServiceImpl.class);
 
+        // TODO need to use newInstance? But then why does class have public no arg constructor..
         bind(OpenFlowPluginProviderFactory.class).to(OpenFlowPluginProviderFactoryImpl.class);
         bind(ConfigurationServiceFactory.class).to(ConfigurationServiceFactoryImpl.class);
         bind(MastershipChangeServiceManager.class).to(MastershipChangeServiceManagerImpl.class);
