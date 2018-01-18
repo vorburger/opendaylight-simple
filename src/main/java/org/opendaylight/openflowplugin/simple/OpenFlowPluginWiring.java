@@ -21,7 +21,7 @@ public class OpenFlowPluginWiring extends AbstractModule {
 
     @Override
     protected void configure() {
-        // TODO <odl:action-provider ?!
+        // TODO <odl:action-provider interface="org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService"/>
         bind(PacketProcessingService.class).to(PacketProcessingServiceImpl.class);
 
         // TODO need to use newInstance? But then why does class have public no arg constructor..
