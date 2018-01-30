@@ -14,6 +14,7 @@ import org.opendaylight.controller.md.sal.binding.impl.BindingToNormalizedNodeCo
 import org.opendaylight.controller.md.sal.binding.test.DataBrokerTestModule;
 import org.opendaylight.controller.md.sal.dom.broker.impl.DOMNotificationRouter;
 import org.opendaylight.infrautils.inject.guice.AbstractCloseableModule;
+import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSerializer;
 
 public class ControllerWiring extends AbstractCloseableModule {
 
@@ -35,6 +36,7 @@ public class ControllerWiring extends AbstractCloseableModule {
         bindingDOMNotificationPublishServiceAdapter = new BindingDOMNotificationPublishServiceAdapter(
                 bindingToNormalizedNodeCodec, domNotificationPublishService);
         bind(NotificationPublishService.class).toInstance(bindingDOMNotificationPublishServiceAdapter);
+        bind(BindingNormalizedNodeSerializer.class).toInstance(bindingToNormalizedNodeCodec);
     }
 
     @Override
