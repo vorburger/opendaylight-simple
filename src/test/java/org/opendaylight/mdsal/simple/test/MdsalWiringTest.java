@@ -8,12 +8,14 @@
 package org.opendaylight.mdsal.simple.test;
 
 import org.junit.Rule;
+import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.mdsal.simple.MdsalWiring;
 
 public class MdsalWiringTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(/* Controller.class, */ MdsalWiring.class);
+    public @Rule GuiceRule guice = new GuiceRule(
+            /* ControllerWiring.class, */ MdsalWiring.class, AnnotationsModule.class);
 
 }

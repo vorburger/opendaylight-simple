@@ -8,7 +8,6 @@
 package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
-import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.JobCoordinatorWiring;
@@ -26,7 +25,6 @@ public class GeniusWiring extends AbstractModule {
         // TODO install(new DiagStatusWiring());
         install(new JobCoordinatorWiring());
 
-        install(new ControllerWiring());
         install(new MdsalWiring());
 
         // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
