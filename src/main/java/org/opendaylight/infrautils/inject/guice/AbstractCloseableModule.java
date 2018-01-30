@@ -23,7 +23,7 @@ import javax.annotation.PreDestroy;
  *
  * @author Michael Vorburger.ch
  */
-public abstract class AbstractCloseableModule extends AbstractModule implements AutoCloseable {
+public abstract class AbstractCloseableModule extends AbstractModule {
 
     private static class Closer {
         private final AbstractCloseableModule closeableModule;
@@ -45,7 +45,6 @@ public abstract class AbstractCloseableModule extends AbstractModule implements 
 
     protected abstract void configureCloseables();
 
-    @Override
     @PreDestroy
     public abstract void close() throws Exception;
 
