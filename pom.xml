@@ -148,8 +148,22 @@
     <dependency>
       <groupId>org.opendaylight.infrautils</groupId>
       <artifactId>inject.guice.testutils</artifactId>
-      <scope>test</scope>
+      <scope>compile</scope>
+      <!-- TODO <scope>test</scope> instead of compile here once I'll create
+           a new infrautils:inject.guice.testutils (non-testutils) for the run-time part.. -->
     </dependency>
-  </dependencies>
+    <!--  TODO remove, this is just a temporary hack, see above -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <!--  TODO remove when https://git.opendaylight.org/gerrit/#/c/67763/ is merged and odlparent bumped -->
+    <dependency>
+      <groupId>com.mycila.guice.extensions</groupId>
+      <artifactId>mycila-guice-jsr250</artifactId>
+      <scope>compile</scope>
+    </dependency>
 
+  </dependencies>
 </project>
