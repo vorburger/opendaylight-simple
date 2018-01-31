@@ -44,6 +44,14 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.opendaylight.mdsal</groupId>
+        <artifactId>mdsal-artifacts</artifactId>
+        <version>2.4.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+
 <!--
       <dependency>
         <groupId>org.opendaylight.neutron</groupId>
@@ -71,6 +79,10 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>org.opendaylight.mdsal</groupId>
+      <artifactId>mdsal-eos-dom-simple</artifactId>
+    </dependency>
     <dependency>
       <!-- TODO remove this temporary v0.1 hack; see org.opendaylight.controller.simple.ControllerModule -->
       <groupId>org.opendaylight.controller</groupId>
