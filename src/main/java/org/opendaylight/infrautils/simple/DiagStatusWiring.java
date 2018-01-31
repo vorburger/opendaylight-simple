@@ -8,12 +8,16 @@
 package org.opendaylight.infrautils.simple;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.TypeLiteral;
+import java.util.Collections;
+import java.util.List;
 import org.opendaylight.infrautils.diagstatus.DiagStatusService;
+import org.opendaylight.infrautils.diagstatus.ServiceStatusProvider;
 import org.opendaylight.infrautils.diagstatus.internal.DiagStatusServiceImpl;
 
 public class DiagStatusWiring extends AbstractModule {
 
-    // TODO get DiagStatusWiringTest to pass
+    // TODO get DiagStatusWiringTest to pass without the 2nd bind() below...
     // maybe using https://github.com/google/guice/wiki/Multibindings ..
     // but how to make it AUTOMATICALLY pickup all beans which ServiceStatusProvider?
     // probably possible via https://github.com/google/guice/wiki/CustomInjections ?
@@ -21,7 +25,7 @@ public class DiagStatusWiring extends AbstractModule {
     @Override
     protected void configure() {
         bind(DiagStatusService.class).to(DiagStatusServiceImpl.class);
-        // ? bind(new TypeLiteral<List<ServiceStatusProvider>>() {}).toInstance(Collections.emptyList());
+        bind(new TypeLiteral<List<ServiceStatusProvider>>() {}).toInstance(Collections.emptyList());
     }
 
 }
