@@ -10,6 +10,7 @@ package org.opendaylight.infrautils.simple.test;
 import org.junit.Test;
 import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
 import org.opendaylight.infrautils.simple.Main;
+import org.opendaylight.infrautils.simple.ReadyWiring;
 
 /**
  * Unit test for Main.
@@ -26,6 +27,8 @@ public class MainTest {
     public static class TestModule extends AbstractGuiceJsr250Module {
         @Override
         protected void configureBindings() {
+            install(new ReadyWiring());
+
             // bind(SomeInterfaceWithPostConstruct.class).to(SomeClassWithPostConstruct.class);
         }
     }
