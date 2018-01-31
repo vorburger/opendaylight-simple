@@ -8,12 +8,13 @@
 package org.opendaylight.openflowplugin.simple.test;
 
 import org.junit.Rule;
+import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 
 public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(OpenFlowPluginWiring.class);
+    public @Rule GuiceRule guice = new GuiceRule(OpenFlowPluginWiring.class, AnnotationsModule.class);
 
 }

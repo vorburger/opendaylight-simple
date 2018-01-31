@@ -8,26 +8,38 @@
 package org.opendaylight.openflowplugin.simple;
 
 import com.google.inject.AbstractModule;
+import java.util.concurrent.Future;
 import org.opendaylight.openflowplugin.api.openflow.OpenFlowPluginProviderFactory;
 import org.opendaylight.openflowplugin.api.openflow.configuration.ConfigurationServiceFactory;
 import org.opendaylight.openflowplugin.api.openflow.mastership.MastershipChangeServiceManager;
 import org.opendaylight.openflowplugin.impl.OpenFlowPluginProviderFactoryImpl;
 import org.opendaylight.openflowplugin.impl.configuration.ConfigurationServiceFactoryImpl;
 import org.opendaylight.openflowplugin.impl.mastership.MastershipChangeServiceManagerImpl;
-import org.opendaylight.openflowplugin.impl.services.sal.PacketProcessingServiceImpl;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInput;
+import org.opendaylight.yangtools.yang.common.RpcResult;
 
 public class OpenFlowPluginWiring extends AbstractModule {
 
     @Override
     protected void configure() {
-        // TODO <odl:action-provider interface="org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService"/>
-        bind(PacketProcessingService.class).to(PacketProcessingServiceImpl.class);
+        bind(PacketProcessingService.class).to(NoPacketProcessingService.class);
 
-        // TODO need to use newInstance? But then why does class have public no arg constructor..
         bind(OpenFlowPluginProviderFactory.class).to(OpenFlowPluginProviderFactoryImpl.class);
         bind(ConfigurationServiceFactory.class).to(ConfigurationServiceFactoryImpl.class);
         bind(MastershipChangeServiceManager.class).to(MastershipChangeServiceManagerImpl.class);
     }
 
+    private static class NoPacketProcessingService implements PacketProcessingService {
+
+        // TODO <odl:action-provider
+        // interface="org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService"/>
+        // bind(PacketProcessingService.class).to(PacketProcessingServiceImpl.class);
+
+        @Override
+        public Future<RpcResult<Void>> transmitPacket(TransmitPacketInput input) {
+            throw new UnsupportedOperationException("TODO Implement me...");
+        }
+
+    }
 }
