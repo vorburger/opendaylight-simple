@@ -14,6 +14,7 @@ import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSeriali
 import org.opendaylight.mdsal.eos.binding.api.EntityOwnershipService;
 import org.opendaylight.mdsal.eos.binding.dom.adapter.BindingDOMEntityOwnershipServiceAdapter;
 import org.opendaylight.mdsal.eos.dom.api.DOMEntityOwnershipService;
+import org.opendaylight.mdsal.eos.dom.simple.SimpleDOMEntityOwnershipService;
 
 public class MdsalWiring extends AbstractModule {
 
@@ -21,7 +22,7 @@ public class MdsalWiring extends AbstractModule {
     protected void configure() {
         install(new ControllerWiring());
 
-        bind(DOMEntityOwnershipService.class).to(NonDistributedSingleNodeEntityOwnershipService.class);
+        bind(DOMEntityOwnershipService.class).to(SimpleDOMEntityOwnershipService.class);
     }
 
     @Provides EntityOwnershipService getDOMEntityOwnershipService(
