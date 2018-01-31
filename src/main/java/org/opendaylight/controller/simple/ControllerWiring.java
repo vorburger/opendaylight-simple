@@ -7,6 +7,7 @@
  */
 package org.opendaylight.controller.simple;
 
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.md.sal.binding.impl.BindingDOMNotificationPublishServiceAdapter;
@@ -16,13 +17,14 @@ import org.opendaylight.controller.md.sal.dom.broker.impl.DOMNotificationRouter;
 import org.opendaylight.infrautils.inject.guice.AbstractCloseableModule;
 import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSerializer;
 
+@SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
 public class ControllerWiring extends AbstractCloseableModule {
 
     // TODO propose @Inject and @PreDestroy close() annotations at source to simplify this, a lot...
 
-    BindingToNormalizedNodeCodec bindingToNormalizedNodeCodec;
-    BindingDOMNotificationPublishServiceAdapter bindingDOMNotificationPublishServiceAdapter;
-    DOMNotificationRouter domNotificationPublishService;
+    private BindingToNormalizedNodeCodec bindingToNormalizedNodeCodec;
+    private BindingDOMNotificationPublishServiceAdapter bindingDOMNotificationPublishServiceAdapter;
+    private DOMNotificationRouter domNotificationPublishService;
 
     @Override
     protected void configureCloseables() {
