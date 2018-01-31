@@ -20,6 +20,13 @@
   <groupId>ch.vorburger.opendaylight.simple</groupId>
   <artifactId>poc</artifactId>
 
+  <properties>
+    <!-- TODO remove this (to inherit the skip>false from infrautils' parent),
+         as soon as all of https://git.opendaylight.org/gerrit/#/q/topic:simple-dist are in,
+         notably e.g. https://git.opendaylight.org/gerrit/#/c/67179/ et al. (and we bumped odlparent) -->
+    <duplicate-finder.skip>true</duplicate-finder.skip>
+  </properties>
+
   <dependencyManagement>
     <!-- Order not alphabetically but by dependency tree hierarchy -->
     <dependencies>
