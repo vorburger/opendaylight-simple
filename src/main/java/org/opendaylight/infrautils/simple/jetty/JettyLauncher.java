@@ -14,7 +14,6 @@ import java.net.URL;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.LinkedList;
-import java.util.List;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
@@ -22,7 +21,6 @@ import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.util.resource.Resource;
-import org.eclipse.jetty.util.resource.ResourceCollection;
 import org.eclipse.jetty.webapp.WebAppContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -71,7 +69,7 @@ public class JettyLauncher {
         webApp.setContextPath("/test");
 
         // TODO LOG.info baseResource, with context..
-        webApp.setBaseResource(baseResources());
+        webApp.setBaseResource(chop(webXmlUrl(), WEB_INF_WEB_XML));
         LOG.info("webApp.getWebInf() = {}", webApp.getWebInf());
         // TODO not needed? webApp.setDescriptor("WEB-INF/web.xml");
         // TODO or? webApp.setDescriptor(JettyLauncher.class.getResource("/WEB-INF/web.xml").toString());
@@ -101,16 +99,6 @@ public class JettyLauncher {
     // see also https://sites.google.com/site/michaelvorburger/simpleservers
     // and http://blog2.vorburger.ch/2015/03/mifos-standalone-package-how-to.html
     // and http://blog2.vorburger.ch/2014/09/mifos-executable-war-with-mariadb4j.html
-
-    private ResourceCollection baseResources() throws IOException, MalformedURLException {
-        final List<Resource> webResourceModules = new LinkedList<>();
-        webResourceModules.add(chop(webXmlUrl(), WEB_INF_WEB_XML));
-//        final Collection<URL> webTagURLs = getResources(WEB_TAG_FILE);
-//        for (final URL webTagFileURL : webTagURLs) {
-//            webResourceModules.add(chop(webTagFileURL, WEB_TAG_FILE));
-//        }
-        return new ResourceCollection(webResourceModules.toArray(new Resource[webResourceModules.size()]));
-    }
 
     private Resource chop(final URL baseURL, String toChop) throws MalformedURLException, IOException {
         String base = baseURL.toExternalForm();
