@@ -53,40 +53,38 @@ public class JettyLauncher {
 
         MBeanContainer mbContainer = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
         server.addBean(mbContainer);
+
+        // No sure how much use that is, as we'll terminate this via Ctrl-C, but it doesn't hurt either:
+        server.setStopAtShutdown(true);
     }
 
     @PostConstruct
     @SuppressWarnings("checkstyle:IllegalThrows") // Jetty WebAppContext.getUnavailableException() throws Throwable
     public void start() throws Throwable {
         WebAppContext webApp = new WebAppContext();
+        webApp.getServletHandler().setStartWithUnavailable(false);
         webApp.setThrowUnavailableOnStartupException(true);
-        webApp.setContextPath("/test"); // TODO read this from... Web-ContextPath from MANIFEST.MF ?
         webApp.setLogUrlOnStart(true);
-
-        // ? webApp.setParentLoaderPriority(true);
-        // File warFile = new File("../../jetty-distribution/target/distribution/test/webapps/test/");
-        // webApp.setWar(warFile.getAbsolutePath());
-        // webApp.getWebInf()
-
-        // ProtectionDomain protectionDomain = Start.class.getProtectionDomain();
-        // URL location = protectionDomain.getCodeSource().getLocation();
-        // webApp.setWar(location.toExternalForm());
-        // LOG.info("location = {}", location);
-
-        webApp.setBaseResource(baseResources());
-
-        // This will make EVERYTHING on the classpath be
-        // scanned for META-INF/resources and web-fragment.xml - great for dev!
-        // NOTE: Several patterns can be listed, separate by comma
-        // webApp.setAttribute(WebInfConfiguration.CONTAINER_JAR_PATTERN, ".*");
-
-        LOG.info("webApp.getWebInf() = {}", webApp.getWebInf());
-
-        // TODO watdat? webapp.addAliasCheck(new AllowSymLinkAliasChecker());
         server.setHandler(webApp);
 
+        // TODO read this from... Web-ContextPath from MANIFEST.MF
+        webApp.setContextPath("/test");
+
+        // TODO LOG.info baseResource, with context..
+        webApp.setBaseResource(baseResources());
+        LOG.info("webApp.getWebInf() = {}", webApp.getWebInf());
+        // TODO not needed? webApp.setDescriptor("WEB-INF/web.xml");
+        // TODO or? webApp.setDescriptor(JettyLauncher.class.getResource("/WEB-INF/web.xml").toString());
+
+        // see https://www.eclipse.org/jetty/documentation/9.3.x/jetty-classloading.html
+        webApp.setParentLoaderPriority(true);
+        // TODO need this, or delete?
+        // "This will make EVERYTHING on the classpath be
+        // scanned for META-INF/resources and web-fragment.xml - great for dev!
+        // NOTE: Several patterns can be listed, separate by comma"
+        // ? webApp.setAttribute(WebInfConfiguration.CONTAINER_JAR_PATTERN, ".*");
+
         server.start();
-        server.dumpStdErr(); // TODO waz this for?
 
         Throwable unavailableException = webApp.getUnavailableException();
         if (unavailableException != null) {
@@ -100,6 +98,9 @@ public class JettyLauncher {
     }
 
     // code from https://github.com/vorburger/EclipseWebDevEnv/blob/master/simpleservers/ch.vorburger.modudemo.core/src/main/java/ch/vorburger/demo/server/ServerLauncher.java
+    // see also https://sites.google.com/site/michaelvorburger/simpleservers
+    // and http://blog2.vorburger.ch/2015/03/mifos-standalone-package-how-to.html
+    // and http://blog2.vorburger.ch/2014/09/mifos-executable-war-with-mariadb4j.html
 
     private ResourceCollection baseResources() throws IOException, MalformedURLException {
         final List<Resource> webResourceModules = new LinkedList<>();
@@ -130,7 +131,7 @@ public class JettyLauncher {
 //            throw new IllegalStateException(
 //                    WEB_INF_WEB_XML + " was found more than once on the classpath: " + urls.toString());
 //        }
-        return urls.iterator().next();
+        return (URL) urls.toArray()[0];
     }
 
     private static Collection<URL> getResources(String resource) throws IOException {
