@@ -24,6 +24,8 @@ import org.opendaylight.infrautils.simple.jetty.JettyLauncher;
  */
 public class JettyLauncherTest {
 
+    // TODO public static @ClassRule ClasspathHellDuplicatesCheckRule jHades = new ClasspathHellDuplicatesCheckRule();
+
     @Test
     @SuppressWarnings("checkstyle:IllegalThrows") // Jetty WebAppContext.getUnavailableException() throws Throwable
     public void testStart() throws Throwable {
