@@ -7,13 +7,29 @@
  */
 package org.opendaylight.infrautils.simple.jetty;
 
-import com.google.inject.AbstractModule;
+import java.io.IOException;
+import org.opendaylight.infrautils.inject.guice.testutils.AbstractCheckedModule;
+import org.opendaylight.infrautils.web.ServletContextProvider;
 
-public class WebWiring extends AbstractModule {
+public class WebWiring extends AbstractCheckedModule {
+
+    private final boolean autoScanClassPathForWebXML;
+
+    public WebWiring() {
+        this(false);
+    }
+
+    public WebWiring(boolean autoScanClassPathForWebXML) {
+        this.autoScanClassPathForWebXML = autoScanClassPathForWebXML;
+    }
 
     @Override
-    protected void configure() {
-        bind(JettyLauncher.class);
+    protected void checkedConfigure() throws IOException {
+        JettyLauncher jettyLauncher = new JettyLauncher();
+        if (autoScanClassPathForWebXML) {
+            jettyLauncher.addWebAppContexts();
+        }
+        bind(ServletContextProvider.class).toInstance(jettyLauncher);
     }
 
 }

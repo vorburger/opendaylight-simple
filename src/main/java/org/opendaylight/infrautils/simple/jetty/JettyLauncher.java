@@ -16,14 +16,25 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
 import javax.inject.Singleton;
+import javax.servlet.ServletContainerInitializer;
+import javax.servlet.ServletContext;
+import javax.servlet.ServletException;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
+import org.eclipse.jetty.server.handler.ContextHandler.Context;
+import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.util.component.AbstractLifeCycle;
+import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.opendaylight.infrautils.web.ServletContextProvider;
+import org.opendaylight.infrautils.web.ServletContextRegistration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,16 +44,18 @@ import org.slf4j.LoggerFactory;
  * @author Michael Vorburger.ch
  */
 @Singleton
-public class JettyLauncher {
+public class JettyLauncher implements ServletContextProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(JettyLauncher.class);
 
     private static final String WEB_INF_WEB_XML = "WEB-INF/web.xml";
 
     private final Server server;
+    private final List<WebAppContext> webAppContexts = new ArrayList<>();
 
     public JettyLauncher() {
         server = new Server();
+        server.setStopAtShutdown(true);
 
         ServerConnector http = new ServerConnector(server);
         // TODO intro. Configuration (like in metrics) to make this configurable
@@ -53,15 +66,12 @@ public class JettyLauncher {
 
         MBeanContainer mbContainer = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
         server.addBean(mbContainer);
-
-        // No sure how much use that is, as we'll terminate this via Ctrl-C, but it doesn't hurt either:
-        server.setStopAtShutdown(true);
     }
 
     @PostConstruct
     @SuppressWarnings("checkstyle:IllegalThrows") // Jetty WebAppContext.getUnavailableException() throws Throwable
     public void start() throws Throwable {
-        List<WebAppContext> webAppContexts = addWebAppContexts();
+        LOG.info("Starting Jetty-based web server...");
         server.start();
 
         for (WebAppContext webAppContext : webAppContexts) {
@@ -70,11 +80,63 @@ public class JettyLauncher {
                 throw unavailableException;
             }
         }
+        LOG.info("Started Jetty-based web server.");
     }
 
     @PreDestroy
     public void stop() throws Exception {
+        // NB we *could* also go async via Future shutdown().. but for now, just:
+        LOG.info("Stopping Jetty-based web server...");
+        // NB server.stop() will call stop() on all ServletContextHandler/WebAppContext
         server.stop();
+        LOG.info("Stopped Jetty-based web server.");
+    }
+
+    @Override
+    public ServletContextRegistration newServletContext(String contextPath, boolean sessions,
+            Consumer<ServletContext> servletContextInitializer) {
+        ServletContextHandler handler = new ServletContextHandler(
+                sessions ? ServletContextHandler.SESSIONS : ServletContextHandler.NO_SESSIONS);
+        handler.setContextPath(contextPath);
+        Context context = handler.getServletContext();
+
+        handler.addLifeCycleListener(new AbstractLifeCycle.AbstractLifeCycleListener() {
+            @Override
+            public void lifeCycleStarting(LifeCycle event) {
+                // context.setExtendedListenerTypes(true);
+
+                try {
+                    new ServletContainerInitializer() {
+                        @Override
+                        public void onStartup(Set<Class<?>> shit, ServletContext contextAgain) throws ServletException {
+                            servletContextInitializer.accept(context);
+                        }
+                    }.onStartup(Collections.emptySet(), handler.getServletContext());
+                } catch (ServletException e) {
+                    // TODO this should not just log but fail server start() ... with a test
+                    LOG.error("ServletContext initialization failed", e);
+                }
+
+                // context.setExtendedListenerTypes(false);
+            }
+        });
+
+        // TODO add not set..
+        server.setHandler(handler);
+
+        return new ServletContextRegistration() {
+
+            @Override
+            @SuppressWarnings("checkstyle:IllegalCatch") // Jetty LifeCycle stop() throws Exception
+            public void unregister() {
+                try {
+                    handler.stop();
+                } catch (Exception e) {
+                    LOG.error("stop() failed", e);
+                }
+                // TODO remove from list
+            }
+        };
     }
 
     // code from https://github.com/vorburger/EclipseWebDevEnv/blob/master/simpleservers/ch.vorburger.modudemo.core/src/main/java/ch/vorburger/demo/server/ServerLauncher.java
@@ -82,15 +144,13 @@ public class JettyLauncher {
     // and http://blog2.vorburger.ch/2015/03/mifos-standalone-package-how-to.html
     // and http://blog2.vorburger.ch/2014/09/mifos-executable-war-with-mariadb4j.html
 
-    private List<WebAppContext> addWebAppContexts() throws IOException {
+    public void addWebAppContexts() throws IOException {
         @Var int temporaryToRemove = 1;
-        List<WebAppContext> webAppContexts = new ArrayList<>();
         for (URL webXmlUrl : getResources(WEB_INF_WEB_XML)) {
             String baseResourceURL = chop(webXmlUrl.toExternalForm(), WEB_INF_WEB_XML);
             Resource baseResource = Resource.newResource(baseResourceURL);
 
             WebAppContext webAppContext = new WebAppContext();
-            // TODO LOG.info baseResource, with context..
             webAppContext.setBaseResource(baseResource);
 
             // TODO read this from... Web-ContextPath from MANIFEST.MF
@@ -101,6 +161,7 @@ public class JettyLauncher {
             webAppContext.getServletHandler().setStartWithUnavailable(false);
             webAppContext.setThrowUnavailableOnStartupException(true);
             webAppContext.setLogUrlOnStart(true);
+            // TODO This is plain wrong.. it should add() not set() and overwrite!
             server.setHandler(webAppContext);
 
             LOG.debug("webApp.getWebInf() = {}", webAppContext.getWebInf());
@@ -117,7 +178,6 @@ public class JettyLauncher {
 
             webAppContexts.add(webAppContext);
         }
-        return webAppContexts;
     }
 
     private String chop(String base, String toChop) throws MalformedURLException, IOException {

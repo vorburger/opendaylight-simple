@@ -18,7 +18,7 @@ import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTe
 
 public class AAAWiringTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(AAAWiring.class, ControllerWiring.class, WebWiring.class,
-            OsgiServicesWiring.class, AnnotationsModule.class);
+    public @Rule GuiceRule guice = new GuiceRule(new AAAWiring(), new ControllerWiring(), new WebWiring(true),
+            new OsgiServicesWiring(), new AnnotationsModule());
 
 }
