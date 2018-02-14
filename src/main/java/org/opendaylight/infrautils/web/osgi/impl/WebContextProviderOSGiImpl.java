@@ -43,6 +43,11 @@ import org.slf4j.LoggerFactory;
 @Singleton
 public class WebContextProviderOSGiImpl implements WebContextProvider {
 
+    // TODO Evaluate if we could use infrautils.web INSTEAD of Karaf's built-in web support
+
+    // TODO Evaluate if we could directly talk to Jetty / PAX Web instead of only
+    // HttpService and fully implement this (incl. Filters and Listeners and Context Parameters?)
+
     private static final Logger LOG = LoggerFactory.getLogger(WebContextProviderOSGiImpl.class);
 
     private final HttpService osgiHttpService;
