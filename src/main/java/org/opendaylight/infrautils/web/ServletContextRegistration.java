@@ -16,6 +16,8 @@ import javax.servlet.ServletContext;
  */
 public interface ServletContextRegistration {
 
+    // TODO I may eventually remove this in favour of WebContext
+
     void unregister();
 
 }

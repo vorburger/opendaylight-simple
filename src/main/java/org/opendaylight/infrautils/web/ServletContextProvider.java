@@ -17,6 +17,8 @@ import javax.servlet.ServletContext;
  */
 public interface ServletContextProvider {
 
+    // TODO I may eventually remove this in favour of WebContextProvider
+
     ServletContextRegistration
         newServletContext(String contextPath, boolean sessions, Consumer<ServletContext> servletContextInitializer);
 

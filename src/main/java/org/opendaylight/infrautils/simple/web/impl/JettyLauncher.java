@@ -16,13 +16,17 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.function.Consumer;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.servlet.Filter;
+import javax.servlet.Servlet;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
+import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
@@ -30,6 +34,7 @@ import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandler.Context;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.resource.Resource;
@@ -37,6 +42,8 @@ import org.eclipse.jetty.webapp.WebAppContext;
 import org.opendaylight.infrautils.ready.SystemReadyMonitor;
 import org.opendaylight.infrautils.web.ServletContextProvider;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
+import org.opendaylight.infrautils.web.WebContext;
+import org.opendaylight.infrautils.web.WebContextProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +54,8 @@ import org.slf4j.LoggerFactory;
  * @author Michael Vorburger.ch
  */
 @Singleton
-public class JettyLauncher implements ServletContextProvider {
+@SuppressWarnings("checkstyle:IllegalCatch") // Jetty LifeCycle start() and stop() throws Exception
+public class JettyLauncher implements WebContextProvider, ServletContextProvider {
 
     private static final Logger LOG = LoggerFactory.getLogger(JettyLauncher.class);
 
@@ -58,7 +66,6 @@ public class JettyLauncher implements ServletContextProvider {
     private final List<WebAppContext> webAppContexts = new ArrayList<>();
 
     @Inject
-    @SuppressWarnings("checkstyle:IllegalCatch") // start() throws Throwable
     public JettyLauncher(SystemReadyMonitor systemReadyMonitor) {
         server = new Server();
         server.setStopAtShutdown(true);
@@ -110,6 +117,66 @@ public class JettyLauncher implements ServletContextProvider {
     }
 
     @Override
+    public WebContext newWebContext(String contextPath, boolean sessions) {
+        ServletContextHandler handler = new ServletContextHandler(contextHandlerCollection, contextPath,
+                sessions ? ServletContextHandler.SESSIONS : ServletContextHandler.NO_SESSIONS);
+        return new WebContext() {
+
+            @Override
+            public void registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> params)
+                    throws ServletException {
+                ServletHolder servletHolder = new ServletHolder(name, servlet);
+                servletHolder.setInitParameters(params);
+                servletHolder.setInitOrder(1); // AKA <load-on-startup> 1
+                handler.addServlet(servletHolder, urlPattern);
+                try {
+                    handler.start();
+                } catch (Exception e) {
+                    if (e instanceof ServletException) {
+                        throw (ServletException) e;
+                    } else {
+                        throw new ServletException("registerServlet() start failed", e);
+                    }
+                }
+            }
+
+            @Override
+            public void registerListener(String name, ServletContextListener listener) {
+                handler.getServletContext().addListener(listener);
+            }
+
+            @Override
+            public void registerFilter(String urlPattern, String name, Filter filter, Map<String, String> initParams) {
+                // FilterHolder filterHolder = new FilterHolder(filter);
+                // filterHolder.setInitParameters(initParams);
+                // EnumSet<DispatcherType> dispatches = ???;
+                // handler.addFilter(filterHolder, urlPattern, dispatches);
+                handler.getServletContext().addFilter(name, filter).setInitParameters(initParams);
+            }
+
+            @Override
+            public void addContextParam(String name, String value) {
+                handler.getServletContext().setAttribute(name, value);
+            }
+
+            @Override
+            public ServletContext getServletContext() {
+                return handler.getServletContext();
+            }
+
+            @Override
+            public void close() {
+                JettyLauncher.close(handler, contextHandlerCollection);
+            }
+
+            @Override
+            public String toString() {
+                return "WebContext{context=" + contextPath + ", sessions=" + sessions + "}";
+            }
+        };
+    }
+
+    @Override
     public ServletContextRegistration newServletContext(String contextPath, boolean sessions,
             Consumer<ServletContext> servletContextInitializer) {
         ServletContextHandler handler = new ServletContextHandler(contextHandlerCollection, contextPath,
@@ -137,19 +204,17 @@ public class JettyLauncher implements ServletContextProvider {
             }
         });
 
-        return new ServletContextRegistration() {
+        return () -> close(handler, contextHandlerCollection);
+    }
 
-            @Override
-            @SuppressWarnings("checkstyle:IllegalCatch") // Jetty LifeCycle stop() throws Exception
-            public void unregister() {
-                try {
-                    handler.stop();
-                } catch (Exception e) {
-                    LOG.error("stop() failed", e);
-                }
-                // TODO remove from list
-            }
-        };
+    private static void close(ServletContextHandler handler, ContextHandlerCollection contextHandlerCollection) {
+        try {
+            handler.stop();
+            handler.destroy();
+        } catch (Exception e) {
+            LOG.error("stop() failed", e);
+        }
+        contextHandlerCollection.removeHandler(handler);
     }
 
     // code from https://github.com/vorburger/EclipseWebDevEnv/blob/master/simpleservers/ch.vorburger.modudemo.core/src/main/java/ch/vorburger/demo/server/ServerLauncher.java

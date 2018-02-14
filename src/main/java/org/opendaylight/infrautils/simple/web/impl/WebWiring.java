@@ -13,6 +13,7 @@ import org.opendaylight.infrautils.inject.ModuleSetupRuntimeException;
 import org.opendaylight.infrautils.inject.guice.testutils.AbstractCheckedModule;
 import org.opendaylight.infrautils.ready.SystemReadyMonitor;
 import org.opendaylight.infrautils.web.ServletContextProvider;
+import org.opendaylight.infrautils.web.WebContextProvider;
 
 public class WebWiring extends AbstractCheckedModule {
 
@@ -31,7 +32,7 @@ public class WebWiring extends AbstractCheckedModule {
     protected void checkedConfigure() throws IOException {
     }
 
-    @Provides ServletContextProvider jettyLauncher(SystemReadyMonitor systemReadyMonitor) {
+    @Provides JettyLauncher jettyLauncher(SystemReadyMonitor systemReadyMonitor) {
         JettyLauncher jettyLauncher = new JettyLauncher(systemReadyMonitor);
         if (autoScanClassPathForWebXML) {
             try {
@@ -43,4 +44,11 @@ public class WebWiring extends AbstractCheckedModule {
         return jettyLauncher;
     }
 
+    @Provides ServletContextProvider servletContextProvider(JettyLauncher jetty) {
+        return jetty;
+    }
+
+    @Provides WebContextProvider webContextProvider(JettyLauncher jetty) {
+        return jetty;
+    }
 }
