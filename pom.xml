@@ -80,6 +80,12 @@
 
   <dependencies>
     <dependency>
+      <groupId>org.ops4j.pax.cdi</groupId>
+      <artifactId>pax-cdi-api</artifactId>
+      <optional>true</optional>
+    </dependency>
+
+    <dependency>
       <groupId>org.opendaylight.mdsal</groupId>
       <artifactId>mdsal-eos-dom-simple</artifactId>
     </dependency>
