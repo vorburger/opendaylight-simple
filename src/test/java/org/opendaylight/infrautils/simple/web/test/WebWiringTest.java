@@ -52,7 +52,7 @@ public class WebWiringTest {
         TestServlet testServlet1(WebContextProvider webContextProvider) throws ServletException {
             TestServlet testServlet = new TestServlet();
             webContextProvider.newWebContext("/test1", false)
-                .registerServlet("/*", "TestServlet", testServlet)
+                .registerServlet("/servlet/*", "TestServlet", testServlet)
                 .addContextParam("testParam1", "avalue")
                 .registerFilter("/*", "TestFilter", new TestFilter());
 
@@ -76,7 +76,7 @@ public class WebWiringTest {
 
     @Test
     public void testServlet() throws IOException {
-        JettyLauncherTest.checkTestServlet("test1");
+        JettyLauncherTest.checkTestServlet("test1/servlet/");
         JettyLauncherTest.checkTestServlet("test2");
     }
 
