@@ -11,6 +11,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.google.inject.TypeLiteral;
 import java.math.BigInteger;
+import javax.inject.Singleton;
 import org.opendaylight.aaa.AAAShiroProvider;
 import org.opendaylight.aaa.api.CredentialAuth;
 import org.opendaylight.aaa.api.IdMService;
@@ -50,6 +51,7 @@ public class ShiroWiring extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     AAAShiroProvider aaaShiroProvider(DataBroker dataBroker, ICertificateManager certificateManager,
             CredentialAuth<PasswordCredentials> credentialAuth, ShiroConfiguration shiroConfiguration,
             HttpService httpService,
