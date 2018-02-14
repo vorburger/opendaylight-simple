@@ -46,10 +46,31 @@ public class JettyLauncherTest {
             });
 
             jetty.start();
-            checkTestServlet();
+            checkTestServlet("test");
 
             registration.unregister();
-            Asserts.assertThrows(FileNotFoundException.class, () -> checkTestServlet());
+            Asserts.assertThrows(FileNotFoundException.class, () -> checkTestServlet("test"));
+
+        } finally {
+            jetty.stop();
+        }
+    }
+
+    @Test
+    @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
+    public void testTwoServletContexts() throws Throwable {
+        JettyLauncher jetty = new JettyLauncher();
+        try {
+            jetty.newServletContext("/test1", false, servletContext -> {
+                servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
+            });
+            jetty.newServletContext("/test2", false, servletContext -> {
+                servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
+            });
+
+            jetty.start();
+            checkTestServlet("test2");
+            checkTestServlet("test1");
 
         } finally {
             jetty.stop();
@@ -64,14 +85,14 @@ public class JettyLauncherTest {
         jettyLauncher.addWebAppContexts();
         jettyLauncher.start();
         try {
-            checkTestServlet();
+            checkTestServlet("test1");
         } finally {
             jettyLauncher.stop();
         }
     }
 
-    static void checkTestServlet() throws IOException {
-        URL url = new URL("http://localhost:8080/test/something");
+    static void checkTestServlet(String context) throws IOException {
+        URL url = new URL("http://localhost:8080/" + context + "/something");
         URLConnection conn = url.openConnection();
         try (InputStream inputStream = conn.getInputStream()) {
             // The hard-coded ASCII here is strictly speaking wrong of course

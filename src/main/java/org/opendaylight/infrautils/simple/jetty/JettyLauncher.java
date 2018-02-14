@@ -28,6 +28,7 @@ import org.eclipse.jetty.jmx.MBeanContainer;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandler.Context;
+import org.eclipse.jetty.server.handler.ContextHandlerCollection;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
 import org.eclipse.jetty.util.component.LifeCycle;
@@ -39,7 +40,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * Launcher of Jetty-based web server, reading web.xml from classpath.
+ * Launcher of Jetty-based web server with Servlet API.
+ * It can read web.xml from the classpath, or be explicitly configured via {@link ServletContextProvider}.
  *
  * @author Michael Vorburger.ch
  */
@@ -51,6 +53,7 @@ public class JettyLauncher implements ServletContextProvider {
     private static final String WEB_INF_WEB_XML = "WEB-INF/web.xml";
 
     private final Server server;
+    private final ContextHandlerCollection contextHandlerCollection;
     private final List<WebAppContext> webAppContexts = new ArrayList<>();
 
     public JettyLauncher() {
@@ -63,6 +66,9 @@ public class JettyLauncher implements ServletContextProvider {
         http.setPort(8080);
         http.setIdleTimeout(30000);
         server.addConnector(http);
+
+        contextHandlerCollection = new ContextHandlerCollection();
+        server.setHandler(contextHandlerCollection);
 
         MBeanContainer mbContainer = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
         server.addBean(mbContainer);
@@ -95,9 +101,8 @@ public class JettyLauncher implements ServletContextProvider {
     @Override
     public ServletContextRegistration newServletContext(String contextPath, boolean sessions,
             Consumer<ServletContext> servletContextInitializer) {
-        ServletContextHandler handler = new ServletContextHandler(
+        ServletContextHandler handler = new ServletContextHandler(contextHandlerCollection, contextPath,
                 sessions ? ServletContextHandler.SESSIONS : ServletContextHandler.NO_SESSIONS);
-        handler.setContextPath(contextPath);
         Context context = handler.getServletContext();
 
         handler.addLifeCycleListener(new AbstractLifeCycle.AbstractLifeCycleListener() {
@@ -120,9 +125,6 @@ public class JettyLauncher implements ServletContextProvider {
                 // context.setExtendedListenerTypes(false);
             }
         });
-
-        // TODO add not set..
-        server.setHandler(handler);
 
         return new ServletContextRegistration() {
 
@@ -150,13 +152,12 @@ public class JettyLauncher implements ServletContextProvider {
             String baseResourceURL = chop(webXmlUrl.toExternalForm(), WEB_INF_WEB_XML);
             Resource baseResource = Resource.newResource(baseResourceURL);
 
-            WebAppContext webAppContext = new WebAppContext();
-            webAppContext.setBaseResource(baseResource);
-
             // TODO read this from... Web-ContextPath from MANIFEST.MF
             String contextPath = "/test" + temporaryToRemove++;
-            webAppContext.setContextPath(contextPath);
             LOG.info("Found web.xml; adding {} from {}", contextPath, baseResourceURL);
+
+            WebAppContext webAppContext = new WebAppContext(contextHandlerCollection, null, contextPath);
+            webAppContext.setBaseResource(baseResource);
 
             webAppContext.getServletHandler().setStartWithUnavailable(false);
             webAppContext.setThrowUnavailableOnStartupException(true);
