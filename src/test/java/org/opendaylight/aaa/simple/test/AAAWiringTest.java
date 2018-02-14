@@ -12,9 +12,9 @@ import org.opendaylight.aaa.simple.AAAWiring;
 import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
-import org.opendaylight.infrautils.simple.jetty.WebWiring;
 import org.opendaylight.infrautils.simple.osgi.OsgiServicesWiring;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
+import org.opendaylight.infrautils.simple.web.impl.WebWiring;
 
 public class AAAWiringTest extends AbstractSimpleDistributionTest {
 
