@@ -7,8 +7,6 @@
  */
 package org.opendaylight.neutron.simple.test;
 
-import javax.inject.Inject;
-import javax.servlet.Servlet;
 import org.junit.Rule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
@@ -26,9 +24,4 @@ public class NeutronSimpleDistributionTest extends AbstractSimpleDistributionTes
 
     public @Rule GuiceRule2 guice = new GuiceRule2(
             NeutronWiring.class, WebWiring.class, ReadyWiring.class, AnnotationsModule.class);
-
-    // It's stupid that this is required...
-    @SuppressWarnings("unused")
-    private @Inject Servlet neutronJaxRsServlet;
-
 }

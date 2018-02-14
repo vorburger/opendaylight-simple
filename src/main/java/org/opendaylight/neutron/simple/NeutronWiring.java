@@ -10,6 +10,7 @@ package org.opendaylight.neutron.simple;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import com.sun.jersey.spi.container.servlet.ServletContainer;
+import javax.inject.Singleton;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.ws.rs.core.Application;
@@ -23,6 +24,7 @@ public class NeutronWiring extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     Servlet jaxRSNeutron(WebContextProvider webContextProvider) throws ServletException {
         Application app = new NeutronNorthboundRSApplication();
         Servlet jaxRSNeutronServlet = new ServletContainer(app);
