@@ -15,6 +15,7 @@ import javax.servlet.Servlet;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextListener;
+import javax.servlet.ServletException;
 
 /**
  * Web Context with URL prefix. AKA Web App or Servlet context. This not
@@ -42,24 +43,27 @@ public interface WebContext extends AutoCloseable {
      * <code>load-on-startup</code> (1), in order to "fail fast" in case of start-up
      * error.
      */
-    default void registerServlet(String urlPattern, String name, Servlet servlet) {
+    default void registerServlet(String urlPattern, String name, Servlet servlet) throws ServletException {
         registerServlet(urlPattern, name, servlet, emptyMap());
     }
 
-    void registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> initParams);
+    void registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> initParams)
+            throws ServletException;
 
-    default void registerFilter(String urlPattern, String name, Filter filter) {
+    default void registerFilter(String urlPattern, String name, Filter filter) throws ServletException {
         registerFilter(urlPattern, name, filter, emptyMap());
     }
 
-    void registerFilter(String urlPattern, String name, Filter filter, Map<String, String> initParams);
+    void registerFilter(String urlPattern, String name, Filter filter, Map<String, String> initParams)
+            throws ServletException;
 
-    void registerListener(String name, ServletContextListener listener);
+    void registerListener(String name, ServletContextListener listener) throws ServletException;
 
     void addContextParam(String name, String value);
 
     // TODO Can we do without <security-constraint> <web-resource-collection> ?
 
+    // TODO Do we actually need the ServletContext anywhere, or shall we remove this to simplify this API's surface?
     ServletContext getServletContext();
 
     @Override

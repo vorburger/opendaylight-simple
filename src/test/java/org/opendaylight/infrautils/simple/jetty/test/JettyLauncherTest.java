@@ -24,6 +24,7 @@ import org.opendaylight.infrautils.ready.SystemReadyBaseImpl;
 import org.opendaylight.infrautils.simple.web.impl.JettyLauncher;
 import org.opendaylight.infrautils.testutils.Asserts;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
+import org.opendaylight.infrautils.web.WebContext;
 
 /**
  * Test of {@link JettyLauncher}.
@@ -81,22 +82,25 @@ public class JettyLauncherTest {
     }
 
     @Test
-    @Ignore // TODO make this work!
     @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
     public void testAddAfterStart() throws Throwable {
         SystemReadyBaseImpl system = new SystemReadyBaseImpl();
         JettyLauncher jetty = new JettyLauncher(system);
         system.ready();
+
         try {
-            jetty.newServletContext("/test1", false, servletContext -> {
-                servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
-            });
+            WebContext webContext = jetty.newWebContext("/test1", false);
+            webContext.registerServlet("/*", "Test", new TestServlet());
             checkTestServlet("test1");
 
         } finally {
             jetty.stop();
         }
     }
+
+    // TODO testAddFilter()
+
+    // TODO testRegisterListener()
 
     @Test
     @Ignore // this doesn't work yet because it will read all web.xml and the one from AAA does not yet work
