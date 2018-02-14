@@ -19,8 +19,8 @@ import javax.servlet.ServletException;
 
 /**
  * Web Context with URL prefix. AKA Web App or Servlet context. This not
- * surprisingly looks like a Servlet (3.0) {@link ServletContext}, which does
- * allow programmatic dynamic Servlet registration; however in practice direct
+ * surprisingly looks like a Servlet (3.0) {@link ServletContext}, which also
+ * allows programmatic dynamic Servlet registration; however in practice direct
  * use of that API has been found to be problematic under OSGi because it is
  * intended for JSE and
  * <a href="https://github.com/eclipse/jetty.project/issues/1395">does not
@@ -28,7 +28,7 @@ import javax.servlet.ServletException;
  * Servlet container initialization time by
  * {@link ServletContainerInitializer}), and is generally less clear to use than
  * this simple API which intentionally maps directly to what one would have
- * declared in a web.xml file. You can however {@link #getServletContext()} from
+ * declared in a web.xml file. You can still {@link #getServletContext()} from
  * this service, if you really need to. It also looks similar to the OSGi
  * HttpService, but we want to avoid any org.osgi dependency (both API and impl)
  * here, and that API is also less clear (and uses an ancient Dictionary in its
