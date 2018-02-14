@@ -10,7 +10,7 @@ package org.opendaylight.infrautils.simple.web.test;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import java.io.IOException;
-import javax.inject.Inject;
+import javax.inject.Singleton;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
@@ -34,7 +34,8 @@ public class WebWiringTest {
         protected void configure() {
         }
 
-        @Provides TestServlet testServlet(ServletContextProvider servletContextProvider) {
+        @Provides
+        @Singleton TestServlet testServlet(ServletContextProvider servletContextProvider) {
             // We *COULD* retain the returned ServletContextRegistration and unregister() it
             // e.g. in a @PostDestroy of this Module... but in a JSE Guice environment, who cares!
             TestServlet testServlet = new TestServlet();
@@ -47,9 +48,6 @@ public class WebWiringTest {
 
     public @Rule GuiceRule2 guice = new GuiceRule2(
             TestWiring.class, WebWiring.class, ReadyWiring.class, AnnotationsModule.class);
-
-    // TODO how not to have inject?
-    @Inject TestServlet testServlet;
 
     @Test
     public void testServlet() throws IOException {
