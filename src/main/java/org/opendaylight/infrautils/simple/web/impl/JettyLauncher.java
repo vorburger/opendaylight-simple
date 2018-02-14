@@ -96,7 +96,7 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
     // NOT @PostConstruct
     @SuppressWarnings("checkstyle:IllegalThrows") // Jetty WebAppContext.getUnavailableException() throws Throwable
     private void start() throws Throwable {
-        LOG.info("Starting Jetty-based web server...");
+        LOG.info("Starting Jetty-based web server ({})...", hashCode());
         server.start();
 
         for (WebAppContext webAppContext : webAppContexts) {
@@ -105,10 +105,23 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
                 throw unavailableException;
             }
         }
-        LOG.info("Started Jetty-based web server.");
+        LOG.info("Started Jetty-based web server ({}).", hashCode());
+    }
+
+    private void restart(AbstractLifeCycle lifecycle) throws ServletException {
+        try {
+            lifecycle.start();
+        } catch (Exception e) {
+            if (e instanceof ServletException) {
+                throw (ServletException) e;
+            } else {
+                throw new ServletException("registerServlet() start failed", e);
+            }
+        }
     }
 
     @PreDestroy
+    // TODO do not throws Exception
     public void stop() throws Exception {
         // NB we *could* also go async via Future shutdown().. but for now, just:
         LOG.info("Stopping Jetty-based web server...");
@@ -130,15 +143,7 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
                 servletHolder.setInitParameters(params);
                 servletHolder.setInitOrder(1); // AKA <load-on-startup> 1
                 handler.addServlet(servletHolder, urlPttrn);
-                try {
-                    handler.start();
-                } catch (Exception e) {
-                    if (e instanceof ServletException) {
-                        throw (ServletException) e;
-                    } else {
-                        throw new ServletException("registerServlet() start failed", e);
-                    }
-                }
+                restart(handler);
                 LOG.info("registered new servlet on {}/{}", contextPath, urlPttrn);
                 return this;
             }
@@ -150,12 +155,14 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
             }
 
             @Override
-            public WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> parms) {
+            public WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> parms)
+                    throws ServletException {
                 // FilterHolder filterHolder = new FilterHolder(filter);
                 // filterHolder.setInitParameters(initParams);
                 // EnumSet<DispatcherType> dispatches = ???;
                 // handler.addFilter(filterHolder, urlPattern, dispatches);
                 handler.getServletContext().addFilter(name, filter).setInitParameters(parms);
+                restart(handler);
                 return this;
             }
 

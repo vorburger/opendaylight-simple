@@ -98,9 +98,27 @@ public class JettyLauncherTest {
         }
     }
 
-    // TODO testAddFilter()
+    @Test
+    public void testAddFilter() throws Exception {
+        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
+        JettyLauncher jetty = new JettyLauncher(system);
+        system.ready();
 
-    // TODO testRegisterListener()
+        try {
+            TestFilter testFilter = new TestFilter();
+            WebContext webContext = jetty.newWebContext("/testingFilters", false);
+            webContext.registerFilter("/*", "Test", testFilter);
+            assertThat(testFilter.isInitialized).isTrue();
+
+        } finally {
+            jetty.stop();
+        }
+    }
+
+    @Test
+    public void testRegisterListener() {
+
+    }
 
     @Test
     @Ignore // this doesn't work yet because it will read all web.xml and the one from AAA does not yet work
