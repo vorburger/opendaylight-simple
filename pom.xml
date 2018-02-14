@@ -84,6 +84,11 @@
       <artifactId>pax-cdi-api</artifactId>
       <optional>true</optional>
     </dependency>
+    <dependency>
+      <groupId>org.ops4j.pax.web</groupId>
+      <artifactId>pax-web-api</artifactId>
+      <version>6.1.1</version>
+    </dependency>
 
     <dependency>
       <groupId>org.opendaylight.mdsal</groupId>

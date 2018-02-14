@@ -72,7 +72,7 @@ public interface WebContext extends AutoCloseable {
     WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> initParams)
             throws ServletException;
 
-    WebContext registerListener(String name, ServletContextListener listener) throws ServletException;
+    WebContext registerListener(ServletContextListener listener) throws ServletException;
 
     WebContext addContextParam(String name, String value);
 

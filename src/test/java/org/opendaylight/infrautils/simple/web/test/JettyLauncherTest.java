@@ -34,6 +34,8 @@ import org.opendaylight.infrautils.web.WebContext;
  */
 public class JettyLauncherTest {
 
+    // TODO factor out abstract class WebContextTest
+
     // TODO public static @ClassRule ClasspathHellDuplicatesCheckRule jHades = new ClasspathHellDuplicatesCheckRule();
 
     @Test
@@ -123,7 +125,7 @@ public class JettyLauncherTest {
         {
             WebContext webContext = jetty.newWebContext("/testingListenerPreBoot", false);
             TestListener testListener = new TestListener();
-            webContext.registerListener("Test", testListener);
+            webContext.registerListener(testListener);
             assertThat(testListener.isInitialized).isFalse();
             system.ready();
             assertThat(testListener.isInitialized).isTrue();
@@ -132,7 +134,7 @@ public class JettyLauncherTest {
         try {
             WebContext webContext = jetty.newWebContext("/testingListenerWhenRunning", false);
             TestListener testListener = new TestListener();
-            webContext.registerListener("Test", testListener);
+            webContext.registerListener(testListener);
             assertThat(testListener.isInitialized).isTrue();
 
         } finally {
