@@ -7,8 +7,11 @@
  */
 package org.opendaylight.infrautils.simple.jetty;
 
+import com.google.inject.Provides;
 import java.io.IOException;
+import org.opendaylight.infrautils.inject.ModuleSetupRuntimeException;
 import org.opendaylight.infrautils.inject.guice.testutils.AbstractCheckedModule;
+import org.opendaylight.infrautils.ready.SystemReadyMonitor;
 import org.opendaylight.infrautils.web.ServletContextProvider;
 
 public class WebWiring extends AbstractCheckedModule {
@@ -16,6 +19,7 @@ public class WebWiring extends AbstractCheckedModule {
     private final boolean autoScanClassPathForWebXML;
 
     public WebWiring() {
+        // TODO change default to true when AAA works?
         this(false);
     }
 
@@ -25,11 +29,18 @@ public class WebWiring extends AbstractCheckedModule {
 
     @Override
     protected void checkedConfigure() throws IOException {
-        JettyLauncher jettyLauncher = new JettyLauncher();
+    }
+
+    @Provides ServletContextProvider jettyLauncher(SystemReadyMonitor systemReadyMonitor) {
+        JettyLauncher jettyLauncher = new JettyLauncher(systemReadyMonitor);
         if (autoScanClassPathForWebXML) {
-            jettyLauncher.addWebAppContexts();
+            try {
+                jettyLauncher.addWebAppContexts();
+            } catch (IOException e) {
+                throw new ModuleSetupRuntimeException(e);
+            }
         }
-        bind(ServletContextProvider.class).toInstance(jettyLauncher);
+        return jettyLauncher;
     }
 
 }

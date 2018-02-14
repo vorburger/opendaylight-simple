@@ -18,8 +18,8 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Set;
 import java.util.function.Consumer;
-import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.ServletContainerInitializer;
 import javax.servlet.ServletContext;
@@ -34,6 +34,7 @@ import org.eclipse.jetty.util.component.AbstractLifeCycle;
 import org.eclipse.jetty.util.component.LifeCycle;
 import org.eclipse.jetty.util.resource.Resource;
 import org.eclipse.jetty.webapp.WebAppContext;
+import org.opendaylight.infrautils.ready.SystemReadyMonitor;
 import org.opendaylight.infrautils.web.ServletContextProvider;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
 import org.slf4j.Logger;
@@ -56,7 +57,9 @@ public class JettyLauncher implements ServletContextProvider {
     private final ContextHandlerCollection contextHandlerCollection;
     private final List<WebAppContext> webAppContexts = new ArrayList<>();
 
-    public JettyLauncher() {
+    @Inject
+    @SuppressWarnings("checkstyle:IllegalCatch") // start() throws Throwable
+    public JettyLauncher(SystemReadyMonitor systemReadyMonitor) {
         server = new Server();
         server.setStopAtShutdown(true);
 
@@ -72,11 +75,19 @@ public class JettyLauncher implements ServletContextProvider {
 
         MBeanContainer mbContainer = new MBeanContainer(ManagementFactory.getPlatformMBeanServer());
         server.addBean(mbContainer);
+
+        systemReadyMonitor.registerListener(() -> {
+            try {
+                start();
+            } catch (Throwable e) {
+                LOG.error("start() failed", e);
+            }
+        });
     }
 
-    @PostConstruct
+    // NOT @PostConstruct
     @SuppressWarnings("checkstyle:IllegalThrows") // Jetty WebAppContext.getUnavailableException() throws Throwable
-    public void start() throws Throwable {
+    private void start() throws Throwable {
         LOG.info("Starting Jetty-based web server...");
         server.start();
 
