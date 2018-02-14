@@ -8,40 +8,24 @@
 package org.opendaylight.infrautils.simple;
 
 import com.google.inject.AbstractModule;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import org.opendaylight.infrautils.inject.PostFullSystemInjectionListener;
-import org.opendaylight.infrautils.ready.SystemReadyListener;
+import org.opendaylight.infrautils.ready.SystemReadyBaseImpl;
 import org.opendaylight.infrautils.ready.SystemReadyMonitor;
-import org.opendaylight.infrautils.ready.SystemState;
 
 public class ReadyWiring extends AbstractModule implements PostFullSystemInjectionListener {
 
-    // AFAIK Guice does not actually inject concurrently, but better safe than sorry...
-    private final Queue<SystemReadyListener> systemReadyListeners = new ConcurrentLinkedQueue<>();
+    private SystemReadyBaseImpl systemReadyImpl;
 
     @Override
     protected void configure() {
-        bind(SystemReadyMonitor.class)/*.annotatedWith(OsgiService.class)*/.toInstance(new SystemReadyMonitor() {
-
-            @Override
-            public void registerListener(SystemReadyListener listener) {
-                systemReadyListeners.add(listener);
-            }
-
-            @Override
-            public SystemState getSystemState() {
-                return SystemState.ACTIVE;
-            }
-        });
+        systemReadyImpl = new SystemReadyBaseImpl();
+        bind(SystemReadyMonitor.class)/*.annotatedWith(OsgiService.class)*/.toInstance(systemReadyImpl);
         bind(PostFullSystemInjectionListener.class).toInstance(this);
     }
 
     @Override
     public void onFullSystemInjected() {
-        for (SystemReadyListener systemReadyListener : systemReadyListeners) {
-            systemReadyListener.onSystemBootReady();
-        }
+        systemReadyImpl.ready();
     }
 
 }

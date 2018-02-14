@@ -20,6 +20,7 @@ import java.net.URLConnection;
 import javax.servlet.ServletRegistration.Dynamic;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.opendaylight.infrautils.ready.SystemReadyBaseImpl;
 import org.opendaylight.infrautils.simple.jetty.JettyLauncher;
 import org.opendaylight.infrautils.testutils.Asserts;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
@@ -37,7 +38,8 @@ public class JettyLauncherTest {
     @Test
     @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
     public void testStartWithExplicitMapping() throws Throwable {
-        JettyLauncher jetty = new JettyLauncher();
+        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
+        JettyLauncher jetty = new JettyLauncher(system);
         try {
             ServletContextRegistration registration = jetty.newServletContext("/test", false, servletContext -> {
                 Dynamic dynServlet = servletContext.addServlet("Test", new TestServlet());
@@ -45,7 +47,7 @@ public class JettyLauncherTest {
                 dynServlet.setLoadOnStartup(1);
             });
 
-            jetty.start();
+            system.ready();
             checkTestServlet("test");
 
             registration.unregister();
@@ -59,7 +61,8 @@ public class JettyLauncherTest {
     @Test
     @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
     public void testTwoServletContexts() throws Throwable {
-        JettyLauncher jetty = new JettyLauncher();
+        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
+        JettyLauncher jetty = new JettyLauncher(system);
         try {
             jetty.newServletContext("/test1", false, servletContext -> {
                 servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
@@ -68,7 +71,7 @@ public class JettyLauncherTest {
                 servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
             });
 
-            jetty.start();
+            system.ready();
             checkTestServlet("test2");
             checkTestServlet("test1");
 
@@ -81,13 +84,14 @@ public class JettyLauncherTest {
     @Ignore // this doesn't work yet because it will read all web.xml and the one from AAA does not yet work
     @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
     public void testStartWithWebXML() throws Throwable {
-        JettyLauncher jettyLauncher = new JettyLauncher();
-        jettyLauncher.addWebAppContexts();
-        jettyLauncher.start();
+        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
+        JettyLauncher jetty = new JettyLauncher(system);
+        jetty.addWebAppContexts();
+        system.ready();
         try {
             checkTestServlet("test1");
         } finally {
-            jettyLauncher.stop();
+            jetty.stop();
         }
     }
 
