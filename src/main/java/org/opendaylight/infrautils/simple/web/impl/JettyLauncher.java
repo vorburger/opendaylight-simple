@@ -113,7 +113,9 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
 
     private void restart(AbstractLifeCycle lifecycle) throws ServletException {
         try {
-            lifecycle.start();
+            if (server.isRunning()) {
+                lifecycle.start();
+            }
         } catch (Exception e) {
             if (e instanceof ServletException) {
                 throw (ServletException) e;
@@ -152,8 +154,9 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
             }
 
             @Override
-            public WebContext registerListener(String name, ServletContextListener listener) {
-                handler.getServletContext().addListener(listener);
+            public WebContext registerListener(String name, ServletContextListener listener) throws ServletException {
+                handler.addEventListener(listener);
+                restart(handler);
                 return this;
             }
 

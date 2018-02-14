@@ -107,7 +107,7 @@ public class JettyLauncherTest {
         try {
             TestFilter testFilter = new TestFilter();
             WebContext webContext = jetty.newWebContext("/testingFilters", false);
-            webContext.registerFilter("/*", "Test", testFilter);
+            webContext.addContextParam("testParam1", "avalue").registerFilter("/*", "Test", testFilter);
             assertThat(testFilter.isInitialized).isTrue();
 
         } finally {
@@ -116,8 +116,28 @@ public class JettyLauncherTest {
     }
 
     @Test
-    public void testRegisterListener() {
+    public void testRegisterListener() throws Exception {
+        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
+        JettyLauncher jetty = new JettyLauncher(system);
 
+        {
+            WebContext webContext = jetty.newWebContext("/testingListenerPreBoot", false);
+            TestListener testListener = new TestListener();
+            webContext.registerListener("Test", testListener);
+            assertThat(testListener.isInitialized).isFalse();
+            system.ready();
+            assertThat(testListener.isInitialized).isTrue();
+        }
+
+        try {
+            WebContext webContext = jetty.newWebContext("/testingListenerWhenRunning", false);
+            TestListener testListener = new TestListener();
+            webContext.registerListener("Test", testListener);
+            assertThat(testListener.isInitialized).isTrue();
+
+        } finally {
+            jetty.stop();
+        }
     }
 
     @Test
