@@ -49,7 +49,8 @@ import org.slf4j.LoggerFactory;
 
 /**
  * Launcher of Jetty-based web server with Servlet API.
- * It can read web.xml from the classpath, or be explicitly configured via {@link ServletContextProvider}.
+ * It can read web.xml from the classpath, or be explicitly configured
+ * via {@link WebContextProvider} or {@link ServletContextProvider}.
  *
  * @author Michael Vorburger.ch
  */
