@@ -40,6 +40,13 @@ import javax.servlet.ServletException;
  */
 public interface WebContext extends AutoCloseable {
 
+    // TODO re-write v2 of this as an immutable with a Builder... because:
+    // as-is here it's dangerous; contrary to a web.xml the order MATTERS (e.g. an addContextParam
+    // invoked after a registerServlet won't be seen by that Servlet), and a Filter added to a protect
+    // a Servlet could not yet be active for an instant if the registerServlet is before the registerFilter;
+    // this really ought to be more atomic like web.xml, and then processed first contextParams,
+    // then Filters, then Servlets.
+
     /**
      * Registers new {@link Servlet}. It will automatically
      * <code>load-on-startup</code> (1), in order to "fail fast" in case of start-up
