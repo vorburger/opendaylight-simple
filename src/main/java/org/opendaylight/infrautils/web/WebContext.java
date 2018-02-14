@@ -18,7 +18,9 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 
 /**
- * Web Context with URL prefix. AKA Web App or Servlet context. This not
+ * Web Context with URL prefix. AKA Web App or Servlet context.
+ *
+ * <p>This not
  * surprisingly looks like a Servlet (3.0) {@link ServletContext}, which also
  * allows programmatic dynamic Servlet registration; however in practice direct
  * use of that API has been found to be problematic under OSGi because it is
@@ -28,13 +30,16 @@ import javax.servlet.ServletException;
  * Servlet container initialization time by
  * {@link ServletContainerInitializer}), and is generally less clear to use than
  * this simple API which intentionally maps directly to what one would have
- * declared in a web.xml file. You can still {@link #getServletContext()} from
- * this service, if you really need to. It also looks similar to the OSGi
+ * declared in a web.xml file.
+ *
+ * <p>It also looks similar to the OSGi
  * HttpService, but we want to avoid any org.osgi dependency (both API and impl)
  * here, and that API is also less clear (and uses an ancient Dictionary in its
  * method signature), and most importantly does not support Filters and
- * Listeners, only Servlets. We can however bridge this API to the OSGi
- * HttpService API, in both directions.
+ * Listeners, only Servlets.  The Pax Web API does extend the base OSGi API and
+ * adds supports for Filters, Listeners and context parameters, but is still
+ * OSGi specific, whereas this offers a much simpler standalone API.
+ * We can however bridge this API to the OSGi HttpService / Pax Exam WebContainer APIs, in both directions.
  *
  * @author Michael Vorburger.ch
  */
@@ -45,7 +50,8 @@ public interface WebContext extends AutoCloseable {
     // invoked after a registerServlet won't be seen by that Servlet), and a Filter added to a protect
     // a Servlet could not yet be active for an instant if the registerServlet is before the registerFilter;
     // this really ought to be more atomic like web.xml, and then processed first contextParams,
-    // then Filters, then Servlets.
+    // then Filters, then Servlets.  Also because this requires ALL context params first:
+    // org.ops4j.pax.web.service.WebContainer.setContextParam(Dictionary<String, ?>, HttpContext)
 
     /**
      * Registers new {@link Servlet}. It will automatically
@@ -70,10 +76,9 @@ public interface WebContext extends AutoCloseable {
 
     WebContext addContextParam(String name, String value);
 
-    // TODO Can we do without <security-constraint> <web-resource-collection> ?
-
-    // TODO Do we need the ServletContext anywhere, or remove this to simplify?
-    ServletContext getServletContext();
+    // ServletContext getServletContext(); is not supported
+    // <security-constraint> <web-resource-collection> is not supported,
+    // because we cannot implement either of those when we delegate to OSGi HttpService / Pax Web Container
 
     @Override
     void close(); // does not throw Exception
