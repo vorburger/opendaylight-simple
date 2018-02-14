@@ -175,11 +175,12 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
                 handler.setAttribute(name, value); // same: handler.getServletContext().setAttribute(name, value);
                 return this;
             }
-
+/*
             @Override
             public ServletContext getServletContext() {
                 return handler.getServletContext();
             }
+*/
 
             @Override
             public void close() {

@@ -15,7 +15,6 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletContextListener;
 import javax.servlet.ServletException;
 import org.opendaylight.infrautils.web.WebContext;
@@ -100,11 +99,6 @@ public class WebContextProviderOSGiImpl implements WebContextProvider {
 
         @Override
         public WebContext addContextParam(String name, String value) {
-            throw new UnsupportedOperationException();
-        }
-
-        @Override
-        public ServletContext getServletContext() {
             throw new UnsupportedOperationException();
         }
 
