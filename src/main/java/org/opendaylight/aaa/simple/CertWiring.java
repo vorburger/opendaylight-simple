@@ -9,6 +9,7 @@ package org.opendaylight.aaa.simple;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import javax.inject.Singleton;
 import org.opendaylight.aaa.cert.api.ICertificateManager;
 import org.opendaylight.aaa.cert.impl.AaaCertRpcServiceImpl;
 import org.opendaylight.aaa.cert.impl.CertificateManagerService;
@@ -35,14 +36,15 @@ public class CertWiring extends AbstractModule {
         // TODO ctlKeystore & trustKeystore, but what are those, where are the stores, and needed for what?
     }
 
-    @Provides public
-    ICertificateManager certificateManagerService(AaaCertServiceConfig config, DataBroker db,
+    @Provides
+    @Singleton public ICertificateManager certificateManagerService(AaaCertServiceConfig config, DataBroker db,
             AAAEncryptionService crypto) {
         return new CertificateManagerService(config, db, crypto);
     }
 
-    @Provides public
-    AaaCertRpcService aaaCertRpcService(AaaCertServiceConfig config, DataBroker db, AAAEncryptionService crypto) {
-        return new AaaCertRpcServiceImpl(config, db, crypto);
+    @Provides
+    @Singleton
+    public AaaCertRpcService aaaCertRpcService(AaaCertServiceConfig config, DataBroker db, AAAEncryptionService crypt) {
+        return new AaaCertRpcServiceImpl(config, db, crypt);
     }
 }

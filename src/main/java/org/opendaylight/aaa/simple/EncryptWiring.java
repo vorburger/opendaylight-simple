@@ -9,6 +9,7 @@ package org.opendaylight.aaa.simple;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
+import javax.inject.Singleton;
 import org.opendaylight.aaa.encrypt.AAAEncryptionService;
 import org.opendaylight.aaa.encrypt.AAAEncryptionServiceImpl;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
@@ -28,6 +29,7 @@ public class EncryptWiring extends AbstractModule {
     }
 
     @Provides
+    @Singleton
     public AAAEncryptionService aaaEncryptionService(AaaEncryptServiceConfig config, DataBroker db) {
         return new AAAEncryptionServiceImpl(config, db);
     }

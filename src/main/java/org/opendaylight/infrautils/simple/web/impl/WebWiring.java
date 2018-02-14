@@ -9,6 +9,7 @@ package org.opendaylight.infrautils.simple.web.impl;
 
 import com.google.inject.Provides;
 import java.io.IOException;
+import javax.inject.Singleton;
 import org.opendaylight.infrautils.inject.ModuleSetupRuntimeException;
 import org.opendaylight.infrautils.inject.guice.testutils.AbstractCheckedModule;
 import org.opendaylight.infrautils.ready.SystemReadyMonitor;
@@ -32,7 +33,8 @@ public class WebWiring extends AbstractCheckedModule {
     protected void checkedConfigure() throws IOException {
     }
 
-    @Provides JettyLauncher jettyLauncher(SystemReadyMonitor systemReadyMonitor) {
+    @Provides
+    @Singleton JettyLauncher jettyLauncher(SystemReadyMonitor systemReadyMonitor) {
         JettyLauncher jettyLauncher = new JettyLauncher(systemReadyMonitor);
         if (autoScanClassPathForWebXML) {
             try {
@@ -44,11 +46,13 @@ public class WebWiring extends AbstractCheckedModule {
         return jettyLauncher;
     }
 
-    @Provides ServletContextProvider servletContextProvider(JettyLauncher jetty) {
+    @Provides
+    @Singleton ServletContextProvider servletContextProvider(JettyLauncher jetty) {
         return jetty;
     }
 
-    @Provides WebContextProvider webContextProvider(JettyLauncher jetty) {
+    @Provides
+    @Singleton WebContextProvider webContextProvider(JettyLauncher jetty) {
         return jetty;
     }
 }
