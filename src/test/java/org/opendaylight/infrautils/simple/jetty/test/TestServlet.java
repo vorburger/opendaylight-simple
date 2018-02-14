@@ -28,6 +28,12 @@ public class TestServlet extends HttpServlet {
     }
 
     @Override
+    public void destroy() {
+        super.destroy();
+        LOG.info("TestServlet destroy()");
+    }
+
+    @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse response) throws ServletException, IOException {
         response.getOutputStream().println("hello, world");
     }

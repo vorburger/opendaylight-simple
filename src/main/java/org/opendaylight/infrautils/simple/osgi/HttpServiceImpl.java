@@ -21,6 +21,9 @@ import org.osgi.service.http.NamespaceException;
  */
 public class HttpServiceImpl implements HttpService {
 
+    // TODO IFF really needed, then this could perhaps be implemented based on ServletContextProvider..
+    // but I'm rather hoping to eventually remove it and instead directly use ServletContextProvider in ODL.
+
     @Override
     public void registerServlet(String alias, Servlet servlet, @SuppressWarnings("rawtypes") Dictionary initparams,
             HttpContext context) throws ServletException, NamespaceException {
