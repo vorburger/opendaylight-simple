@@ -16,7 +16,7 @@ import org.junit.Test;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.ReadyWiring;
-import org.opendaylight.infrautils.simple.jetty.WebWiring;
+import org.opendaylight.infrautils.simple.web.impl.WebWiring;
 import org.opendaylight.infrautils.web.ServletContextProvider;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
 

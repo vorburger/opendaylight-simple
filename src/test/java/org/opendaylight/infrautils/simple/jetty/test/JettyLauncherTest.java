@@ -21,7 +21,7 @@ import javax.servlet.ServletRegistration.Dynamic;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendaylight.infrautils.ready.SystemReadyBaseImpl;
-import org.opendaylight.infrautils.simple.jetty.JettyLauncher;
+import org.opendaylight.infrautils.simple.web.impl.JettyLauncher;
 import org.opendaylight.infrautils.testutils.Asserts;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
 
@@ -73,6 +73,24 @@ public class JettyLauncherTest {
 
             system.ready();
             checkTestServlet("test2");
+            checkTestServlet("test1");
+
+        } finally {
+            jetty.stop();
+        }
+    }
+
+    @Test
+    @Ignore // TODO make this work!
+    @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
+    public void testAddAfterStart() throws Throwable {
+        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
+        JettyLauncher jetty = new JettyLauncher(system);
+        system.ready();
+        try {
+            jetty.newServletContext("/test1", false, servletContext -> {
+                servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
+            });
             checkTestServlet("test1");
 
         } finally {
