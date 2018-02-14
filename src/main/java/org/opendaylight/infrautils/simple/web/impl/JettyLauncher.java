@@ -139,6 +139,7 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
                         throw new ServletException("registerServlet() start failed", e);
                     }
                 }
+                LOG.info("registered new servlet on {}/{}", contextPath, urlPttrn);
                 return this;
             }
 
