@@ -14,6 +14,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.EnumSet;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import java.util.function.Consumer;
 import javax.annotation.PreDestroy;
 import javax.inject.Inject;
 import javax.inject.Singleton;
+import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
 import javax.servlet.Servlet;
 import javax.servlet.ServletContainerInitializer;
@@ -33,6 +35,7 @@ import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.ContextHandler.Context;
 import org.eclipse.jetty.server.handler.ContextHandlerCollection;
+import org.eclipse.jetty.servlet.FilterHolder;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 import org.eclipse.jetty.util.component.AbstractLifeCycle;
@@ -157,11 +160,9 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
             @Override
             public WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> parms)
                     throws ServletException {
-                // FilterHolder filterHolder = new FilterHolder(filter);
-                // filterHolder.setInitParameters(initParams);
-                // EnumSet<DispatcherType> dispatches = ???;
-                // handler.addFilter(filterHolder, urlPattern, dispatches);
-                handler.getServletContext().addFilter(name, filter).setInitParameters(parms);
+                FilterHolder filterHolder = new FilterHolder(filter);
+                filterHolder.setInitParameters(parms);
+                handler.addFilter(filterHolder, urlPattern, EnumSet.allOf(DispatcherType.class));
                 restart(handler);
                 return this;
             }

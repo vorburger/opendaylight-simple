@@ -49,7 +49,10 @@ public class WebWiringTest {
         @Singleton
         TestServlet testServlet1(WebContextProvider webContextProvider) throws ServletException {
             TestServlet testServlet = new TestServlet();
-            webContextProvider.newWebContext("/test1", false).registerServlet("/*", "Test", testServlet);
+            webContextProvider.newWebContext("/test1", false)
+                .registerServlet("/*", "TestServlet", testServlet)
+                .registerFilter("/*", "TestFilter", new TestFilter());
+
             return testServlet;
         }
 
