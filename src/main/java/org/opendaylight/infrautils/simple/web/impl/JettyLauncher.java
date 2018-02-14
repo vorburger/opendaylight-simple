@@ -154,7 +154,7 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
             }
 
             @Override
-            public WebContext registerListener(String name, ServletContextListener listener) throws ServletException {
+            public WebContext registerListener(ServletContextListener listener) throws ServletException {
                 handler.addEventListener(listener);
                 restart(handler);
                 return this;

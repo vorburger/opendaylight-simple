@@ -7,6 +7,8 @@
  */
 package org.opendaylight.infrautils.web.osgi.impl;
 
+import com.google.common.collect.ImmutableMap;
+import java.util.EventListener;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Queue;
@@ -20,6 +22,8 @@ import javax.servlet.ServletException;
 import org.opendaylight.infrautils.web.WebContext;
 import org.opendaylight.infrautils.web.WebContextProvider;
 import org.ops4j.pax.cdi.api.OsgiService;
+import org.ops4j.pax.cdi.api.OsgiServiceProvider;
+import org.ops4j.pax.web.service.WebContainer;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
@@ -28,32 +32,23 @@ import org.slf4j.LoggerFactory;
 
 /**
  * {@link WebContextProvider} (and {@link WebContext}) bridge implementation
- * delegating to an OSGi {@link HttpService}.
- *
- * <p>This only implements
- * {@link WebContext#registerServlet(String, String, Servlet)} but throws
- * {@link UnsupportedOperationException} for all other operations of
- * {@link WebContext} (except {@link WebContext#close()}), because
- * {@link HttpService} does not allow to register Servlet {@link Filter}s and
- * {@link ServletContextListener}s. As such, it may be useless.
+ * delegating to Pax Web WebContainer (which extends an OSGi {@link HttpService}).
  *
  * @author Michael Vorburger.ch
  */
 @Singleton
+@OsgiServiceProvider(classes = WebContextProvider.class)
 public class WebContextProviderOSGiImpl implements WebContextProvider {
 
-    // TODO Evaluate if we could use infrautils.web INSTEAD of Karaf's built-in web support
-
-    // TODO Evaluate if we could directly talk to Jetty / PAX Web instead of only
-    // HttpService and fully implement this (incl. Filters and Listeners and Context Parameters?)
+    // TODO write an IT (using Pax Exam) which tests this, re-use JettyLauncherTest
 
     private static final Logger LOG = LoggerFactory.getLogger(WebContextProviderOSGiImpl.class);
 
-    private final HttpService osgiHttpService;
+    private final WebContainer paxWeb;
 
     @Inject
-    public WebContextProviderOSGiImpl(@OsgiService HttpService osgiHttpService) {
-        this.osgiHttpService = osgiHttpService;
+    public WebContextProviderOSGiImpl(@OsgiService WebContainer osgiHttpService) {
+        this.paxWeb = osgiHttpService;
     }
 
     @Override
@@ -65,47 +60,69 @@ public class WebContextProviderOSGiImpl implements WebContextProvider {
 
         private final String contextPath;
         private final HttpContext osgiHttpContext;
-        private final Queue<String> registeredAliases = new ConcurrentLinkedQueue<>();
+
+        private final Queue<Servlet> registeredServlets = new ConcurrentLinkedQueue<>();
+        private final Queue<EventListener> registeredEventListeners = new ConcurrentLinkedQueue<>();
+        private final Queue<Filter> registeredFilters = new ConcurrentLinkedQueue<>();
 
         WebContextImpl(String contextPath, boolean sessions) {
             this.contextPath = contextPath;
-            this.osgiHttpContext = osgiHttpService.createDefaultHttpContext();
-            // ignore sessions; OSGi HttpService does not seem to support on/off
+            this.osgiHttpContext = paxWeb.createDefaultHttpContext();
+            // ignore sessions; OSGi HttpService / Pax Web does not seem to support on/off
             // (it probably assumes always with session?)
         }
 
         @Override
-        public WebContext registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> params) {
+        public WebContext registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> params)
+                throws ServletException {
             String alias = contextPath + "/" + urlPattern;
             LOG.info("Registering Servlet for alias {}: {}", alias, servlet);
             try {
-                osgiHttpService.registerServlet(alias, servlet, new Hashtable<>(params), osgiHttpContext);
-            } catch (ServletException | NamespaceException e) {
+                paxWeb.registerServlet(alias, servlet, new Hashtable<>(params), osgiHttpContext);
+            } catch (NamespaceException e) {
                 throw new IllegalArgumentException("Failed to register Servlet: " + alias, e);
             }
-            registeredAliases.add(alias);
+            registeredServlets.add(servlet);
             return this;
         }
 
         @Override
         public WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> params) {
-            throw new UnsupportedOperationException();
+            boolean asyncSupported = false;
+            String alias = contextPath + "/" + urlPattern;
+            paxWeb.registerFilter(filter, new String[] { name }, new String[] { alias }, new Hashtable<>(params),
+                    asyncSupported, osgiHttpContext);
+            registeredFilters.add(filter);
+            return this;
         }
 
         @Override
-        public WebContext registerListener(String name, ServletContextListener listener) {
-            throw new UnsupportedOperationException();
+        public WebContext registerListener(ServletContextListener listener) {
+            paxWeb.registerEventListener(listener, osgiHttpContext);
+            registeredEventListeners.add(listener);
+            return this;
         }
 
         @Override
         public WebContext addContextParam(String name, String value) {
-            throw new UnsupportedOperationException();
+            // TODO This is probably incorrect, and will cause 2nd context-param to wipe 1st?
+            // This will get solved when WebContext is immutable and holds all context params together
+            Map<String, String> map = ImmutableMap.of(name, value);
+            paxWeb.setContextParam(new Hashtable<>(map), osgiHttpContext);
+            return this;
         }
 
         @Override
         public void close() {
-            for (String alias : registeredAliases) {
-                osgiHttpService.unregister(alias);
+            // The order is relevant here.. Servlets first, then Filters, Listeners last
+            for (Servlet registeredServlet : registeredServlets) {
+                paxWeb.unregisterServlet(registeredServlet);
+            }
+            for (Filter filter : registeredFilters) {
+                paxWeb.unregisterFilter(filter);
+            }
+            for (EventListener eventListener : registeredEventListeners) {
+                paxWeb.unregisterEventListener(eventListener);
             }
         }
 
