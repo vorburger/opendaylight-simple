@@ -124,12 +124,12 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
         return new WebContext() {
 
             @Override
-            public void registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> params)
+            public WebContext registerServlet(String urlPttrn, String name, Servlet servlet, Map<String, String> params)
                     throws ServletException {
                 ServletHolder servletHolder = new ServletHolder(name, servlet);
                 servletHolder.setInitParameters(params);
                 servletHolder.setInitOrder(1); // AKA <load-on-startup> 1
-                handler.addServlet(servletHolder, urlPattern);
+                handler.addServlet(servletHolder, urlPttrn);
                 try {
                     handler.start();
                 } catch (Exception e) {
@@ -139,25 +139,29 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
                         throw new ServletException("registerServlet() start failed", e);
                     }
                 }
+                return this;
             }
 
             @Override
-            public void registerListener(String name, ServletContextListener listener) {
+            public WebContext registerListener(String name, ServletContextListener listener) {
                 handler.getServletContext().addListener(listener);
+                return this;
             }
 
             @Override
-            public void registerFilter(String urlPattern, String name, Filter filter, Map<String, String> initParams) {
+            public WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> parms) {
                 // FilterHolder filterHolder = new FilterHolder(filter);
                 // filterHolder.setInitParameters(initParams);
                 // EnumSet<DispatcherType> dispatches = ???;
                 // handler.addFilter(filterHolder, urlPattern, dispatches);
-                handler.getServletContext().addFilter(name, filter).setInitParameters(initParams);
+                handler.getServletContext().addFilter(name, filter).setInitParameters(parms);
+                return this;
             }
 
             @Override
-            public void addContextParam(String name, String value) {
+            public WebContext addContextParam(String name, String value) {
                 handler.getServletContext().setAttribute(name, value);
+                return this;
             }
 
             @Override

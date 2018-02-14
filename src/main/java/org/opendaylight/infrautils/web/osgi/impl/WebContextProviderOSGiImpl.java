@@ -76,29 +76,30 @@ public class WebContextProviderOSGiImpl implements WebContextProvider {
         }
 
         @Override
-        public void registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> initParams) {
+        public WebContext registerServlet(String urlPattern, String name, Servlet servlet, Map<String, String> params) {
             String alias = contextPath + "/" + urlPattern;
             LOG.info("Registering Servlet for alias {}: {}", alias, servlet);
             try {
-                osgiHttpService.registerServlet(alias, servlet, new Hashtable<>(initParams), osgiHttpContext);
+                osgiHttpService.registerServlet(alias, servlet, new Hashtable<>(params), osgiHttpContext);
             } catch (ServletException | NamespaceException e) {
                 throw new IllegalArgumentException("Failed to register Servlet: " + alias, e);
             }
             registeredAliases.add(alias);
+            return this;
         }
 
         @Override
-        public void registerFilter(String urlPattern, String name, Filter filter, Map<String, String> initParams) {
+        public WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> params) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void registerListener(String name, ServletContextListener listener) {
+        public WebContext registerListener(String name, ServletContextListener listener) {
             throw new UnsupportedOperationException();
         }
 
         @Override
-        public void addContextParam(String name, String value) {
+        public WebContext addContextParam(String name, String value) {
             throw new UnsupportedOperationException();
         }
 
