@@ -7,6 +7,8 @@
  */
 package org.opendaylight.infrautils.simple.web.test;
 
+import static com.google.common.truth.Truth.assertThat;
+
 import java.io.IOException;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -20,7 +22,8 @@ public class TestFilter implements Filter {
     public boolean isInitialized = false;
 
     @Override
-    public void init(FilterConfig arg0) throws ServletException {
+    public void init(FilterConfig filterConfig) throws ServletException {
+        assertThat(filterConfig.getServletContext().getAttribute("testParam1")).isEqualTo("avalue");
         isInitialized = true;
     }
 

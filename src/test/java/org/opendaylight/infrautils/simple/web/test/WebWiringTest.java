@@ -41,7 +41,9 @@ public class WebWiringTest {
         @Singleton
         TestFilter testFilter(WebContextProvider webContextProvider) throws ServletException {
             TestFilter testFilter = new TestFilter();
-            webContextProvider.newWebContext("/*", false).registerFilter("/*", "Test", testFilter);
+            webContextProvider.newWebContext("/*", false)
+                .addContextParam("testParam1", "avalue")
+                .registerFilter("/*", "Test", testFilter);
             return testFilter;
         }
 
@@ -51,6 +53,7 @@ public class WebWiringTest {
             TestServlet testServlet = new TestServlet();
             webContextProvider.newWebContext("/test1", false)
                 .registerServlet("/*", "TestServlet", testServlet)
+                .addContextParam("testParam1", "avalue")
                 .registerFilter("/*", "TestFilter", new TestFilter());
 
             return testServlet;
