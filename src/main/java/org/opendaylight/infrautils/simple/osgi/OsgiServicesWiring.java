@@ -8,13 +8,14 @@
 package org.opendaylight.infrautils.simple.osgi;
 
 import com.google.inject.AbstractModule;
+import org.opendaylight.infrautils.web.osgi.impl.HttpServiceWebContextImpl;
 import org.osgi.service.http.HttpService;
 
 public class OsgiServicesWiring extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(HttpService.class).to(HttpServiceImpl.class);
+        bind(HttpService.class).to(HttpServiceWebContextImpl.class);
     }
 
 }

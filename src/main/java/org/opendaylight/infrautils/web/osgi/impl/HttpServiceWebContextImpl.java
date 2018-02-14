@@ -5,7 +5,7 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-package org.opendaylight.infrautils.simple.osgi;
+package org.opendaylight.infrautils.web.osgi.impl;
 
 import java.util.Dictionary;
 import javax.servlet.Servlet;
@@ -19,7 +19,7 @@ import org.osgi.service.http.NamespaceException;
  *
  * @author Michael Vorburger.ch
  */
-public class HttpServiceImpl implements HttpService {
+public class HttpServiceWebContextImpl implements HttpService {
 
     // TODO IFF really needed, then this could perhaps be implemented based on ServletContextProvider..
     // but I'm rather hoping to eventually remove it and instead directly use ServletContextProvider in ODL.
