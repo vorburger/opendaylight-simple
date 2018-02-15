@@ -10,6 +10,7 @@ package org.opendaylight.infrautils.simple.web.test;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import java.io.IOException;
+import javax.inject.Inject;
 import javax.inject.Singleton;
 import javax.servlet.Servlet;
 import javax.servlet.ServletException;
@@ -74,10 +75,12 @@ public class WebWiringTest {
     public @Rule GuiceRule2 guice = new GuiceRule2(
            TestWiring.class, WebWiring.class, ReadyWiring.class, AnnotationsModule.class);
 
+    public @Inject WebContextProvider webServer;
+
     @Test
     public void testServlet() throws IOException {
-        WebContextTest.checkTestServlet("test1/servlet/");
-        WebContextTest.checkTestServlet("test2");
+        WebContextTest.checkTestServlet(webServer.getBaseURL() + "/test1/servlet/");
+        WebContextTest.checkTestServlet(webServer.getBaseURL() + "/test2");
     }
 
 }

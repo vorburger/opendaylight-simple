@@ -37,7 +37,7 @@ public abstract class WebContextTest {
         startWebServer();
         WebContext webContext = getWebContextProvider().newWebContext("/test1", false);
         webContext.registerServlet("/*", "Test", new TestServlet());
-        checkTestServlet("test1");
+        checkTestServlet(getWebContextProvider().getBaseURL() + "/test1");
     }
 
     @Test
@@ -67,8 +67,8 @@ public abstract class WebContextTest {
         }
     }
 
-    static void checkTestServlet(String context) throws IOException {
-        URL url = new URL("http://localhost:8080/" + context + "/something");
+    static void checkTestServlet(String urlPrefix) throws IOException {
+        URL url = new URL(urlPrefix + "/something");
         URLConnection conn = url.openConnection();
         try (InputStream inputStream = conn.getInputStream()) {
             // The hard-coded ASCII here is strictly speaking wrong of course

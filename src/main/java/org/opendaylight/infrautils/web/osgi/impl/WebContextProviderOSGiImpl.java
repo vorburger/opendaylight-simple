@@ -24,6 +24,7 @@ import org.opendaylight.infrautils.web.WebContextProvider;
 import org.ops4j.pax.cdi.api.OsgiService;
 import org.ops4j.pax.cdi.api.OsgiServiceProvider;
 import org.ops4j.pax.web.service.WebContainer;
+import org.ops4j.pax.web.service.WebContainerDTO;
 import org.osgi.service.http.HttpContext;
 import org.osgi.service.http.HttpService;
 import org.osgi.service.http.NamespaceException;
@@ -49,6 +50,12 @@ public class WebContextProviderOSGiImpl implements WebContextProvider {
     @Inject
     public WebContextProviderOSGiImpl(@OsgiService WebContainer osgiHttpService) {
         this.paxWeb = osgiHttpService;
+    }
+
+    @Override
+    public String getBaseURL() {
+        WebContainerDTO details = paxWeb.getWebcontainerDTO();
+        return "http://" + details.listeningAddresses[0] + ":" + details.port;
     }
 
     @Override
