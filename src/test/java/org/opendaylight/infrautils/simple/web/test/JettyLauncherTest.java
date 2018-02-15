@@ -7,166 +7,91 @@
  */
 package org.opendaylight.infrautils.simple.web.test;
 
-import static com.google.common.truth.Truth.assertThat;
-import static java.nio.charset.StandardCharsets.US_ASCII;
-
-import com.google.common.io.CharStreams;
 import java.io.FileNotFoundException;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.URL;
-import java.net.URLConnection;
 import javax.servlet.ServletRegistration.Dynamic;
+import org.junit.After;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.opendaylight.infrautils.ready.SystemReadyBaseImpl;
 import org.opendaylight.infrautils.simple.web.impl.JettyLauncher;
 import org.opendaylight.infrautils.testutils.Asserts;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
-import org.opendaylight.infrautils.web.WebContext;
+import org.opendaylight.infrautils.web.WebContextProvider;
 
 /**
- * Test of {@link JettyLauncher}.
+ * Test of {@link JettyLauncher} implementation.
  * The {@link WebWiringTest} does something similar but in a Guice environment.
  *
  * @author Michael Vorburger.ch
  */
-public class JettyLauncherTest {
-
-    // TODO factor out abstract class WebContextTest
+public class JettyLauncherTest extends WebContextTest {
 
     // TODO public static @ClassRule ClasspathHellDuplicatesCheckRule jHades = new ClasspathHellDuplicatesCheckRule();
+
+    private final SystemReadyBaseImpl system;
+    private final JettyLauncher jetty;
+
+    public JettyLauncherTest() {
+        this.system = new SystemReadyBaseImpl();
+        this.jetty = new JettyLauncher(system);
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        jetty.stop();
+    }
+
+    @Override
+    protected void startWebServer() {
+        this.system.ready();
+    }
+
+    @Override
+    protected WebContextProvider getWebContextProvider() {
+        return jetty;
+    }
 
     @Test
     @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
     public void testStartWithExplicitMapping() throws Throwable {
-        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
-        JettyLauncher jetty = new JettyLauncher(system);
-        try {
-            ServletContextRegistration registration = jetty.newServletContext("/test", false, servletContext -> {
-                Dynamic dynServlet = servletContext.addServlet("Test", new TestServlet());
-                dynServlet.addMapping("/*");
-                dynServlet.setLoadOnStartup(1);
-            });
+        ServletContextRegistration registration = jetty.newServletContext("/test", false, servletContext -> {
+            Dynamic dynServlet = servletContext.addServlet("Test", new TestServlet());
+            dynServlet.addMapping("/*");
+            dynServlet.setLoadOnStartup(1);
+        });
 
-            system.ready();
-            checkTestServlet("test");
+        system.ready();
+        WebContextTest.checkTestServlet("test");
 
-            registration.unregister();
-            Asserts.assertThrows(FileNotFoundException.class, () -> checkTestServlet("test"));
-
-        } finally {
-            jetty.stop();
-        }
+        registration.unregister();
+        Asserts.assertThrows(FileNotFoundException.class, () -> WebContextTest.checkTestServlet("test"));
     }
 
     @Test
     @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
     public void testTwoServletContexts() throws Throwable {
-        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
-        JettyLauncher jetty = new JettyLauncher(system);
-        try {
-            jetty.newServletContext("/test1", false, servletContext -> {
-                servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
-            });
-            jetty.newServletContext("/test2", false, servletContext -> {
-                servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
-            });
+        jetty.newServletContext("/test1", false, servletContext -> {
+            servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
+        });
+        jetty.newServletContext("/test2", false, servletContext -> {
+            servletContext.addServlet("Test", new TestServlet()).addMapping("/*");
+        });
 
-            system.ready();
-            checkTestServlet("test2");
-            checkTestServlet("test1");
-
-        } finally {
-            jetty.stop();
-        }
-    }
-
-    @Test
-    @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
-    public void testAddAfterStart() throws Throwable {
-        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
-        JettyLauncher jetty = new JettyLauncher(system);
         system.ready();
-
-        try {
-            WebContext webContext = jetty.newWebContext("/test1", false);
-            webContext.registerServlet("/*", "Test", new TestServlet());
-            checkTestServlet("test1");
-
-        } finally {
-            jetty.stop();
-        }
-    }
-
-    @Test
-    public void testAddFilter() throws Exception {
-        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
-        JettyLauncher jetty = new JettyLauncher(system);
-        system.ready();
-
-        try {
-            TestFilter testFilter = new TestFilter();
-            WebContext webContext = jetty.newWebContext("/testingFilters", false);
-            webContext.addContextParam("testParam1", "avalue").registerFilter("/*", "Test", testFilter);
-            assertThat(testFilter.isInitialized).isTrue();
-
-        } finally {
-            jetty.stop();
-        }
-    }
-
-    @Test
-    public void testRegisterListener() throws Exception {
-        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
-        JettyLauncher jetty = new JettyLauncher(system);
-
-        {
-            WebContext webContext = jetty.newWebContext("/testingListenerPreBoot", false);
-            TestListener testListener = new TestListener();
-            webContext.registerListener(testListener);
-            assertThat(testListener.isInitialized).isFalse();
-            system.ready();
-            assertThat(testListener.isInitialized).isTrue();
-        }
-
-        try {
-            WebContext webContext = jetty.newWebContext("/testingListenerWhenRunning", false);
-            TestListener testListener = new TestListener();
-            webContext.registerListener(testListener);
-            assertThat(testListener.isInitialized).isTrue();
-
-        } finally {
-            jetty.stop();
-        }
+        WebContextTest.checkTestServlet("test2");
+        WebContextTest.checkTestServlet("test1");
     }
 
     @Test
     @Ignore // this doesn't work yet because it will read all web.xml and the one from AAA does not yet work
     @SuppressWarnings("checkstyle:IllegalThrows") // start() throws Throwable
     public void testStartWithWebXML() throws Throwable {
-        SystemReadyBaseImpl system = new SystemReadyBaseImpl();
-        JettyLauncher jetty = new JettyLauncher(system);
         jetty.addWebAppContexts();
         system.ready();
         try {
-            checkTestServlet("test1");
+            WebContextTest.checkTestServlet("test1");
         } finally {
             jetty.stop();
-        }
-    }
-
-    static void checkTestServlet(String context) throws IOException {
-        URL url = new URL("http://localhost:8080/" + context + "/something");
-        URLConnection conn = url.openConnection();
-        try (InputStream inputStream = conn.getInputStream()) {
-            // The hard-coded ASCII here is strictly speaking wrong of course
-            // (should interpret header from reply), but good enough for a test.
-            try (InputStreamReader reader = new InputStreamReader(inputStream, US_ASCII)) {
-                String result = CharStreams.toString(reader);
-                assertThat(result).startsWith("hello, world");
-            }
         }
     }
 
