@@ -17,7 +17,6 @@ import javax.servlet.ServletException;
 import javax.ws.rs.core.Application;
 import org.eclipse.jetty.servlets.CrossOriginFilter;
 import org.opendaylight.infrautils.web.WebContextProvider;
-import org.opendaylight.neutron.northbound.api.NeutronNorthboundRSApplication;
 
 public class NeutronWiring extends AbstractModule {
 
@@ -28,7 +27,7 @@ public class NeutronWiring extends AbstractModule {
     @Provides
     @Singleton
     Servlet jaxRSNeutron(WebContextProvider webContextProvider) throws ServletException {
-        Application app = new NeutronNorthboundRSApplication();
+        Application app = new org.opendaylight.neutron.northbound.api.NeutronNorthboundRSApplication();
         Servlet jaxRSNeutronServlet = new ServletContainer(app);
         // /controller/nb/v2/neutron is from neutron.northbound-api/pom.xml's <Web-ContextPath>
         webContextProvider.newWebContext("/controller/nb/v2/neutron", false /* no HTTP sessions needed */)

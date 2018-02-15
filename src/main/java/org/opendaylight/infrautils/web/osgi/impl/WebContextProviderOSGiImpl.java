@@ -9,7 +9,6 @@ package org.opendaylight.infrautils.web.osgi.impl;
 
 import com.google.common.collect.ImmutableMap;
 import java.util.EventListener;
-import java.util.Hashtable;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
@@ -85,7 +84,7 @@ public class WebContextProviderOSGiImpl implements WebContextProvider {
             String alias = contextPath + "/" + urlPattern;
             LOG.info("Registering Servlet for alias {}: {}", alias, servlet);
             try {
-                paxWeb.registerServlet(alias, servlet, new Hashtable<>(params), osgiHttpContext);
+                paxWeb.registerServlet(alias, servlet, new MapDictionary<>(params), osgiHttpContext);
             } catch (NamespaceException e) {
                 throw new IllegalArgumentException("Failed to register Servlet: " + alias, e);
             }
@@ -97,7 +96,7 @@ public class WebContextProviderOSGiImpl implements WebContextProvider {
         public WebContext registerFilter(String urlPattern, String name, Filter filter, Map<String, String> params) {
             boolean asyncSupported = false;
             String alias = contextPath + "/" + urlPattern;
-            paxWeb.registerFilter(filter, new String[] { name }, new String[] { alias }, new Hashtable<>(params),
+            paxWeb.registerFilter(filter, new String[] { name }, new String[] { alias }, new MapDictionary<>(params),
                     asyncSupported, osgiHttpContext);
             registeredFilters.add(filter);
             return this;
@@ -115,7 +114,7 @@ public class WebContextProviderOSGiImpl implements WebContextProvider {
             // TODO This is probably incorrect, and will cause 2nd context-param to wipe 1st?
             // This will get solved when WebContext is immutable and holds all context params together
             Map<String, String> map = ImmutableMap.of(name, value);
-            paxWeb.setContextParam(new Hashtable<>(map), osgiHttpContext);
+            paxWeb.setContextParam(new MapDictionary<>(map), osgiHttpContext);
             return this;
         }
 
