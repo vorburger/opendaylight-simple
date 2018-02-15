@@ -16,10 +16,11 @@ import org.opendaylight.infrautils.ready.SystemReadyBaseImpl;
 import org.opendaylight.infrautils.simple.web.impl.JettyLauncher;
 import org.opendaylight.infrautils.testutils.Asserts;
 import org.opendaylight.infrautils.web.ServletContextRegistration;
+import org.opendaylight.infrautils.web.WebContext;
 import org.opendaylight.infrautils.web.WebContextProvider;
 
 /**
- * Test of {@link JettyLauncher} implementation.
+ * Test of {@link JettyLauncher} implementation of {@link WebContext}.
  * The {@link WebWiringTest} does something similar but in a Guice environment.
  *
  * @author Michael Vorburger.ch
