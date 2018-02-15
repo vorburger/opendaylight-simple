@@ -14,11 +14,10 @@ import org.opendaylight.infrautils.ready.SystemReadyMonitor;
 
 public class ReadyWiring extends AbstractModule implements PostFullSystemInjectionListener {
 
-    private SystemReadyBaseImpl systemReadyImpl;
+    private final SystemReadyBaseImpl systemReadyImpl = new SystemReadyBaseImpl();
 
     @Override
     protected void configure() {
-        systemReadyImpl = new SystemReadyBaseImpl();
         bind(SystemReadyMonitor.class)/*.annotatedWith(OsgiService.class)*/.toInstance(systemReadyImpl);
         bind(PostFullSystemInjectionListener.class).toInstance(this);
     }

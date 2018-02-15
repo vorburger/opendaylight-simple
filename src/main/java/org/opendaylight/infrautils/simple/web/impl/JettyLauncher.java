@@ -10,7 +10,6 @@ package org.opendaylight.infrautils.simple.web.impl;
 import com.google.errorprone.annotations.Var;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -282,7 +281,7 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
         }
     }
 
-    private String chop(String base, String toChop) throws MalformedURLException, IOException {
+    private static String chop(String base, String toChop) throws IOException {
         if (!base.endsWith(toChop)) {
             throw new IllegalArgumentException(base + " does not endWith " + toChop);
         }
