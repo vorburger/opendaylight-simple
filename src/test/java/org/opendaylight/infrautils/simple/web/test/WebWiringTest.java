@@ -76,8 +76,8 @@ public class WebWiringTest {
 
     @Test
     public void testServlet() throws IOException {
-        JettyLauncherTest.checkTestServlet("test1/servlet/");
-        JettyLauncherTest.checkTestServlet("test2");
+        WebContextTest.checkTestServlet("test1/servlet/");
+        WebContextTest.checkTestServlet("test2");
     }
 
 }
