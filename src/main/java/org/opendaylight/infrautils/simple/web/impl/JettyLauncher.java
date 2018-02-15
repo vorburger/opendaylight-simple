@@ -65,6 +65,8 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
 
     private static final String WEB_INF_WEB_XML = "WEB-INF/web.xml";
 
+    private static final int HTTP_PORT = 8080;
+
     private final Server server;
     private final ContextHandlerCollection contextHandlerCollection;
     private final List<WebAppContext> webAppContexts = new ArrayList<>();
@@ -77,7 +79,7 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
         ServerConnector http = new ServerConnector(server);
         // TODO intro. Configuration (like in metrics) to make this configurable
         http.setHost("localhost");
-        http.setPort(8080);
+        http.setPort(HTTP_PORT);
         http.setIdleTimeout(30000);
         server.addConnector(http);
 
@@ -133,6 +135,11 @@ public class JettyLauncher implements WebContextProvider, ServletContextProvider
         // NB server.stop() will call stop() on all ServletContextHandler/WebAppContext
         server.stop();
         LOG.info("Stopped Jetty-based web server.");
+    }
+
+    @Override
+    public String getBaseURL() {
+        return "http://localhost:" + HTTP_PORT;
     }
 
     @Override

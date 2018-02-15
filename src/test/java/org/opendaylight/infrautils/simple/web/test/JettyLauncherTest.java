@@ -31,10 +31,12 @@ public class JettyLauncherTest extends WebContextTest {
 
     private final SystemReadyBaseImpl system;
     private final JettyLauncher jetty;
+    private final String baseURL;
 
     public JettyLauncherTest() {
         this.system = new SystemReadyBaseImpl();
         this.jetty = new JettyLauncher(system);
+        this.baseURL = getWebContextProvider().getBaseURL();
     }
 
     @After
@@ -62,10 +64,10 @@ public class JettyLauncherTest extends WebContextTest {
         });
 
         system.ready();
-        WebContextTest.checkTestServlet("test");
+        WebContextTest.checkTestServlet(baseURL + "/test");
 
         registration.unregister();
-        Asserts.assertThrows(FileNotFoundException.class, () -> WebContextTest.checkTestServlet("test"));
+        Asserts.assertThrows(FileNotFoundException.class, () -> checkTestServlet(baseURL + "/test"));
     }
 
     @Test
@@ -79,8 +81,8 @@ public class JettyLauncherTest extends WebContextTest {
         });
 
         system.ready();
-        WebContextTest.checkTestServlet("test2");
-        WebContextTest.checkTestServlet("test1");
+        WebContextTest.checkTestServlet(baseURL + "/test2");
+        WebContextTest.checkTestServlet(baseURL + "/test1");
     }
 
     @Test
@@ -90,7 +92,7 @@ public class JettyLauncherTest extends WebContextTest {
         jetty.addWebAppContexts();
         system.ready();
         try {
-            WebContextTest.checkTestServlet("test1");
+            WebContextTest.checkTestServlet(baseURL + "/test1");
         } finally {
             jetty.stop();
         }
