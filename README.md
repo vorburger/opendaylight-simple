@@ -4,7 +4,9 @@ Run a typical OpenDaylight SDN application such as netvirt without requiring the
 
 Currently just a feasibility study to better evaluate required effort and gaps; may turn into more, later.
 
-Something similar has, of course, already been done before, in the fdio/vbd projects.
+Related "tech debt" clean up changes that are a result of this investigation [are slowly trickling into ODL](https://git.opendaylight.org/gerrit/#/q/topic:simple-dist).
+
+Something similar has already been done in the [honeycomb, vpp agent](https://wiki.fd.io/view/Honeycomb) (_TODO honeycomb-dev@lists.fdio.io_).
 
 ## How to use
 
