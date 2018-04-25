@@ -14,6 +14,7 @@ import org.opendaylight.infrautils.diagstatus.DiagStatusService;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.simple.DiagStatusWiring;
+import org.opendaylight.infrautils.simple.ReadyWiring;
 
 /**
  * Unit test for {@link DiagStatusWiring}.
@@ -22,7 +23,7 @@ import org.opendaylight.infrautils.simple.DiagStatusWiring;
  */
 public class DiagStatusWiringTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(DiagStatusWiring.class, AnnotationsModule.class);
+    public @Rule GuiceRule guice = new GuiceRule(DiagStatusWiring.class, ReadyWiring.class, AnnotationsModule.class);
 
     @Inject DiagStatusService diagStatusService;
 
@@ -30,5 +31,6 @@ public class DiagStatusWiringTest {
 
     // TODO separate DiagStatusWiring0Test VS DiagStatusWiring1Test where *1* registers a
     // Module that actually does bind a ServiceStatusProvider ...
+    // not here, but in infrautils.diagstatus
 
 }
