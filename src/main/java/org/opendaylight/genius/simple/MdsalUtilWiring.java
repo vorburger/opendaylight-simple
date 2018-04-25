@@ -10,11 +10,14 @@ package org.opendaylight.genius.simple;
 import com.google.inject.AbstractModule;
 import org.opendaylight.genius.mdsalutil.interfaces.IMdsalApiManager;
 import org.opendaylight.genius.mdsalutil.internal.MDSALManager;
+import org.opendaylight.genius.utils.hwvtep.HwvtepNodeHACache;
+import org.opendaylight.genius.utils.hwvtep.internal.HwvtepNodeHACacheImpl;
 
 public class MdsalUtilWiring extends AbstractModule {
 
     @Override
     protected void configure() {
         bind(IMdsalApiManager.class).to(MDSALManager.class);
+        bind(HwvtepNodeHACache.class).to(HwvtepNodeHACacheImpl.class);
     }
 }
