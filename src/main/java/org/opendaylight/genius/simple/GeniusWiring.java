@@ -11,9 +11,10 @@ import com.google.inject.AbstractModule;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.JobCoordinatorWiring;
+import org.opendaylight.infrautils.simple.MetricsWiring;
 import org.opendaylight.infrautils.simple.ReadyWiring;
-import org.opendaylight.mdsal.simple.MdsalWiring;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
+import org.ops4j.pax.cdi.api.OsgiService;
 
 public class GeniusWiring extends AbstractModule {
 
@@ -23,15 +24,15 @@ public class GeniusWiring extends AbstractModule {
 
         install(new ReadyWiring());
         // TODO install(new DiagStatusWiring());
+        install(new MetricsWiring());
         install(new JobCoordinatorWiring());
 
-        install(new MdsalWiring());
-
         // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
-        bind(DataImportBootReady.class).toInstance(new DataImportBootReady() {});
+        bind(DataImportBootReady.class).annotatedWith(OsgiService.class).toInstance(new DataImportBootReady() {});
 
         install(new OpenFlowPluginWiring());
 
+        install(new ServiceRecoveryWiring());
         install(new MdsalUtilWiring());
         install(new LockManagerWiring());
         install(new IdManagerWiring());

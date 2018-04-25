@@ -8,6 +8,7 @@
 package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
+import javax.annotation.Nullable;
 import org.opendaylight.genius.idmanager.IdManager;
 import org.opendaylight.genius.interfacemanager.InterfacemgrProvider;
 import org.opendaylight.genius.interfacemanager.interfaces.IInterfaceManager;
@@ -27,13 +28,50 @@ import org.opendaylight.genius.interfacemanager.rpcservice.InterfaceManagerServi
 import org.opendaylight.genius.interfacemanager.servicebindings.flowbased.listeners.FlowBasedServicesConfigListener;
 import org.opendaylight.genius.interfacemanager.servicebindings.flowbased.listeners.FlowBasedServicesInterfaceStateListener;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.idmanager.rev160406.IdManagerService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.interfacemanager.config.rev160406.IfmConfig;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.interfacemanager.rpcs.rev160406.OdlInterfaceRpcService;
+import org.opendaylight.yangtools.yang.binding.Augmentation;
+import org.opendaylight.yangtools.yang.binding.DataContainer;
 
 // TODO unify with org.opendaylight.genius.interfacemanager.test.InterfaceManagerTestModule
 public class InterfaceManagerWiring extends AbstractModule {
 
     @Override
     protected void configure() {
+        // TODO read from real XML YANG configuration, initial XML and datastore; like BP does
+        bind(IfmConfig.class).toInstance(new IfmConfig() {
+
+            @Override
+            @Nullable
+            public <E extends Augmentation<IfmConfig>> E getAugmentation(Class<E> augmentationType) {
+                return null;
+            }
+
+            @Override
+            @Nullable
+            public Class<? extends DataContainer> getImplementedInterface() {
+                return null;
+            }
+
+            // as in default genius-ifm-config.xml
+
+            @Override
+            public Boolean isItmDirectTunnels() {
+                return false;
+            }
+
+            @Override
+            public Boolean isIfmStatsPollEnabled() {
+                return false;
+            }
+
+            @Override
+            public Integer getIfmStatsDefPollInterval() {
+                return 15;
+            }
+        });
+
+
         bind(IdManagerService.class).to(IdManager.class);
         bind(IInterfaceManager.class).to(InterfacemgrProvider.class);
         bind(InterfaceManagerService.class).to(InterfaceManagerServiceImpl.class);
