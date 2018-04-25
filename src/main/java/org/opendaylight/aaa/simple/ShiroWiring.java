@@ -8,23 +8,6 @@
 package org.opendaylight.aaa.simple;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import com.google.inject.TypeLiteral;
-import java.math.BigInteger;
-import javax.inject.Singleton;
-import org.opendaylight.aaa.AAAShiroProvider;
-import org.opendaylight.aaa.api.CredentialAuth;
-import org.opendaylight.aaa.api.IdMService;
-import org.opendaylight.aaa.api.PasswordCredentials;
-import org.opendaylight.aaa.cert.api.ICertificateManager;
-import org.opendaylight.aaa.shiro.idm.IdmLightProxy;
-import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.aaa.app.config.rev170619.DatastoreConfig;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.aaa.app.config.rev170619.DatastoreConfig.Store;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.aaa.app.config.rev170619.DatastoreConfigBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.aaa.app.config.rev170619.ShiroConfiguration;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.aaa.app.config.rev170619.ShiroConfigurationBuilder;
-import org.osgi.service.http.HttpService;
 
 /**
  * Guice wiring equivalent of AAA Shiro BP XML in
@@ -35,6 +18,14 @@ import org.osgi.service.http.HttpService;
 public class ShiroWiring extends AbstractModule {
 
     // TODO private AAAShiroProvider aaaShiroProvider;
+
+    @Override
+    protected void configure() {
+    }
+
+/*
+    Following the introduction of the new Web API (in upstream AAA in Fluorine),
+    this would need to be reworked... similarly to how it's done for Neutron.
 
     @Override
     protected void configure() {
@@ -63,5 +54,6 @@ public class ShiroWiring extends AbstractModule {
     }
 
     // TODO AAAShiroProvider destroy-method="close"
+*/
 
 }
