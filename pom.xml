@@ -118,6 +118,11 @@
     </dependency>
 
     <dependency>
+      <groupId>org.apache.karaf.shell</groupId>
+      <artifactId>org.apache.karaf.shell.core</artifactId>
+    </dependency>
+
+    <dependency>
       <groupId>org.opendaylight.netvirt</groupId>
       <artifactId>odl-netvirt-openstack</artifactId>
       <classifier>features</classifier>
@@ -128,7 +133,7 @@
           <groupId>org.opendaylight.netvirt</groupId>
           <artifactId>neutronvpn-impl</artifactId>
         </exclusion>
-        <!-- Karaf Shell leads to various duplicate classpath entries (and won't work anyway) -->
+        <!-- karaf.shell.console leads to various duplicate classpath entries; we only use shell.core -->
         <exclusion>
           <groupId>org.apache.karaf.shell</groupId>
           <artifactId>org.apache.karaf.shell.console</artifactId>
