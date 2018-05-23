@@ -133,7 +133,7 @@
           <groupId>org.opendaylight.netvirt</groupId>
           <artifactId>neutronvpn-impl</artifactId>
         </exclusion>
-        <!-- karaf.shell.console leads to various duplicate classpath entries; we only use shell.core -->
+        <!-- karaf.shell.console leads to various duplicate classpath entries; we only support shell.core -->
         <exclusion>
           <groupId>org.apache.karaf.shell</groupId>
           <artifactId>org.apache.karaf.shell.console</artifactId>
@@ -207,6 +207,14 @@
     <dependency>
       <groupId>org.opendaylight.infrautils</groupId>
       <artifactId>caches-standard-impl</artifactId>
+    </dependency>
+
+    <!-- TODO things to remove -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+      <!-- slf4j-simple <scope>compile instead of test, just until we have real logging set up -->
+      <scope>compile</scope>
     </dependency>
 
     <!-- Now <scope>test... -->
