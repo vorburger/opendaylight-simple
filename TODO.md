@@ -1,7 +1,7 @@
 
 - [X] add genius.ItmWiring
 
-- [ ] quid CLI commands? tep:show-state and tep:show pointers, see https://github.com/vorburger/ch.vorburger.karaf.simple
+- [X] quid CLI commands? tep:show-state and tep:show pointers, see https://github.com/vorburger/ch.vorburger.karaf.simple
 
 - [ ] CDS instead of in-memory DS
 

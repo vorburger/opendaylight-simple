@@ -216,6 +216,14 @@
       <!-- slf4j-simple <scope>compile instead of test, just until we have real logging set up -->
       <scope>compile</scope>
     </dependency>
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-multibindings</artifactId>
+      <!-- TODO remove when we bumped to Guice 4.2.0,
+           because there this is already included according to https://github.com/google/guice/wiki/Guice42;
+           and if we never bump, then move this dependency into the (TBD) infrautils:inject.guice instead  -->
+      <version>4.1.0</version>
+    </dependency>
 
     <!-- Now <scope>test... -->
     <dependency>
