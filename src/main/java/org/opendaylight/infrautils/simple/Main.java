@@ -34,12 +34,12 @@ public class Main {
         this.injector = Guice.createInjector(Stage.PRODUCTION, mainModule);
         LOG.info("Start up of dependency injection completed; Guice injector is now ready.");
         injector.getInstance(PostFullSystemInjectionListener.class).onFullSystemInjected();
-        LOG.info("Commpled invoking PostFullSystemInjectionListener.onFullSystemInjected");
+        LOG.info("Completed invoking PostFullSystemInjectionListener.onFullSystemInjected");
     }
 
     public void close() {
         injector.getInstance(CloseableInjector.class).close();
-        LOG.info("Shutdown complete; injector closed.");
+        LOG.info("Shutdown complete; Guice injector closed.");
     }
 
     public void awaitShutdown() {
