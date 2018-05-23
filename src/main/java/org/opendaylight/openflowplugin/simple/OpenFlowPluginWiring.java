@@ -7,8 +7,8 @@
  */
 package org.opendaylight.openflowplugin.simple;
 
+import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.AbstractModule;
-import java.util.concurrent.Future;
 import org.opendaylight.openflowplugin.api.openflow.OpenFlowPluginProviderFactory;
 import org.opendaylight.openflowplugin.api.openflow.configuration.ConfigurationServiceFactory;
 import org.opendaylight.openflowplugin.api.openflow.mastership.MastershipChangeServiceManager;
@@ -17,6 +17,7 @@ import org.opendaylight.openflowplugin.impl.configuration.ConfigurationServiceFa
 import org.opendaylight.openflowplugin.impl.mastership.MastershipChangeServiceManagerImpl;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInput;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketOutput;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 
 public class OpenFlowPluginWiring extends AbstractModule {
@@ -37,7 +38,7 @@ public class OpenFlowPluginWiring extends AbstractModule {
         // bind(PacketProcessingService.class).to(PacketProcessingServiceImpl.class);
 
         @Override
-        public Future<RpcResult<Void>> transmitPacket(TransmitPacketInput input) {
+        public ListenableFuture<RpcResult<TransmitPacketOutput>> transmitPacket(TransmitPacketInput input) {
             throw new UnsupportedOperationException("TODO Implement me...");
         }
 
