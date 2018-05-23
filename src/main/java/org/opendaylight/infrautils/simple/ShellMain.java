@@ -8,6 +8,7 @@
 package org.opendaylight.infrautils.simple;
 
 import com.google.inject.Module;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Set;
 import javax.inject.Inject;
 import org.apache.karaf.shell.api.action.Action;
@@ -28,6 +29,7 @@ public class ShellMain extends Main {
 
     private Set<Action> actions;
 
+    @SuppressFBWarnings("UR_UNINIT_READ") // injectMembers() DI magic is beyond FB
     public ShellMain(Module mainModule) {
         super(mainModule);
         injector.injectMembers(this);

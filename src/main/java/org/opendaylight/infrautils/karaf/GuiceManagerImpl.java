@@ -7,6 +7,7 @@
  */
 package org.opendaylight.infrautils.karaf;
 
+import com.google.errorprone.annotations.Var;
 import com.google.inject.Injector;
 import org.apache.karaf.shell.api.console.Registry;
 import org.apache.karaf.shell.impl.action.command.ManagerImpl;
@@ -40,7 +41,7 @@ public class GuiceManagerImpl extends ManagerImpl {
 
         @Override
         public <T> T getService(Class<T> clazz) {
-            T service = super.getService(clazz);
+            @Var T service = super.getService(clazz);
             if (service == null) {
                 service = guiceInjector.getInstance(clazz);
             }
