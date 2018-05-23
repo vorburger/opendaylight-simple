@@ -14,6 +14,7 @@ import org.opendaylight.infrautils.simple.CachesWiring;
 import org.opendaylight.infrautils.simple.JobCoordinatorWiring;
 import org.opendaylight.infrautils.simple.MetricsWiring;
 import org.opendaylight.infrautils.simple.ReadyWiring;
+import org.opendaylight.mdsal.simple.MdsalWiring;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.ops4j.pax.cdi.api.OsgiService;
 
@@ -30,6 +31,9 @@ public class GeniusWiring extends AbstractModule {
         install(new MetricsWiring());
         install(new CachesWiring());
         install(new JobCoordinatorWiring());
+
+        // MD SAL
+        install(new MdsalWiring());
 
         // Daexim
         // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
