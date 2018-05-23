@@ -13,7 +13,6 @@ import com.mycila.guice.ext.closeable.CloseableInjector;
 import javax.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
-import org.opendaylight.infrautils.testutils.LogCaptureRule;
 import org.opendaylight.infrautils.testutils.LogRule;
 
 /**
@@ -26,7 +25,8 @@ public abstract class AbstractSimpleDistributionTest {
     // TODO public static @ClassRule ClasspathHellDuplicatesCheckRule jHades = new ClasspathHellDuplicatesCheckRule();
 
     public @Rule LogRule logRule = new LogRule();
-    public @Rule LogCaptureRule logCaptureRule = new LogCaptureRule();
+    // TODO NOK together with Log4j on CP, re-enable when split into separate modules:
+    // public @Rule LogCaptureRule logCaptureRule = new LogCaptureRule();
 
     // The point of this is really just to make sure that subclasses have a @Rule GuiceRule
     private @Inject CloseableInjector closeableInjector;

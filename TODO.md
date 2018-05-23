@@ -19,7 +19,7 @@
 
 - [ ] NeutronWiring with Web API
 
-- [ ] real logging
+- [X] real logging, see https://logging.apache.org/log4j/2.x/manual/configuration.html and try -Dlog4j2.debug=true
 
 - [ ] do the same as this already did for genius for all of netvirt
 
