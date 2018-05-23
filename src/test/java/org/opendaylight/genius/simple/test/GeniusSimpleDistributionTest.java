@@ -10,6 +10,7 @@ package org.opendaylight.genius.simple.test;
 import javax.inject.Inject;
 import org.junit.Rule;
 import org.opendaylight.genius.interfacemanager.interfaces.InterfaceManagerService;
+import org.opendaylight.genius.itm.api.IITMProvider;
 import org.opendaylight.genius.simple.GeniusWiring;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
@@ -28,5 +29,8 @@ public class GeniusSimpleDistributionTest extends AbstractSimpleDistributionTest
 
     @SuppressWarnings("unused")
     private @Inject InterfaceManagerService interfaceManagerService;
+
+    @SuppressWarnings("unused")
+    private @Inject IITMProvider itmProvider;
 
 }
