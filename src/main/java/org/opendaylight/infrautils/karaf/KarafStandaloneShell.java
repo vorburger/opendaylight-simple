@@ -7,10 +7,12 @@
  */
 package org.opendaylight.infrautils.karaf;
 
+import static java.util.Objects.requireNonNull;
+
 import com.google.common.annotations.VisibleForTesting;
 import com.google.inject.Injector;
-import java.util.Queue;
-import java.util.concurrent.ConcurrentLinkedDeque;
+import java.util.Set;
+import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.console.Session;
 import org.apache.karaf.shell.api.console.SessionFactory;
 
@@ -22,24 +24,12 @@ import org.apache.karaf.shell.api.console.SessionFactory;
 public class KarafStandaloneShell {
 
     private final InnerMain karafMain = new InnerMain();
-    private final Queue<Class<?>> actionClasses = new ConcurrentLinkedDeque<>();
+    private final Set<Action> actions;
     private final Injector injector;
 
-    public KarafStandaloneShell(Injector injector) {
-        this.injector = injector;
-    }
-
-    /**
-     * Register a service.
-     * If the given class is an {@link org.apache.karaf.shell.api.action.Action},
-     * a {@link org.apache.karaf.shell.api.console.Command} will be created and registered,
-     * else, an instance of the class will be created, injected and registered.
-     *
-     * @param clazz the Action class to register.
-     */
-    // as in org.apache.karaf.shell.api.action.lifecycle.Manager.register(Class<?>), but without unregister!
-    public void register(Class<?> clazz) {
-        actionClasses.add(clazz);
+    public KarafStandaloneShell(Injector injector, Set<Action> actions) {
+        this.injector = requireNonNull(injector, "injector");
+        this.actions = requireNonNull(actions, "actions");
     }
 
     public void run() throws Exception {
@@ -58,8 +48,8 @@ public class KarafStandaloneShell {
         protected void discoverCommands(Session session, ClassLoader cl, String resource) {
             manager = new GuiceManagerImpl(injector, session.getRegistry(), session.getFactory().getRegistry(),
                     false); // allowCustomServices = false so that there is an IllegalStateException if no service found
-            for (Class<?> clazz : actionClasses) {
-                manager.register(clazz);
+            for (Action action : actions) {
+                manager.register(action.getClass());
             }
         }
 
@@ -68,8 +58,8 @@ public class KarafStandaloneShell {
             SessionFactory sessionFactory = createSessionFactory(null);
             Session session = createSession(sessionFactory, null, System.out, System.err, null);
             discoverCommands(session, getClass().getClassLoader(), null);
-            for (Class<?> clazz : actionClasses) {
-                manager.instantiate(clazz);
+            for (Action action : actions) {
+                manager.instantiate(action.getClass());
             }
         }
     }

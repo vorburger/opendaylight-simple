@@ -11,6 +11,8 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Injector;
 import com.google.inject.Provides;
 import com.google.inject.Singleton;
+import java.util.Set;
+import org.apache.karaf.shell.api.action.Action;
 import org.opendaylight.infrautils.karaf.KarafStandaloneShell;
 
 /**
@@ -32,8 +34,8 @@ public class ShellTestWiring extends AbstractModule {
 
     @Provides
     @Singleton
-    KarafStandaloneShell getYourDependency(Injector injector) throws Exception {
-        KarafStandaloneShell shell = ShellMain.createKarafStandaloneShell(injector);
+    KarafStandaloneShell karafStandaloneShell(Injector injector, Set<Action> actions) throws Exception {
+        KarafStandaloneShell shell = new KarafStandaloneShell(injector, actions);
         shell.testAllRegisteredCommands();
         return shell;
     }

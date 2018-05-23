@@ -8,7 +8,10 @@
 package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.multibindings.Multibinder;
+import org.apache.karaf.shell.api.action.Action;
 import org.opendaylight.genius.itm.api.IITMProvider;
+import org.opendaylight.genius.itm.cli.TepShowState;
 import org.opendaylight.genius.itm.globals.ITMConstants;
 import org.opendaylight.genius.itm.impl.ItmProvider;
 import org.opendaylight.genius.itm.listeners.InterfaceStateListener;
@@ -37,6 +40,8 @@ public class ItmWiring extends AbstractModule {
                 .setGpeExtensionEnabled(false)
                 .build();
         bind(ItmConfig.class).toInstance(itmConfigObj);
+
+        // Listeners
         bind(TunnelMonitorIntervalListener.class);
         bind(TransportZoneListener.class);
         bind(OvsdbNodeListener.class);
@@ -44,6 +49,10 @@ public class ItmWiring extends AbstractModule {
         bind(VtepConfigSchemaListener.class);
         bind(TunnelMonitorChangeListener.class);
         bind(ItmTunnelEventListener.class);
+
+        // Commands
+        Multibinder<Action> actionsBinder = Multibinder.newSetBinder(binder(), Action.class);
+        actionsBinder.addBinding().to(TepShowState.class);
     }
 
 }
