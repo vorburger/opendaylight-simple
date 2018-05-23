@@ -13,6 +13,7 @@ import org.opendaylight.genius.interfacemanager.interfaces.InterfaceManagerServi
 import org.opendaylight.genius.itm.api.IITMProvider;
 import org.opendaylight.genius.simple.GeniusWiring;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
+import org.opendaylight.infrautils.simple.ShellTestWiring;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 
 /**
@@ -25,7 +26,7 @@ public class GeniusSimpleDistributionTest extends AbstractSimpleDistributionTest
     // TODO https://github.com/google/guice/wiki/Grapher ...
     // TODO https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/tools/jmx/Manager.html
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(GeniusWiring.class);
+    public @Rule GuiceRule2 guice = new GuiceRule2(GeniusWiring.class, ShellTestWiring.class);
 
     @SuppressWarnings("unused")
     private @Inject InterfaceManagerService interfaceManagerService;
