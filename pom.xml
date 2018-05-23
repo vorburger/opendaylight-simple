@@ -198,6 +198,12 @@
       <version>3.2.5</version>
     </dependency>
 
+    <!-- Implementation specials, these are not transitively inherited via the Karaf feature dependency -->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>caches-standard-impl</artifactId>
+    </dependency>
+
     <!-- Now <scope>test... -->
     <dependency>
       <groupId>org.opendaylight.infrautils</groupId>

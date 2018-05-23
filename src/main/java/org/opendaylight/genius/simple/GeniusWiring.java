@@ -10,6 +10,7 @@ package org.opendaylight.genius.simple;
 import com.google.inject.AbstractModule;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
+import org.opendaylight.infrautils.simple.CachesWiring;
 import org.opendaylight.infrautils.simple.JobCoordinatorWiring;
 import org.opendaylight.infrautils.simple.MetricsWiring;
 import org.opendaylight.infrautils.simple.ReadyWiring;
@@ -20,18 +21,24 @@ public class GeniusWiring extends AbstractModule {
 
     @Override
     protected void configure() {
+        // Guice
         install(new AnnotationsModule());
 
+        // Infrautils
         install(new ReadyWiring());
         // TODO install(new DiagStatusWiring());
         install(new MetricsWiring());
+        install(new CachesWiring());
         install(new JobCoordinatorWiring());
 
+        // Daexim
         // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
         bind(DataImportBootReady.class).annotatedWith(OsgiService.class).toInstance(new DataImportBootReady() {});
 
+        // OpenFlowPlugin
         install(new OpenFlowPluginWiring());
 
+        // Genius
         install(new ServiceRecoveryWiring());
         install(new MdsalUtilWiring());
         install(new LockManagerWiring());
