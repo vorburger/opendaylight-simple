@@ -7,11 +7,11 @@
  */
 package org.opendaylight.infrautils.karaf;
 
+import com.google.inject.Injector;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
 import org.apache.karaf.shell.api.action.lifecycle.Manager;
 import org.apache.karaf.shell.api.console.Session;
-import org.apache.karaf.shell.impl.action.command.ManagerImpl;
 
 /**
  * Karaf standalone shell, with programmatic instead of file-based command registration.
@@ -21,8 +21,12 @@ import org.apache.karaf.shell.impl.action.command.ManagerImpl;
 public class KarafStandaloneShell {
 
     private final InnerMain karafMain = new InnerMain();
-
     private final Queue<Class<?>> actionClasses = new ConcurrentLinkedDeque<>();
+    private final Injector injector;
+
+    public KarafStandaloneShell(Injector injector) {
+        this.injector = injector;
+    }
 
     /**
      * Register a service.
@@ -40,14 +44,29 @@ public class KarafStandaloneShell {
     public void run() throws Exception {
         karafMain.run(new String[0]);
     }
+/*
+    @VisibleForTesting
+    public void testAllRegisteredCommands() throws Exception {
+        karafMain.testAllRegisteredCommands();
+    }
+*/
 
+    @SuppressWarnings("checkstyle:RegexpSingleLineJava")
     private class InnerMain extends org.apache.karaf.shell.impl.console.standalone.Main {
         @Override
         protected void discoverCommands(Session session, ClassLoader cl, String resource) {
-            Manager manager = new ManagerImpl(session.getRegistry(), session.getFactory().getRegistry(), true);
+            Manager manager = new GuiceManagerImpl(injector, session.getRegistry(), session.getFactory().getRegistry(),
+                    false); // allowCustomServices = false so that there is an IllegalStateException if no service found
             for (Class<?> clazz : actionClasses) {
                 manager.register(clazz);
             }
         }
+/*
+        private void testAllRegisteredCommands() throws Exception {
+            SessionFactory sessionFactory = createSessionFactory(null);
+            Session session = createSession(sessionFactory, null, System.out, System.err, null);
+            discoverCommands(session, getClass().getClassLoader(), null);
+        }
+*/
     }
 }
