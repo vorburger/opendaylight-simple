@@ -209,13 +209,13 @@
       <artifactId>caches-standard-impl</artifactId>
     </dependency>
 
-    <!-- TODO things to remove -->
+    <!-- Logging related -->
     <dependency>
-      <groupId>org.slf4j</groupId>
-      <artifactId>slf4j-simple</artifactId>
-      <!-- slf4j-simple <scope>compile instead of test, just until we have real logging set up -->
-      <scope>compile</scope>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+      <version>2.11.0</version>
     </dependency>
+
     <dependency>
       <groupId>com.google.inject.extensions</groupId>
       <artifactId>guice-multibindings</artifactId>
