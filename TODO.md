@@ -9,7 +9,7 @@
 
 - [ ] POC running genius' CSIT locally
 
-- [ ] fix broken ShellTestWiring so that it really finds commands that would not really work
+- [X] fix broken ShellTestWiring so that it really finds commands that would not really work
 
 - [ ] clean up all problems found by duplicate-finder-maven-plugin upon "mvn verify" with <duplicate-finder.skip>false
 

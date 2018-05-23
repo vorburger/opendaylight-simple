@@ -7,11 +7,12 @@
  */
 package org.opendaylight.infrautils.karaf;
 
+import com.google.common.annotations.VisibleForTesting;
 import com.google.inject.Injector;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedDeque;
-import org.apache.karaf.shell.api.action.lifecycle.Manager;
 import org.apache.karaf.shell.api.console.Session;
+import org.apache.karaf.shell.api.console.SessionFactory;
 
 /**
  * Karaf standalone shell, with programmatic instead of file-based command registration.
@@ -44,29 +45,32 @@ public class KarafStandaloneShell {
     public void run() throws Exception {
         karafMain.run(new String[0]);
     }
-/*
+
     @VisibleForTesting
     public void testAllRegisteredCommands() throws Exception {
         karafMain.testAllRegisteredCommands();
     }
-*/
 
-    @SuppressWarnings("checkstyle:RegexpSingleLineJava")
     private class InnerMain extends org.apache.karaf.shell.impl.console.standalone.Main {
+        private GuiceManagerImpl manager;
+
         @Override
         protected void discoverCommands(Session session, ClassLoader cl, String resource) {
-            Manager manager = new GuiceManagerImpl(injector, session.getRegistry(), session.getFactory().getRegistry(),
+            manager = new GuiceManagerImpl(injector, session.getRegistry(), session.getFactory().getRegistry(),
                     false); // allowCustomServices = false so that there is an IllegalStateException if no service found
             for (Class<?> clazz : actionClasses) {
                 manager.register(clazz);
             }
         }
-/*
+
+        @SuppressWarnings("checkstyle:RegexpSingleLineJava")
         private void testAllRegisteredCommands() throws Exception {
             SessionFactory sessionFactory = createSessionFactory(null);
             Session session = createSession(sessionFactory, null, System.out, System.err, null);
             discoverCommands(session, getClass().getClassLoader(), null);
+            for (Class<?> clazz : actionClasses) {
+                manager.instantiate(clazz);
+            }
         }
-*/
     }
 }
