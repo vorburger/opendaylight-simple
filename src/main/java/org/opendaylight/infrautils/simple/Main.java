@@ -26,7 +26,7 @@ public class Main {
 
     private static final Logger LOG = LoggerFactory.getLogger(Main.class);
 
-    private final Injector injector;
+    protected final Injector injector;
 
     public Main(Module mainModule) {
         LOG.info("Starting up {}...", mainModule);

@@ -7,7 +7,10 @@
  */
 package org.opendaylight.infrautils.simple;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.inject.Injector;
 import com.google.inject.Module;
+import org.opendaylight.genius.itm.cli.TepShowState;
 import org.opendaylight.infrautils.karaf.KarafStandaloneShell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -26,8 +29,15 @@ public class ShellMain extends Main {
     public ShellMain(Module mainModule) {
         super(mainModule);
 
-        karafStandaloneShell = new KarafStandaloneShell();
-        // TODO karafStandaloneShell.register(...);
+        karafStandaloneShell = createKarafStandaloneShell(injector);
+    }
+
+    @VisibleForTesting
+    static KarafStandaloneShell createKarafStandaloneShell(Injector injector) {
+        KarafStandaloneShell karafStandaloneShell = new KarafStandaloneShell(injector);
+        // TODO karafStandaloneShell.register(...); all Guice registered beans which implement org.apache.karaf.shell.api.action.Action
+        karafStandaloneShell.register(TepShowState.class); // TODO remove this hard-coded test/example
+        return karafStandaloneShell;
     }
 
     @Override
