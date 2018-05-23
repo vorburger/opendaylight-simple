@@ -7,14 +7,14 @@
  */
 package org.opendaylight.genius.simple;
 
-import org.opendaylight.infrautils.simple.Main;
+import org.opendaylight.infrautils.simple.ShellMain;
 
 public final class GeniusMain {
 
     private GeniusMain() { }
 
     public static void main(String[] args) {
-        new Main(new GeniusWiring()).awaitShutdown();
+        new ShellMain(new GeniusWiring()).awaitShutdown();
     }
 
 }
