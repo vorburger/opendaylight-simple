@@ -49,7 +49,7 @@ public class GeniusWiring extends AbstractModule {
         install(new IdManagerWiring());
         install(new AlivenessMonitorWiring());
         install(new InterfaceManagerWiring());
-        // TODO install(new ItmWiring());
+        install(new ItmWiring());
         // TODO install(new ResourceManagerWiring());
     }
 

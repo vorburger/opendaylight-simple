@@ -33,9 +33,8 @@ public class KarafStandaloneShell {
      * @param clazz the Action class to register.
      */
     // as in org.apache.karaf.shell.api.action.lifecycle.Manager.register(Class<?>), but without unregister!
-    public KarafStandaloneShell register(Class<?> clazz) {
+    public void register(Class<?> clazz) {
         actionClasses.add(clazz);
-        return this;
     }
 
     public void run() throws Exception {
