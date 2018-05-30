@@ -11,7 +11,7 @@
 
 - [ ] packaging?  Swarm?
 
-- [ ] CDS instead of in-memory DS
+- [ ] CDS instead of in-memory DS: [CONTROLLER-1831](https://jira.opendaylight.org/browse/CONTROLLER-1831)
 
 - [ ] RestConfWiring with Web API
 
