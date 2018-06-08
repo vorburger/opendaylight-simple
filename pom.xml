@@ -186,7 +186,7 @@
       <!-- TODO don't use the über-all, but break down to only what we really need... -->
       <artifactId>jetty-all</artifactId>
       <classifier>uber</classifier>
-      <version>9.3.21.v20170918</version>
+      <version>9.4.11.v20180605</version>
     </dependency>
 
     <!-- TODO Align dropwizard.metrics in odlparent, controller and infrautils and ditch this -->
