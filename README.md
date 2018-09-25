@@ -2,14 +2,15 @@
 
 Run a typical OpenDaylight SDN application such as netvirt without requiring the Apache Karaf OSGi runtime container.
 
-Currently just a feasibility study to better evaluate required effort and gaps; may turn into more, later.
+Current status: Work in progress feasibility study to better evaluate required effort and gaps.
 
 Related "tech debt" clean up changes that are a result of this investigation
 [are slowly trickling into ODL](https://git.opendaylight.org/gerrit/#/q/topic:simple-dist) (and [web](https://git.opendaylight.org/gerrit/#/q/topic:simple-dist_web)).
 
-This includes support for custom Karaf CLI Commands, based on the [ch.vorburger.karaf.simple](https://github.com/vorburger/ch.vorburger.karaf.simple) POC.
+The goal of this project is not to upstream work done here into EXISTING OpenDaylight projets, and eventually have 0 code left in this repo.  
+We do not anticipate this to become a new ODL (or external) project.
 
-Something similar has already been done in the [honeycomb, vpp agent](https://wiki.fd.io/view/Honeycomb) (_TODO honeycomb-dev@lists.fdio.io_).
+This includes support for custom Karaf CLI Commands, based on the [ch.vorburger.karaf.simple](https://github.com/vorburger/ch.vorburger.karaf.simple) POC.
 
 ## How to use
 
