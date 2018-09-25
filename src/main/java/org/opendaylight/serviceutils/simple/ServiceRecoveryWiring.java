@@ -5,11 +5,11 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-package org.opendaylight.genius.simple;
+package org.opendaylight.serviceutils.simple;
 
 import com.google.inject.AbstractModule;
-import org.opendaylight.genius.srm.ServiceRecoveryRegistry;
-import org.opendaylight.genius.srm.impl.ServiceRecoveryRegistryImpl;
+import org.opendaylight.serviceutils.srm.ServiceRecoveryRegistry;
+import org.opendaylight.serviceutils.srm.impl.ServiceRecoveryRegistryImpl;
 
 public class ServiceRecoveryWiring extends AbstractModule {
 

@@ -35,6 +35,12 @@ public class SystemReadyBaseImpl implements SystemReadyMonitor {
         listeners.add(listener);
     }
 
+    @Override
+    public String getFailureCause() {
+        // This doesn't fail
+        return "";
+    }
+
     public void ready() {
         for (SystemReadyListener systemReadyListener : listeners) {
             systemReadyListener.onSystemBootReady();

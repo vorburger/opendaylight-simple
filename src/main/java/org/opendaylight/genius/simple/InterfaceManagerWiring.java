@@ -43,7 +43,7 @@ public class InterfaceManagerWiring extends AbstractModule {
 
             @Override
             @Nullable
-            public <E extends Augmentation<IfmConfig>> E getAugmentation(Class<E> augmentationType) {
+            public <E extends Augmentation<IfmConfig>> E augmentation(Class<E> augmentationType) {
                 return null;
             }
 
