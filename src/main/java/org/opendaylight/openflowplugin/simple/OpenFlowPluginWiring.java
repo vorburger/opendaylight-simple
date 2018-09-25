@@ -10,10 +10,8 @@ package org.opendaylight.openflowplugin.simple;
 import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.AbstractModule;
 import org.opendaylight.openflowplugin.api.openflow.OpenFlowPluginProviderFactory;
-import org.opendaylight.openflowplugin.api.openflow.configuration.ConfigurationServiceFactory;
 import org.opendaylight.openflowplugin.api.openflow.mastership.MastershipChangeServiceManager;
 import org.opendaylight.openflowplugin.impl.OpenFlowPluginProviderFactoryImpl;
-import org.opendaylight.openflowplugin.impl.configuration.ConfigurationServiceFactoryImpl;
 import org.opendaylight.openflowplugin.impl.mastership.MastershipChangeServiceManagerImpl;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInput;
@@ -27,7 +25,7 @@ public class OpenFlowPluginWiring extends AbstractModule {
         bind(PacketProcessingService.class).to(NoPacketProcessingService.class);
 
         bind(OpenFlowPluginProviderFactory.class).to(OpenFlowPluginProviderFactoryImpl.class);
-        bind(ConfigurationServiceFactory.class).to(ConfigurationServiceFactoryImpl.class);
+//        bind(ConfigurationServiceFactory.class).to(ConfigurationServiceFactoryImpl.class);
         bind(MastershipChangeServiceManager.class).to(MastershipChangeServiceManagerImpl.class);
     }
 

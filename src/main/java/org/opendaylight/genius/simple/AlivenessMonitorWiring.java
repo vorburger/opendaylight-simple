@@ -10,7 +10,7 @@ package org.opendaylight.genius.simple;
 import com.google.inject.AbstractModule;
 import org.opendaylight.genius.alivenessmonitor.internal.AlivenessMonitor;
 import org.opendaylight.genius.alivenessmonitor.protocols.AlivenessProtocolHandlerRegistry;
-import org.opendaylight.genius.alivenessmonitor.protocols.internal.AlivenessProtocolHandlerRegistryImpl;
+import org.opendaylight.genius.alivenessmonitor.protocols.impl.AlivenessProtocolHandlerRegistryImpl;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.alivenessmonitor.rev160411.AlivenessMonitorService;
 
 public class AlivenessMonitorWiring extends AbstractModule {

@@ -11,7 +11,7 @@ import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import javax.inject.Singleton;
 import org.opendaylight.aaa.encrypt.AAAEncryptionService;
-import org.opendaylight.aaa.encrypt.AAAEncryptionServiceImpl;
+import org.opendaylight.aaa.encrypt.impl.AAAEncryptionServiceImpl;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.yang.gen.v1.config.aaa.authn.encrypt.service.config.rev160915.AaaEncryptServiceConfig;
 import org.opendaylight.yang.gen.v1.config.aaa.authn.encrypt.service.config.rev160915.AaaEncryptServiceConfigBuilder;
