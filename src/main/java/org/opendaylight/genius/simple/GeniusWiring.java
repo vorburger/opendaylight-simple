@@ -10,11 +10,7 @@ package org.opendaylight.genius.simple;
 import com.google.inject.AbstractModule;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.simple.CachesWiring;
-import org.opendaylight.infrautils.simple.DiagStatusWiring;
-import org.opendaylight.infrautils.simple.JobCoordinatorWiring;
-import org.opendaylight.infrautils.simple.MetricsWiring;
-import org.opendaylight.infrautils.simple.ReadyWiring;
+import org.opendaylight.infrautils.simple.InfraUtilsWiring;
 import org.opendaylight.mdsal.simple.MdsalWiring;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
@@ -28,11 +24,7 @@ public class GeniusWiring extends AbstractModule {
         install(new AnnotationsModule());
 
         // Infrautils
-        install(new ReadyWiring());
-        install(new DiagStatusWiring());
-        install(new MetricsWiring());
-        install(new CachesWiring());
-        install(new JobCoordinatorWiring());
+        install(new InfraUtilsWiring());
 
         // MD SAL
         install(new MdsalWiring());
