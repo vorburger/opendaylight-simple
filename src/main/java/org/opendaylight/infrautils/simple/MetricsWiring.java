@@ -10,13 +10,12 @@ package org.opendaylight.infrautils.simple;
 import com.google.inject.AbstractModule;
 import org.opendaylight.infrautils.metrics.MetricProvider;
 import org.opendaylight.infrautils.metrics.internal.MetricProviderImpl;
-import org.ops4j.pax.cdi.api.OsgiService;
 
 public class MetricsWiring extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(MetricProvider.class).annotatedWith(OsgiService.class).to(MetricProviderImpl.class);
+        bind(MetricProvider.class).to(MetricProviderImpl.class);
     }
 
 }
