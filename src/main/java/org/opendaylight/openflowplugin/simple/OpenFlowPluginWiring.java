@@ -25,6 +25,7 @@ public class OpenFlowPluginWiring extends AbstractModule {
         bind(PacketProcessingService.class).to(NoPacketProcessingService.class);
 
         bind(OpenFlowPluginProviderFactory.class).to(OpenFlowPluginProviderFactoryImpl.class);
+// see https://jira.opendaylight.org/browse/OPNFLWPLUG-1037
 //        bind(ConfigurationServiceFactory.class).to(ConfigurationServiceFactoryImpl.class);
         bind(MastershipChangeServiceManager.class).to(MastershipChangeServiceManagerImpl.class);
     }
