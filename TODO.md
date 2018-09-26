@@ -7,20 +7,28 @@
 
 - [X] real logging, see https://logging.apache.org/log4j/2.x/manual/configuration.html and try -Dlog4j2.debug=true
 
-- [ ] clean up all problems found by duplicate-finder-maven-plugin upon "mvn verify" with <duplicate-finder.skip>false
-
-- [ ] packaging?  Swarm?
-
 - [ ] CDS instead of in-memory DS: [CONTROLLER-1831](https://jira.opendaylight.org/browse/CONTROLLER-1831)
 
 - [ ] RestConfWiring with Web API
 
-- [ ] POC running genius' CSIT locally
+- [ ] OpenFlowPlugin wiring
 
-- [ ] add all *Wiring upstream
+- [ ] packaging?  Swarm?
+
+- [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
+
+- [ ] run genius CSIT
+
+- [ ] create a Binding Generator (reflecting upon annotated classes)
 
 - [ ] NeutronWiring with Web API (req. by netvirt, but not genius)
 
 - [ ] do the same as this already did for genius for all of netvirt
 
 - [ ] run netvirt CSIT
+
+- [ ] clean up all problems found by duplicate-finder-maven-plugin upon "mvn verify" with <duplicate-finder.skip>false
+
+- [ ] dependency convergence with Maven Enforcer plugin
+
+- [ ] add all *Wiring+++ upstream, and make the project disappear (incl GuiceRule2 etc.)
