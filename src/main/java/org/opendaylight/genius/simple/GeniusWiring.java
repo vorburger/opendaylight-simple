@@ -9,6 +9,7 @@ package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.daexim.DataImportBootReady;
+import org.opendaylight.infrautils.inject.ClassPathScanner;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.InfraUtilsWiring;
 import org.opendaylight.mdsal.simple.MdsalWiring;
@@ -17,6 +18,12 @@ import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
 import org.ops4j.pax.cdi.api.OsgiService;
 
 public class GeniusWiring extends AbstractModule {
+
+    private final ClassPathScanner scanner;
+
+    public GeniusWiring(ClassPathScanner scanner) {
+        this.scanner = scanner;
+    }
 
     @Override
     protected void configure() {
@@ -43,7 +50,7 @@ public class GeniusWiring extends AbstractModule {
         install(new MdsalUtilWiring());
         install(new LockManagerWiring());
         install(new IdManagerWiring());
-        install(new AlivenessMonitorWiring());
+        install(new AlivenessMonitorWiring(scanner));
         install(new InterfaceManagerWiring());
         install(new ItmWiring());
         install(new DatastoreUtilsWiring());

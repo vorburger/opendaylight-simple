@@ -9,12 +9,19 @@ package org.opendaylight.netvirt.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.genius.simple.GeniusWiring;
+import org.opendaylight.infrautils.inject.ClassPathScanner;
 
 public class NetvirtWiring extends AbstractModule {
 
+    private final ClassPathScanner scanner;
+
+    public NetvirtWiring(ClassPathScanner scanner) {
+        this.scanner = scanner;
+    }
+
     @Override
     protected void configure() {
-        install(new GeniusWiring());
+        install(new GeniusWiring(scanner));
 
         install(new AclServiceWiring());
     }
