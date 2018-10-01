@@ -9,13 +9,13 @@ package org.opendaylight.infrautils.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.infrautils.inject.PostFullSystemInjectionListener;
-import org.opendaylight.infrautils.ready.SystemReadyBaseImpl;
 import org.opendaylight.infrautils.ready.SystemReadyMonitor;
+import org.opendaylight.infrautils.ready.impl.SystemReadyImpl;
 import org.ops4j.pax.cdi.api.OsgiService;
 
 public class ReadyWiring extends AbstractModule implements PostFullSystemInjectionListener {
 
-    private final SystemReadyBaseImpl systemReadyImpl = new SystemReadyBaseImpl();
+    private final SystemReadyImpl systemReadyImpl = new SystemReadyImpl();
 
     @Override
     protected void configure() {
