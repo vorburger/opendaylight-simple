@@ -2,6 +2,8 @@
 
 Run a typical OpenDaylight SDN application such as netvirt without requiring the Apache Karaf OSGi runtime container.
 
+See this [presentation given in 2018.09 at the ODL DDF during ONS Europe in Amsterdam](https://docs.google.com/presentation/d/14TM9oCn0nLo7RJAhAHglXM4P6oTxsVjJBfFE1wl1qJc) for some background.
+
 Current status: Work in progress feasibility study to better evaluate required effort and gaps.
 
 Related "tech debt" clean up changes that are a result of this investigation
