@@ -24,11 +24,12 @@ import org.slf4j.LoggerFactory;
  * Class path scanner designed to be used with Guice. This provides a way for modules to request the bindings they
  * need by scanning the class path; bindings are processed recursively on {@link Singleton} constructors, for all
  * all {@link Inject}-annotated constructors.
- * <p>
- * Implementations are only mapped to interfaces for which they are the sole available implementation. If the class
+ *
+ * <p>Implementations are only mapped to interfaces for which they are the sole available implementation. If the class
  * path contains multiple implementations of a requested interface, the scanner won’t bind any of them, and the
  * caller will have to bind one explicitly.
  */
+@SuppressWarnings("rawtypes")
 public class ClassPathScanner {
     private static final Logger LOG = LoggerFactory.getLogger(ClassPathScanner.class);
 
@@ -68,6 +69,7 @@ public class ClassPathScanner {
         // TODO Perhaps return interfaces which weren’t bound?
     }
 
+    @SuppressWarnings("unchecked")
     private void bindImplementationFor(Binder binder, Class requestedInterface) {
         Class implementation = implementations.get(requestedInterface);
         if (implementation != null) {
