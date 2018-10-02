@@ -9,11 +9,14 @@ Current status: Work in progress feasibility study to better evaluate required e
 Related "tech debt" clean up changes that are a result of this investigation
 [are slowly trickling into ODL](https://git.opendaylight.org/gerrit/#/q/topic:simple-dist) (and [web](https://git.opendaylight.org/gerrit/#/q/topic:simple-dist_web)).
 
-The goal of this project is to eventually upstream all work done here into EXISTING OpenDaylight projets, and eventually have 0 code left in this repo.  
+The goal of this project is to eventually upstream all work done here into EXISTING OpenDaylight projets, and eventually have 0 code left in this repo.
 We do not anticipate this to become a new ODL (or external) project.
 
 This includes support for custom Karaf CLI Commands, based on the [ch.vorburger.karaf.simple](https://github.com/vorburger/ch.vorburger.karaf.simple) POC.
 
 ## How to use
 
-_TBD_
+    mvn clean package
+    cd target/poc-1.5.0-SNAPSHOT-simple/poc-1.5.0-SNAPSHOT
+    java -cp "lib/*" org.opendaylight.genius.simple.GeniusMain
+
