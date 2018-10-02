@@ -12,7 +12,7 @@
   <id>simple</id>
   <formats>
     <format>dir</format>
-    <format>tar.xz</format>
+    <format>tar</format>
   </formats>
   <dependencySets>
     <dependencySet>
