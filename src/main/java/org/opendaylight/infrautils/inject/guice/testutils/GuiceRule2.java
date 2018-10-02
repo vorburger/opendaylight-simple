@@ -17,6 +17,10 @@ public class GuiceRule2 extends GuiceRule {
         super(moduleClasses);
     }
 
+    public GuiceRule2(Module... modules) {
+        super(modules);
+    }
+
     @Override
     protected void setUpGuice(Object target) {
         super.setUpGuice(target);
