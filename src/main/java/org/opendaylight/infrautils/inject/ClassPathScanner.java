@@ -47,7 +47,7 @@ public class ClassPathScanner {
             for (Class<?> declaredInterface : singleton.getInterfaces()) {
                 if (!duplicateInterfaces.contains(declaredInterface)) {
                     if (implementations.put(declaredInterface, singleton) != null) {
-                        LOG.warn("{} is declared multiple times, ignoring it", declaredInterface);
+                        LOG.debug("{} is declared multiple times, ignoring it", declaredInterface);
                         implementations.remove(declaredInterface);
                         duplicateInterfaces.add(declaredInterface);
                     }
