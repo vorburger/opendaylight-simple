@@ -18,5 +18,4 @@ public final class GeniusMain {
         ClassPathScanner scanner = new ClassPathScanner("org.opendaylight");
         new ShellMain(new GeniusWiring(scanner)).awaitShutdown();
     }
-
 }
