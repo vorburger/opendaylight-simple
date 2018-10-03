@@ -19,7 +19,8 @@
 
 - [ ] RestConfWiring with Web API
 
-- [ ] OpenFlowPlugin wiring
+- [X] OpenFlowPlugin wiring ConfigurationServiceFactoryImpl (OPNFLWPLUG-1037)
+- [ ] OpenFlowPluginWiring PacketProcessingService <odl:action-provider>
 
 - [ ] skitt's https://github.com/vorburger/opendaylight-simple/issues/38
 - [ ] DiagStatusWiring auto-discover ServiceStatusProvider
