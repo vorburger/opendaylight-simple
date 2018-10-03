@@ -52,5 +52,4 @@ public class ShellMain extends Main {
 
         this.close();
     }
-
 }

@@ -18,5 +18,4 @@ public final class NetvirtMain {
         ClassPathScanner scanner = new ClassPathScanner("org.opendaylight");
         new Main(new NetvirtWiring(scanner)).awaitShutdown();
     }
-
 }

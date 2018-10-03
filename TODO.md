@@ -7,7 +7,7 @@
 
 - [X] real logging, see https://logging.apache.org/log4j/2.x/manual/configuration.html and try -Dlog4j2.debug=true
 
-- [ ] quit/shutdown shell
+- [X] quit/shutdown shell
 
 - [ ] CDS instead of in-memory DS: [CONTROLLER-1831](https://jira.opendaylight.org/browse/CONTROLLER-1831)
 

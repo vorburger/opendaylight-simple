@@ -38,8 +38,11 @@ public class Main {
     }
 
     public void close() {
+        LOG.info("Initiating orderly shutdown by closing Guice injector...");
         injector.getInstance(CloseableInjector.class).close();
         LOG.info("Shutdown complete; Guice injector closed.");
+        LOG.info("Now System.exit(0) so that any hanging non-daemon threads don't prevent JVM stop.");
+        System.exit(0);
     }
 
     public void awaitShutdown() {
@@ -52,5 +55,4 @@ public class Main {
             this.close();
         }
     }
-
 }
