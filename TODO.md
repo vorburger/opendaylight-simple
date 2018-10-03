@@ -23,6 +23,8 @@
 
 - [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
 
+- [ ] read YANG XML configuration files using [DataStoreAppConfigDefaultXMLReader](https://git.opendaylight.org/gerrit/#/c/76416/3/opendaylight/blueprint/src/test/java/org/opendaylight/controller/blueprint/tests/DataStoreAppConfigDefaultXMLReaderTest.java)
+
 - [ ] run genius CSIT
 
 - [ ] create a Binding Generator (reflecting upon annotated classes)
