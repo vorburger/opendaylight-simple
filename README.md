@@ -20,3 +20,4 @@ This includes support for custom Karaf CLI Commands, based on the [ch.vorburger.
     cd target/poc-1.5.0-SNAPSHOT-simple/poc-1.5.0-SNAPSHOT
     java -cp "lib/*" org.opendaylight.genius.simple.GeniusMain
 
+You'll also find a `poc-*-simple.tar` in `target/` which contains `lib/*`.
