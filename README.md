@@ -1,4 +1,4 @@
-# opendaylight-simple
+# opendaylight-simple [![Build Status](https://travis-ci.org/vorburger/opendaylight-simple.svg?branch=master)](https://travis-ci.org/vorburger/opendaylight-simple)
 
 Run a typical OpenDaylight SDN application such as netvirt without requiring the Apache Karaf OSGi runtime container.
 
