@@ -23,11 +23,12 @@
 
 - [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
 
+- [ ] create a Binding Generator? (reflecting upon annotated classes)
+- [ ] [re-implement ClassPathScanner](https://github.com/vorburger/opendaylight-simple/pull/18#issuecomment-426859615) using [ClassGraph](https://github.com/classgraph/classgraph) used in [INFRAUTILS-52](https://jira.opendaylight.org/browse/INFRAUTILS-52) (and rename it to something more appropriate)
+
 - [ ] read YANG XML configuration files using [DataStoreAppConfigDefaultXMLReader](https://git.opendaylight.org/gerrit/#/c/76416/3/opendaylight/blueprint/src/test/java/org/opendaylight/controller/blueprint/tests/DataStoreAppConfigDefaultXMLReaderTest.java)
 
 - [ ] run genius CSIT
-
-- [ ] create a Binding Generator (reflecting upon annotated classes)
 
 - [ ] NeutronWiring with Web API (req. by netvirt, but not genius)
 
