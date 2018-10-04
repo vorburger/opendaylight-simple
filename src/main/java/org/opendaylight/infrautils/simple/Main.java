@@ -12,6 +12,7 @@ import com.google.inject.Injector;
 import com.google.inject.Module;
 import com.google.inject.Stage;
 import com.mycila.guice.ext.closeable.CloseableInjector;
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.io.IOException;
 import org.opendaylight.infrautils.inject.PostFullSystemInjectionListener;
 import org.slf4j.Logger;
@@ -37,12 +38,17 @@ public class Main {
         LOG.info("Completed invoking PostFullSystemInjectionListener.onFullSystemInjected");
     }
 
+    @SuppressFBWarnings("DM_EXIT")
     public void close() {
+        closeInjector();
+        LOG.info("Now System.exit(0) so that any hanging non-daemon threads don't prevent JVM stop.");
+        System.exit(0);
+    }
+
+    public void closeInjector() {
         LOG.info("Initiating orderly shutdown by closing Guice injector...");
         injector.getInstance(CloseableInjector.class).close();
         LOG.info("Shutdown complete; Guice injector closed.");
-        LOG.info("Now System.exit(0) so that any hanging non-daemon threads don't prevent JVM stop.");
-        System.exit(0);
     }
 
     public void awaitShutdown() {
