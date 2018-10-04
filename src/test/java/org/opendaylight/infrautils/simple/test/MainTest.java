@@ -21,7 +21,7 @@ public class MainTest {
 
     @Test
     public void testMain() {
-        new Main(new TestModule()).close();
+        new Main(new TestModule()).closeInjector();
     }
 
     public static class TestModule extends AbstractGuiceJsr250Module {
