@@ -21,5 +21,5 @@ deploy:
   file: target/poc-1.5.0-SNAPSHOT-simple.tar
   on:
     repo: shague/opendaylight-simple
-    # tags: true
-    # branch: release
+    tags: true
+    branch: release
