@@ -3,13 +3,23 @@ language: java
 sudo: false
 
 cache:
- directories:
-   - $HOME/.m2
+  directories:
+  - "$HOME/.m2"
 
 jdk:
-  - openjdk8
+- openjdk8
 
 install: true
 
 script:
-  - mvn -s .travis-maven-settings.xml clean package -B -V
+- mvn -s .travis-maven-settings.xml clean package -B -V
+
+deploy:
+  provider: releases
+  api_key:
+    secure: TdgsWT7P4TTMy10Ojjrbs7iX2QvbZjIZe8QCbYZ5aq/N553XE+iKYzkz64KZo+buRLepkt0rFFAGsat5RAdld886+hX1skUea4o0nedj4MPD/ugPpSQ2uPdK5Qi/qiLcrYTNm3zjP8yUqYgCQdhDg7dZz4HlKGH80y7P8ehi4uTIxXsxiZ8zQaOL7ICk3vn6aUinlC7ChlOpZFMOa06ZkOh0MZOpvmg7m9VT66m2wT1oe6b28H1s7EZfMl5kSfjQPGTGk5lEGOMr3Dh1VXIUi3SHQy2hmtWbR1N0V2fyqf654RRv9uFCgSw/J/xw4FeQhIB2L4nMVj+2xImAj7lUeCK8C5vG9yV8vI5X+JzOg9FdzQIfFg+6CityAoJET/MctcxDk2pgs2fWql2t67kRWdLjblI2+f4gRf17PET2SF9gOcCe0GvoTZOozMI/ceZoF5fTHHDNyAujVS9/qBfaUep35gh6RjvN2Za59AK33TlFSyPu/fXOrJYf3DIjv4IiNwMVxXbanlJKaxogFr0XK9yHEGnFJcspyreYNPnnKwhMvH5yvYIltUzS62qNgMh/+UeFRmF/V+BS4xHkIZ++JsnEU3wg48SlgGnGPuUdhUhXI1M/bPyw4uMbdHLoUS6eoPxwAmuuK6/PU9X5G5NwnTyT9mS2WTzIFjMV2fo9dmk=
+  file: target/poc-1.5.0-SNAPSHOT-simple.tar
+  on:
+    repo: shague/opendaylight-simple
+    # tags: true
+    # branch: release
