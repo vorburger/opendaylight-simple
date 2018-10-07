@@ -43,3 +43,5 @@
 - [ ] add all *Wiring+++ upstream, and make the project disappear (incl GuiceRule2 etc.)
 
 - [ ] headless distribution without shell
+
+- [ ] Non Karaf shell? E.g. https://github.com/Mojang/brigadier, https://www.crashub.org (why deprecated in Spring?), ...
