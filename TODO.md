@@ -45,3 +45,9 @@
 - [ ] headless distribution without shell
 
 - [ ] Non Karaf shell? E.g. https://github.com/Mojang/brigadier, https://www.crashub.org (why deprecated in Spring?), ...
+
+- [ ] introduce new Maven profiles suitable for the simple new world in odlparent: `-Ps` to skip running `karaf-maven-plugin`, `SingleFeatureTest`,  `karaf-plugin`, `depends-maven-plugin`, ...
+
+- [ ] upstream everything that is in this project, and have a netvirt/distribution/simple (next to netvirt/distribution/karaf)
+
+- [ ] Archive this project
