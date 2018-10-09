@@ -8,10 +8,12 @@
 package org.opendaylight.infrautils.simple;
 
 import com.google.inject.AbstractModule;
+import org.opendaylight.infrautils.web.WebWiring;
 
 public class InfraUtilsWiring extends AbstractModule {
     @Override
     protected void configure() {
+        install(new WebWiring());
         install(new ReadyWiring());
         install(new DiagStatusWiring());
         install(new MetricsWiring());
