@@ -15,6 +15,7 @@ import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.simple.DiagStatusWiring;
 import org.opendaylight.infrautils.simple.ReadyWiring;
+import org.opendaylight.infrautils.web.WebWiring;
 
 /**
  * Unit test for {@link DiagStatusWiring}.
@@ -23,7 +24,8 @@ import org.opendaylight.infrautils.simple.ReadyWiring;
  */
 public class DiagStatusWiringTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(DiagStatusWiring.class, ReadyWiring.class, AnnotationsModule.class);
+    public @Rule GuiceRule guice = new GuiceRule(WebWiring.class, DiagStatusWiring.class, ReadyWiring.class,
+            AnnotationsModule.class);
 
     @Inject DiagStatusService diagStatusService;
 

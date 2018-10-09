@@ -11,7 +11,7 @@
 
 - [ ] working deployment
 
-- [ ] working /diagstatus and showSvcStatus (#39) [waiting for infrautils merges]
+- [X] working /diagstatus and showSvcStatus (#39) [waiting for infrautils merges]
 
 - [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
 

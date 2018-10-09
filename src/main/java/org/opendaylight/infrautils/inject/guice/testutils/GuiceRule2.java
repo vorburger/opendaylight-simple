@@ -7,6 +7,7 @@
  */
 package org.opendaylight.infrautils.inject.guice.testutils;
 
+import com.google.inject.ConfigurationException;
 import com.google.inject.Module;
 import org.opendaylight.infrautils.inject.PostFullSystemInjectionListener;
 
@@ -24,8 +25,10 @@ public class GuiceRule2 extends GuiceRule {
     @Override
     protected void setUpGuice(Object target) {
         super.setUpGuice(target);
-        // TODO make having bound one optional... catch ConfigurationException?
-        injector.getInstance(PostFullSystemInjectionListener.class).onFullSystemInjected();
+        try {
+            injector.getInstance(PostFullSystemInjectionListener.class).onFullSystemInjected();
+        } catch (ConfigurationException e) {
+            // It's OK if we didn't bind a PostFullSystemInjectionListener.
+        }
     }
-
 }
