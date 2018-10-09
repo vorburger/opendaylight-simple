@@ -29,25 +29,40 @@ public class Main {
 
     protected final Injector injector;
 
+    @SuppressWarnings("checkstyle:IllegalCatch")
     public Main(Module mainModule) {
-        LOG.info("Starting up {}...", mainModule);
-        // TODO share why PRODUCTION Javadoc, or more, w. org.opendaylight.infrautils.inject.guice.testutils.GuiceRule
-        this.injector = Guice.createInjector(Stage.PRODUCTION, mainModule);
-        LOG.info("Start up of dependency injection completed; Guice injector is now ready.");
-        injector.getInstance(PostFullSystemInjectionListener.class).onFullSystemInjected();
-        LOG.info("Completed invoking PostFullSystemInjectionListener.onFullSystemInjected");
+        try {
+            LOG.info("Starting up {}...", mainModule);
+            // TODO share why PRODUCTION Javadoc, or more, w. infrautils.inject.guice.testutils.GuiceRule
+            this.injector = Guice.createInjector(Stage.PRODUCTION, mainModule);
+            LOG.info("Start up of dependency injection completed; Guice injector is now ready.");
+            injector.getInstance(PostFullSystemInjectionListener.class).onFullSystemInjected();
+            LOG.info("Completed invoking PostFullSystemInjectionListener.onFullSystemInjected");
+        } catch (Throwable t) {
+            // If Guice stuff failed, there may be non-daemon threads which leave us hanging; force exit.
+            LOG.error("Failed to start up, going to close up and exit", t);
+            close();
+            throw t;
+        }
     }
 
     @SuppressFBWarnings("DM_EXIT")
-    public void close() {
+    public final void close() {
         closeInjector();
         LOG.info("Now System.exit(0) so that any hanging non-daemon threads don't prevent JVM stop.");
         System.exit(0);
     }
 
-    public void closeInjector() {
+    @SuppressWarnings("checkstyle:IllegalCatch")
+    public final void closeInjector() {
         LOG.info("Initiating orderly shutdown by closing Guice injector...");
-        injector.getInstance(CloseableInjector.class).close();
+        try {
+            if (injector != null) {
+                injector.getInstance(CloseableInjector.class).close();
+            }
+        } catch (Throwable t) {
+            LOG.warn("Trouble while closing CloseableInjector, but ignoring and continuing anyway", t);
+        }
         LOG.info("Shutdown complete; Guice injector closed.");
     }
 
