@@ -10,23 +10,22 @@ package org.opendaylight.infrautils.simple;
 import com.google.inject.AbstractModule;
 import org.opendaylight.infrautils.inject.PostFullSystemInjectionListener;
 import org.opendaylight.infrautils.ready.SystemReadyMonitor;
-import org.opendaylight.infrautils.ready.impl.SystemReadyImpl;
+import org.opendaylight.infrautils.ready.spi.SimpleSystemReadyMonitor;
 import org.ops4j.pax.cdi.api.OsgiService;
 
 public class ReadyWiring extends AbstractModule implements PostFullSystemInjectionListener {
 
-    private final SystemReadyImpl systemReadyImpl = new SystemReadyImpl();
+    private final SimpleSystemReadyMonitor systemReadyMonitor = new SimpleSystemReadyMonitor();
 
     @Override
     protected void configure() {
-        bind(SystemReadyMonitor.class).toInstance(systemReadyImpl);
-        bind(SystemReadyMonitor.class).annotatedWith(OsgiService.class).toInstance(systemReadyImpl);
+        bind(SystemReadyMonitor.class).toInstance(systemReadyMonitor);
+        bind(SystemReadyMonitor.class).annotatedWith(OsgiService.class).toInstance(systemReadyMonitor);
         bind(PostFullSystemInjectionListener.class).toInstance(this);
     }
 
     @Override
     public void onFullSystemInjected() {
-        systemReadyImpl.ready();
+        systemReadyMonitor.ready();
     }
-
 }
