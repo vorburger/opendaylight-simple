@@ -18,9 +18,8 @@ script:
 # GITHUB_TOKEN is set in https://travis-ci.org/vorburger/opendaylight-simple/settings
 deploy:
   provider: pages
-  skip_cleanup: true
-  github_token: $GITHUB_TOKEN
-  local_dir: target/deploy
+  skip-cleanup: true
+  github-token: $GITHUB_TOKEN
+  local-dir: target/deploy
   repo: vorburger/opendaylight-simple-binaries
-  target_branch: gh-pages
   verbose: true
