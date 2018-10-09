@@ -14,6 +14,7 @@ import java.util.List;
 import org.opendaylight.infrautils.diagstatus.DiagStatusService;
 import org.opendaylight.infrautils.diagstatus.ServiceStatusProvider;
 import org.opendaylight.infrautils.diagstatus.internal.DiagStatusServiceImpl;
+import org.opendaylight.infrautils.diagstatus.web.WebInitializer;
 
 public class DiagStatusWiring extends AbstractModule {
 
@@ -26,6 +27,6 @@ public class DiagStatusWiring extends AbstractModule {
     protected void configure() {
         bind(DiagStatusService.class).to(DiagStatusServiceImpl.class);
         bind(new TypeLiteral<List<ServiceStatusProvider>>() {}).toInstance(Collections.emptyList());
+        bind(WebInitializer.class);
     }
-
 }
