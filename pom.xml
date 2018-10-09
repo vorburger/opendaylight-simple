@@ -309,6 +309,24 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+      <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>move-to-deploy</id>
+            <phase>post-integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+                <mkdir dir="target/deploy" />
+                <move file="target/poc-1.0.0-SNAPSHOT-simple.tar" todir="target/deploy" />
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
     </plugins>
   </build>
 </project>
