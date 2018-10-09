@@ -9,19 +9,28 @@
 
 - [X] quit/shutdown shell
 
+- [ ] working deployment
+
+- [ ] working /diagstatus and showSvcStatus (#39) [waiting for infrautils merges]
+
+- [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
+
 - [ ] CDS instead of in-memory DS: [CONTROLLER-1831](https://jira.opendaylight.org/browse/CONTROLLER-1831)
 
 - [ ] RestConfWiring with Web API
 
 - [ ] OpenFlowPlugin wiring
 
+- [ ] skitt's https://github.com/vorburger/opendaylight-simple/issues/38
+- [ ] DiagStatusWiring auto-discover ServiceStatusProvider
+- [ ] CLI commands, such as ItmWiring's TepShowState and DiagStatusCommand in DiagStatusWiring, which `implements Action`, should be auto-discovered
+
 - [X] packaging
+- [ ] https://github.com/vorburger/opendaylight-simple/issues/37 including:
 - [ ] why does maven-assembly-plugin dependencySet attempt to download from so many other Maven repos than only nexus.opendaylight.org
 - [ ] why does maven-assembly-plugin dependencySet attempt to download so many additional unsed dependencies, like Maven plugins's
 - [ ] why does maven-assembly-plugin dependencySet attempt to constantly re-download all SNAPSHOT unless we use -nsu -o
 - [ ] MINOR: why does "java -jar lib/ch.vorburger.opendaylight.simple.poc-1.5.0-SNAPSHOT.jar" not work?  (MANIFEST.MF has all lib/*)
-
-- [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
 
 - [ ] create a Binding Generator? (reflecting upon annotated classes)
 - [ ] [re-implement ClassPathScanner](https://github.com/vorburger/opendaylight-simple/pull/18#issuecomment-426859615) using [ClassGraph](https://github.com/classgraph/classgraph) used in [INFRAUTILS-52](https://jira.opendaylight.org/browse/INFRAUTILS-52) (and rename it to something more appropriate)
