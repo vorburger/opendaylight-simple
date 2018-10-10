@@ -14,12 +14,12 @@ install: true
 script:
   - mvn -s .travis-maven-settings.xml clean package -B -V
 
-# https://docs.travis-ci.com/user/deployment/pages/
-# GITHUB_TOKEN is set in https://travis-ci.org/vorburger/opendaylight-simple/settings
 deploy:
-  provider: pages
-  skip-cleanup: true
-  github-token: $GITHUB_TOKEN
-  local-dir: target/deploy
-  repo: vorburger/opendaylight-simple-binaries
-  verbose: true
+  provider: releases
+  skip_cleanup: true
+  overwrite: true
+  api_key:
+    secure: GhGeuJXyUZeRV6BwVznI8+/Hy4G9MAQHZ2hPveOkuj1IHbVAqQqLChIwzllc3FhzU+dr5Fn+TnqKA4Pw4pwgq5C5OKMFSFG1qld9r6J30NPqiCmiwYBjauhuDIwoAXjkzMJYALUo050lu7kZ2chcDubB13t9lokJTBvuOIA0fUV1FD35r3/1JlaGo4QYc9RkSrf/GJeouJNXZ2jI/pm8Npa6MWSsOIpmnwKePYrj6DvE1bWR2S0/5jzL/anc32LBLZpBXM82MPUW8iUvCXX9+Z+a6NiIWLl7BEsLVKt3H5awhCLEt1y1eviJMPvVRqDGh+D4yWat/G0BqjUQCSg2CW6Rk+wnpk7cOm+6FUzfCLnol7JigDH9aB4B2AgFEHju8isOWswi6J2uxPOGQD3CdAspCZIvgbqZhpkalCNdPo4BmpZUrPvK8UQ1bMAfT4mMoRbsw6RA54Z0TwUtrlDvXnX+FL6D2lOpauQfxQcifRG5lpJ2xabcTS3RO0tlIQvPz/Z7kxGiuj6Pdcepv+p+NqMisaN2oGX7+QuB5Wtr9xLiayoV6wJX/iV8sWTX+CXSkpEz/5zU5BJ1c7PVMUnb8cr6Qa8CQabP0SUNecoljPtgL6NDmW0+6aONfcMNqJR5POs41N0MGj7bWQvCpiWDhNQs7oYkBNop/lIngQAj1d0=
+  file: target/poc-1.0.0-SNAPSHOT-simple.tar
+  on:
+    repo: vorburger/opendaylight-simple
