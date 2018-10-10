@@ -12,6 +12,8 @@ import static org.opendaylight.infrautils.ready.SystemState.BOOTING;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.atomic.AtomicReference;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Basic implementation of {@link SystemReadyMonitor}.
@@ -19,6 +21,8 @@ import java.util.concurrent.atomic.AtomicReference;
  * @author Michael Vorburger.ch
  */
 public class SystemReadyBaseImpl implements SystemReadyMonitor {
+
+    private static final Logger LOG = LoggerFactory.getLogger(SystemReadyBaseImpl.class);
 
     // TODO SystemReadyImpl should extend this.. but quid AbstractMXBean?
 
@@ -41,9 +45,14 @@ public class SystemReadyBaseImpl implements SystemReadyMonitor {
         return "";
     }
 
+    @SuppressWarnings("checkstyle:IllegalCatch")
     public void ready() {
         for (SystemReadyListener systemReadyListener : listeners) {
-            systemReadyListener.onSystemBootReady();
+            try {
+                systemReadyListener.onSystemBootReady();
+            } catch (Exception e) {
+                LOG.error("onSystemBootReady() on a SystemReadyListener failed", e);
+            }
         }
         systemState.set(SystemState.ACTIVE);
     }
