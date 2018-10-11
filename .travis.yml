@@ -12,7 +12,7 @@ jdk:
 install: true
 
 script:
-  - mvn -s .travis-maven-settings.xml clean package -B -V
+  - mvn -U -s .travis-maven-settings.xml clean package -B -V
 
 deploy:
   provider: releases
