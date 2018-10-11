@@ -18,7 +18,7 @@
           <url>https://nexus.opendaylight.org/content/groups/public/</url>
 
           <!-- https://github.com/vorburger/opendaylight-simple/issues/37 -->
-          <mirrorOf>central,apache-snapshot,apache-snapshots,sonatype-snapshots,sonatype-nexus-snapshots,jetty-snapshots,codehaus-snapshots,ow2-snapshot</mirrorOf>
+          <mirrorOf>central,apache.snapshots,apache-snapshot,apache-snapshots,sonatype-snapshots,sonatype-nexus-snapshots,jetty-snapshots,codehaus-snapshots,ow2-snapshot</mirrorOf>
       </mirror>
     </mirrors>
 
