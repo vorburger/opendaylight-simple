@@ -16,7 +16,10 @@
           <id>ODL</id>
           <name>OpenDaylight's Nexus</name>
           <url>https://nexus.opendaylight.org/content/groups/public/</url>
-          <mirrorOf>*</mirrorOf>
+
+          <!-- https://github.com/vorburger/opendaylight-simple/issues/37 -->
+          <!-- <mirrorOf>central,apache-snapshot,sonatype-snapshots,sonatype-nexus-snapshots,jetty-snapshots,codehaus-snapshots,ow2-snapshot</mirrorOf> -->
+          <mirrorOf>*,!opendaylight-snapshots</mirrorOf>
       </mirror>
     </mirrors>
 
