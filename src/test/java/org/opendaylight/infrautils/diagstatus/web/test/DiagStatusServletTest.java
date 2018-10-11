@@ -8,11 +8,12 @@
 package org.opendaylight.infrautils.diagstatus.web.test;
 
 import static com.google.common.truth.Truth.assertThat;
+import static org.opendaylight.infrautils.diagstatus.web.WebInitializer.DIAGSTATUS_URL;
+import static org.opendaylight.infrautils.testutils.TestHttpClient.Method.GET;
+import static org.opendaylight.infrautils.testutils.TestHttpClient.Method.HEAD;
 
 import com.google.inject.AbstractModule;
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.Collection;
 import java.util.Collections;
 import javax.inject.Inject;
@@ -26,6 +27,7 @@ import org.opendaylight.infrautils.diagstatus.web.WebInitializer;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.testutils.Partials;
+import org.opendaylight.infrautils.testutils.TestHttpClient;
 import org.opendaylight.infrautils.web.WebWiring;
 
 /**
@@ -49,36 +51,30 @@ public class DiagStatusServletTest {
             WebWiring.class, DiagStatusServletTestWiring.class, AnnotationsModule.class);
 
     @Inject WebServer webServer;
+    @Inject TestHttpClient http;
 
     @Test
     public void testGetWhenOk() throws IOException {
         SRVC.isOperational = true;
-        assertThat(getDiagStatusResponseCode("GET")).isEqualTo(200);
+        assertThat(http.responseCode(GET, DIAGSTATUS_URL)).isEqualTo(200);
     }
 
     @Test
     public void testHeadWhenOk() throws IOException {
         SRVC.isOperational = true;
-        assertThat(getDiagStatusResponseCode("HEAD")).isEqualTo(200);
+        assertThat(http.responseCode(HEAD, DIAGSTATUS_URL)).isEqualTo(200);
     }
 
     @Test
     public void testGetWhenNok() throws IOException {
         SRVC.isOperational = false;
-        assertThat(getDiagStatusResponseCode("GET")).isEqualTo(503);
+        assertThat(http.responseCode(GET, DIAGSTATUS_URL)).isEqualTo(503);
     }
 
     @Test
     public void testHeadWhenNok() throws IOException {
         SRVC.isOperational = false;
-        assertThat(getDiagStatusResponseCode("HEAD")).isEqualTo(503);
-    }
-
-    private int getDiagStatusResponseCode(String httpMethod) throws IOException {
-        URL url = new URL(webServer.getBaseURL() + WebInitializer.DIAGSTATUS_URL);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod(httpMethod);
-        return conn.getResponseCode();
+        assertThat(http.responseCode(HEAD, DIAGSTATUS_URL)).isEqualTo(503);
     }
 
     private abstract static class TestDiagStatusService implements DiagStatusService {
