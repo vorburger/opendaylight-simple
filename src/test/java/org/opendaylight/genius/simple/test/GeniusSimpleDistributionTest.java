@@ -31,10 +31,8 @@ public class GeniusSimpleDistributionTest extends AbstractSimpleDistributionTest
 
     public @Rule GuiceRule2 guice = new GuiceRule2(new GeniusWiring(CLASS_PATH_BINDER), new ShellTestWiring());
 
-    @SuppressWarnings("unused")
-    private @Inject InterfaceManagerService interfaceManagerService;
+    @Inject InterfaceManagerService interfaceManagerService;
 
-    @SuppressWarnings("unused")
-    private @Inject IITMProvider itmProvider;
+    @Inject IITMProvider itmProvider;
 
 }

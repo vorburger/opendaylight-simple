@@ -52,6 +52,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.opendaylight.netconf</groupId>
+        <artifactId>restconf-artifacts</artifactId>
+        <version>1.9.0-SNAPSHOT</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
 
 <!--
       <dependency>
@@ -87,6 +94,10 @@
   </dependencyManagement>
 
   <dependencies>
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+    </dependency>
 <!-- TODO integrate neutron (after genius is working)
     <dependency>
       <groupId>org.opendaylight.neutron</groupId>
@@ -126,6 +137,10 @@
       </exclusions>
  -->
     </dependency>
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>restconf-nb-rfc8040</artifactId>
+    </dependency>
 
     <dependency>
       <groupId>org.apache.karaf.shell</groupId>
@@ -148,11 +163,13 @@
           <groupId>org.apache.karaf.shell</groupId>
           <artifactId>org.apache.karaf.shell.console</artifactId>
         </exclusion>
-        <!-- osgi.core overlaps (x5) with felix.configadmin, and we don't need it here anyway -->
+        <!-- osgi.core overlaps (x5) with felix.configadmin, and we don't need it here anyway
+             TODO EXCLUDE IT AGAIN LATER; FOR NOW, SOME CLASSES UNFORTUNATELY STILL REFERENCE IT
         <exclusion>
           <groupId>org.osgi</groupId>
           <artifactId>org.osgi.core</artifactId>
         </exclusion>
+         -->
         <!-- osgi.compendium (big) overlaps (x12) with (small) felix.configadmin, and with org.osgi.service.event (x9)
         <exclusion>
           <groupId>org.osgi</groupId>
