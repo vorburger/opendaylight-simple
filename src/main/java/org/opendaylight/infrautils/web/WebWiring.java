@@ -26,7 +26,7 @@ public class WebWiring extends AbstractModule {
         // TODO read port from a -D parameter or configuration file instead of hard-coding
         bind(WebServer.class).toInstance(new JettyWebServer(8181));
 
-        // JSX-RS
+        // JAX-RS
         bind(ServletSupport.class).to(JerseyServletSupport.class);
 
         // TODO replace this NOOP WebContextSecurer with one with a fixed uid/pwd for HTTP BASIC (and ditch AAA)

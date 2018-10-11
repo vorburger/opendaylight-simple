@@ -34,5 +34,4 @@ public abstract class AbstractSimpleDistributionTest {
     @Test public void testDistribution() {
         assertThat(closeableInjector).isNotNull();
     }
-
 }

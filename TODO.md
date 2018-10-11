@@ -9,20 +9,27 @@
 
 - [X] quit/shutdown shell
 
-- [ ] working deployment
+- [X] working deployment
 
 - [X] working /diagstatus and showSvcStatus (#39) [waiting for infrautils merges]
 
+- [ ] RestConfWiring with Web API
+
+- [ ] make RestConfConfig readable from YAML using http://immutables.github.io/json.html and update @ConfigImmutableStyle for it, then upstream to infrautils
+
 - [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
+
+- [ ] NeutronWiring with Web API (req. by netvirt, but not genius)
+
+- [ ] ovsdb https://github.com/vorburger/opendaylight-simple/issues/47
 
 - [ ] CDS instead of in-memory DS: [CONTROLLER-1831](https://jira.opendaylight.org/browse/CONTROLLER-1831)
 
-- [ ] RestConfWiring with Web API
-
 - [X] OpenFlowPlugin wiring ConfigurationServiceFactoryImpl (OPNFLWPLUG-1037)
 - [ ] OpenFlowPluginWiring PacketProcessingService <odl:action-provider>
+- [ ] OpenFlowPlugin wiring
 
-- [ ] skitt's https://github.com/vorburger/opendaylight-simple/issues/38
+- [X] skitt's https://github.com/vorburger/opendaylight-simple/issues/38
 - [ ] DiagStatusWiring auto-discover ServiceStatusProvider
 - [ ] CLI commands, such as ItmWiring's TepShowState and DiagStatusCommand in DiagStatusWiring, which `implements Action`, should be auto-discovered
 
@@ -39,8 +46,6 @@
 - [ ] read YANG XML configuration files using [DataStoreAppConfigDefaultXMLReader](https://git.opendaylight.org/gerrit/#/c/76416/3/opendaylight/blueprint/src/test/java/org/opendaylight/controller/blueprint/tests/DataStoreAppConfigDefaultXMLReaderTest.java)
 
 - [ ] run genius CSIT
-
-- [ ] NeutronWiring with Web API (req. by netvirt, but not genius)
 
 - [ ] do the same as this already did for genius for all of netvirt
 
