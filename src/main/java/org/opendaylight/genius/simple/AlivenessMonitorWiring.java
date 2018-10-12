@@ -8,20 +8,20 @@
 package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
-import org.opendaylight.infrautils.inject.ClassPathScanner;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.alivenessmonitor.rev160411.AlivenessMonitorService;
 
 public class AlivenessMonitorWiring extends AbstractModule {
 
-    private final ClassPathScanner scanner;
+    private final GuiceClassPathBinder classPathBinder;
 
-    public AlivenessMonitorWiring(ClassPathScanner scanner) {
-        this.scanner = scanner;
+    public AlivenessMonitorWiring(GuiceClassPathBinder classPathBinder) {
+        this.classPathBinder = classPathBinder;
     }
 
     @Override
     protected void configure() {
-        scanner.bind(binder(), AlivenessMonitorService.class);
+        classPathBinder.bind(binder(), AlivenessMonitorService.class);
     }
 
 }
