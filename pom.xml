@@ -76,6 +76,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
+      <dependency>
+        <groupId>org.glassfish.jersey.bundles.repackaged</groupId>
+        <artifactId>jersey-guava</artifactId>
+        <!-- TODO Figure out and clean up why we need this.. without it, you hit:
+             java.lang.NoSuchMethodError: jersey.repackaged.com.google.common.collect.Iterables.concat(Ljava/lang/Iterable;Ljava/lang/Iterable;)Ljava/lang/Iterable; -->
+        <version>2.8</version>
+      </dependency>
     </dependencies>
   </dependencyManagement>
 
