@@ -8,8 +8,11 @@
 package org.opendaylight.infrautils.web;
 
 import com.google.inject.AbstractModule;
+import org.opendaylight.aaa.web.WebContextSecurer;
 import org.opendaylight.aaa.web.WebServer;
 import org.opendaylight.aaa.web.jetty.JettyWebServer;
+import org.opendaylight.aaa.web.servlet.ServletSupport;
+import org.opendaylight.aaa.web.servlet.jersey2.JerseyServletSupport;
 
 /**
  * Wiring for a web server.
@@ -22,5 +25,11 @@ public class WebWiring extends AbstractModule {
     protected void configure() {
         // TODO read port from a -D parameter or configuration file instead of hard-coding
         bind(WebServer.class).toInstance(new JettyWebServer(8181));
+
+        // JSX-RS
+        bind(ServletSupport.class).to(JerseyServletSupport.class);
+
+        // TODO replace this NOOP WebContextSecurer with one with a fixed uid/pwd for HTTP BASIC (and ditch AAA)
+        bind(WebContextSecurer.class).toInstance((webContextBuilder, urlPatterns) -> { });
     }
 }
