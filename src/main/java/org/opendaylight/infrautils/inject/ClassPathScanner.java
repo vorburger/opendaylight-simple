@@ -7,7 +7,6 @@
  */
 package org.opendaylight.infrautils.inject;
 
-import com.google.inject.Binder;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
@@ -17,6 +16,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.function.BiConsumer;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
@@ -68,10 +68,10 @@ public class ClassPathScanner {
     /**
      * Binds the given interfaces in the given binder, using implementations discovered by scanning the class path.
      *
-     * @param binder The binder.
+     * @param binder The binder (modeled as a generic consumer).
      * @param interfaces The requested interfaces.
      */
-    public void bind(Binder binder, Class... interfaces) {
+    public <T> void bind(BiConsumer<Class<T>, Class<? extends T>> binder, Class... interfaces) {
         for (Class requestedInterface : interfaces) {
             bindImplementationFor(binder, requestedInterface);
         }
@@ -79,10 +79,10 @@ public class ClassPathScanner {
     }
 
     @SuppressWarnings("unchecked")
-    private void bindImplementationFor(Binder binder, Class requestedInterface) {
+    private <T> void bindImplementationFor(BiConsumer<Class<T>, Class<? extends T>> binder, Class requestedInterface) {
         Class implementation = implementations.get(requestedInterface.getName());
         if (implementation != null) {
-            binder.bind(requestedInterface).to(implementation);
+            binder.accept(requestedInterface, implementation);
             for (Constructor constructor : implementation.getDeclaredConstructors()) {
                 Annotation injectAnnotation = constructor.getAnnotation(Inject.class);
                 if (injectAnnotation != null) {
