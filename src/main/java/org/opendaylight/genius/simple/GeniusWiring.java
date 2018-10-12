@@ -13,6 +13,7 @@ import org.opendaylight.infrautils.inject.ClassPathScanner;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.InfraUtilsWiring;
 import org.opendaylight.mdsal.simple.MdsalWiring;
+import org.opendaylight.neutron.simple.NeutronModule;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
 import org.ops4j.pax.cdi.api.OsgiService;
@@ -39,6 +40,9 @@ public class GeniusWiring extends AbstractModule {
         // Daexim
         // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
         bind(DataImportBootReady.class).annotatedWith(OsgiService.class).toInstance(new DataImportBootReady() {});
+
+        // Neutron
+        install(new NeutronModule());
 
         // OpenFlowPlugin
         install(new OpenFlowPluginWiring());
