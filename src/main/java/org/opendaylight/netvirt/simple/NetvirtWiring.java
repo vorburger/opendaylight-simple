@@ -9,19 +9,19 @@ package org.opendaylight.netvirt.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.genius.simple.GeniusWiring;
-import org.opendaylight.infrautils.inject.ClassPathScanner;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 
 public class NetvirtWiring extends AbstractModule {
 
-    private final ClassPathScanner scanner;
+    private final GuiceClassPathBinder classPathBinder;
 
-    public NetvirtWiring(ClassPathScanner scanner) {
-        this.scanner = scanner;
+    public NetvirtWiring(GuiceClassPathBinder classPathBinder) {
+        this.classPathBinder = classPathBinder;
     }
 
     @Override
     protected void configure() {
-        install(new GeniusWiring(scanner));
+        install(new GeniusWiring(classPathBinder));
 
         install(new AclServiceWiring());
     }

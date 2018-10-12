@@ -7,7 +7,7 @@
  */
 package org.opendaylight.netvirt.simple;
 
-import org.opendaylight.infrautils.inject.ClassPathScanner;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.simple.Main;
 
 public final class NetvirtMain {
@@ -15,7 +15,7 @@ public final class NetvirtMain {
     private NetvirtMain() { }
 
     public static void main(String[] args) {
-        ClassPathScanner scanner = new ClassPathScanner("org.opendaylight");
-        new Main(new NetvirtWiring(scanner)).awaitShutdown();
+        GuiceClassPathBinder classPathBinder = new GuiceClassPathBinder("org.opendaylight");
+        new Main(new NetvirtWiring(classPathBinder)).awaitShutdown();
     }
 }

@@ -7,7 +7,7 @@
  */
 package org.opendaylight.genius.simple;
 
-import org.opendaylight.infrautils.inject.ClassPathScanner;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.simple.ShellMain;
 
 public final class GeniusMain {
@@ -15,7 +15,7 @@ public final class GeniusMain {
     private GeniusMain() { }
 
     public static void main(String[] args) {
-        ClassPathScanner scanner = new ClassPathScanner("org.opendaylight");
-        new ShellMain(new GeniusWiring(scanner)).awaitShutdown();
+        GuiceClassPathBinder classPathBinder = new GuiceClassPathBinder("org.opendaylight");
+        new ShellMain(new GeniusWiring(classPathBinder)).awaitShutdown();
     }
 }

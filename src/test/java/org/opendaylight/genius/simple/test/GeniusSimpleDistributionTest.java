@@ -12,7 +12,7 @@ import org.junit.Rule;
 import org.opendaylight.genius.interfacemanager.interfaces.InterfaceManagerService;
 import org.opendaylight.genius.itm.api.IITMProvider;
 import org.opendaylight.genius.simple.GeniusWiring;
-import org.opendaylight.infrautils.inject.ClassPathScanner;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.ShellTestWiring;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
@@ -27,9 +27,9 @@ public class GeniusSimpleDistributionTest extends AbstractSimpleDistributionTest
     // TODO https://github.com/google/guice/wiki/Grapher ...
     // TODO https://google.github.io/guice/api-docs/latest/javadoc/com/google/inject/tools/jmx/Manager.html
 
-    private static final ClassPathScanner SCANNER = new ClassPathScanner("org.opendaylight");
+    private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(new GeniusWiring(SCANNER), new ShellTestWiring());
+    public @Rule GuiceRule2 guice = new GuiceRule2(new GeniusWiring(CLASS_PATH_BINDER), new ShellTestWiring());
 
     @SuppressWarnings("unused")
     private @Inject InterfaceManagerService interfaceManagerService;
