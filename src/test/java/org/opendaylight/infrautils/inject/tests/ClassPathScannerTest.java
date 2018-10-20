@@ -7,7 +7,7 @@
  */
 package org.opendaylight.infrautils.inject.tests;
 
-import static org.junit.Assert.assertEquals;
+import static com.google.common.truth.Truth.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -26,6 +26,7 @@ public class ClassPathScannerTest {
 
     @Test
     public void verifyImplementationBinding() {
-        assertEquals(ClassPathScannerTestImplementation.class, bindings.get(ClassPathScannerTestTopInterface.class));
+        assertThat(bindings).containsExactly(
+                ClassPathScannerTestTopInterface.class, ClassPathScannerTestImplementation.class);
     }
 }
