@@ -41,4 +41,14 @@ public interface RestConfConfig {
     default String contextPath() {
         return "/restconf";
     }
+
+    default Version version() {
+        return Version.DRAFT_02;
+    }
+
+    enum Version {
+        // TODO Confirm what are appropriate names for these versions?
+        DRAFT_18, // RFC_8040 ?
+        DRAFT_02
+    }
 }
