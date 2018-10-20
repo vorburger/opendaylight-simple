@@ -7,6 +7,9 @@
  */
 package org.opendaylight.restconf.simple.test;
 
+import static com.google.common.truth.Truth.assertThat;
+import static org.opendaylight.infrautils.testutils.TestHttpClient.Method.GET;
+
 import java.io.IOException;
 import javax.inject.Inject;
 import org.junit.Rule;
@@ -35,7 +38,7 @@ public class RestConfModuleTest extends AbstractSimpleDistributionTest {
     @Inject TestHttpClient http;
 
     @Test public void testRestConf() throws IOException {
-        // TODO assertThat(http.responseCode(GET, "/restconf/modules/")).isEqualTo(200);
+        assertThat(http.responseCode(GET, "/restconf/modules/")).isEqualTo(200);
 
         // TODO test security; add auth support to TestHttpClient, check that w.o. auth it's 401
     }

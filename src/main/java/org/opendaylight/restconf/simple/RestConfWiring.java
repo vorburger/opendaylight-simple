@@ -29,7 +29,6 @@ import org.opendaylight.netconf.sal.restconf.impl.ControllerContext;
 import org.opendaylight.netconf.sal.restconf.impl.RestconfImpl;
 import org.opendaylight.netconf.sal.restconf.impl.RestconfProviderImpl;
 import org.opendaylight.netconf.sal.restconf.impl.StatisticsRestconfServiceWrapper;
-import org.opendaylight.restconf.nb.rfc8040.RestconfApplication;
 import org.opendaylight.restconf.nb.rfc8040.handlers.DOMDataBrokerHandler;
 import org.opendaylight.restconf.nb.rfc8040.handlers.DOMMountPointServiceHandler;
 import org.opendaylight.restconf.nb.rfc8040.handlers.NotificationServiceHandler;
@@ -99,8 +98,22 @@ public class RestConfWiring {
 
         // This is currently hard-coded to DRAFT_18; if we ever actually need to support the
         // older DRAFT_02 for anything, then (only) add it to the RestConfConfig and switch here
-        Application application = new RestconfApplication(schemaCtxHandler,
-                domMountPointServiceHandler, servicesWrapper);
+        Application application;
+        switch (config.version()) {
+            case DRAFT_02:
+                application = new org.opendaylight.netconf.sal.rest.impl.RestconfApplication(
+                        controllerContext, stats);
+                break;
+
+            case DRAFT_18:
+                application = new org.opendaylight.restconf.nb.rfc8040.RestconfApplication(
+                        schemaCtxHandler, domMountPointServiceHandler, servicesWrapper);
+                break;
+
+            default:
+                throw new UnsupportedOperationException(config.version().name());
+        }
+
         HttpServlet servlet = jaxRS.createHttpServletBuilder(application).build();
         this.webContext = WebContext.builder().contextPath(config.contextPath())
                 .addServlet(ServletDetails.builder().addUrlPattern("/*").servlet(servlet).build())
