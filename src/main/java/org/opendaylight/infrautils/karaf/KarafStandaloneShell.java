@@ -11,6 +11,8 @@ import static java.util.Objects.requireNonNull;
 
 import com.google.common.annotations.VisibleForTesting;
 import com.google.inject.Injector;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.Set;
 import org.apache.karaf.shell.api.action.Action;
 import org.apache.karaf.shell.api.console.Session;
@@ -37,6 +39,7 @@ public class KarafStandaloneShell {
     }
 
     @VisibleForTesting
+    // TODO This should ideally only be in src/test, not src/main ...
     public void testAllRegisteredCommands() throws Exception {
         karafMain.testAllRegisteredCommands();
     }
@@ -54,13 +57,22 @@ public class KarafStandaloneShell {
         }
 
         @SuppressWarnings("checkstyle:RegexpSingleLineJava")
+        // TODO This should ideally only be in src/test, not src/main ...
         private void testAllRegisteredCommands() throws Exception {
             SessionFactory sessionFactory = createSessionFactory(null);
-            Session session = createSession(sessionFactory, null, System.out, System.err, null);
+            Session session = createSession(sessionFactory, new EmptyInputStream(), System.out, System.err, null);
             discoverCommands(session, getClass().getClassLoader(), null);
             for (Action action : actions) {
                 manager.instantiate(action.getClass());
             }
+        }
+    }
+
+    // TODO when we're on Java 11, replace this with InputStream.nullInputStream()
+    private static class EmptyInputStream extends InputStream {
+        @Override
+        public int read() throws IOException {
+            return -1;
         }
     }
 }
