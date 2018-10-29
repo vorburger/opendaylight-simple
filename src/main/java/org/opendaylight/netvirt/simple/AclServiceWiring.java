@@ -26,5 +26,4 @@ public class AclServiceWiring extends AbstractModule {
         bind(AclInterfaceListener.class);
         bind(AclEventListener.class);
     }
-
 }

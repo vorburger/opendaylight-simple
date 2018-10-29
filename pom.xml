@@ -48,7 +48,7 @@
       <dependency>
         <groupId>org.opendaylight.mdsal</groupId>
         <artifactId>mdsal-artifacts</artifactId>
-        <version>2.6.0-SNAPSHOT</version>
+        <version>3.0.1</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -96,17 +96,15 @@
     </dependency>
 -->
 
-    <!-- TODO Replace pax-cdi-api with blueprint-maven-plugin-annotation after Neon-MRI -->
     <dependency>
-      <groupId>org.ops4j.pax.cdi</groupId>
-      <artifactId>pax-cdi-api</artifactId>
+      <groupId>org.apache.aries.blueprint</groupId>
+      <artifactId>blueprint-maven-plugin-annotation</artifactId>
       <optional>true</optional>
     </dependency>
     <!-- TODO Remove pax-web-api dependency eventually -->
     <dependency>
       <groupId>org.ops4j.pax.web</groupId>
       <artifactId>pax-web-api</artifactId>
-      <version>6.1.1</version>
     </dependency>
 
     <dependency>
@@ -232,7 +230,6 @@
     <dependency>
       <groupId>org.apache.logging.log4j</groupId>
       <artifactId>log4j-slf4j-impl</artifactId>
-      <version>2.11.1</version>
     </dependency>
 
     <dependency>
@@ -270,6 +267,7 @@
       <scope>compile</scope>
     </dependency>
 
+    <!-- TODO remove when infrautils' ClasspathHellDuplicatesCheckRule pulls in classgraph, see https://git.opendaylight.org/gerrit/#/c/76625/ -->
     <dependency>
       <groupId>io.github.classgraph</groupId>
       <artifactId>classgraph</artifactId>
@@ -301,8 +299,6 @@
       </plugin>
       <plugin>
         <artifactId>maven-jar-plugin</artifactId>
-        <!-- TODO remove version once odlparent is up-to-date (currently still 3.0.2) -->
-        <version>3.1.0</version>
         <configuration>
           <archive>
             <manifest>

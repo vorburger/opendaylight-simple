@@ -8,15 +8,14 @@
 package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
+import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.InfraUtilsWiring;
-import org.opendaylight.mdsal.simple.MdsalWiring;
 import org.opendaylight.neutron.simple.NeutronModule;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
-import org.ops4j.pax.cdi.api.OsgiService;
 
 public class GeniusWiring extends AbstractModule {
 
@@ -35,11 +34,11 @@ public class GeniusWiring extends AbstractModule {
         install(new InfraUtilsWiring());
 
         // MD SAL
-        install(new MdsalWiring());
+        install(new ControllerWiring());
 
         // Daexim
         // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
-        bind(DataImportBootReady.class).annotatedWith(OsgiService.class).toInstance(new DataImportBootReady() {});
+        bind(DataImportBootReady.class).toInstance(new DataImportBootReady() {});
 
         // Neutron
         install(new NeutronModule());

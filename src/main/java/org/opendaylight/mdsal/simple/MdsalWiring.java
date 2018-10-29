@@ -10,7 +10,6 @@ package org.opendaylight.mdsal.simple;
 import com.google.inject.AbstractModule;
 import com.google.inject.Provides;
 import javax.inject.Singleton;
-import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSerializer;
 import org.opendaylight.mdsal.eos.binding.api.EntityOwnershipService;
 import org.opendaylight.mdsal.eos.binding.dom.adapter.BindingDOMEntityOwnershipServiceAdapter;
@@ -21,8 +20,6 @@ public class MdsalWiring extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new ControllerWiring());
-
         bind(DOMEntityOwnershipService.class).to(SimpleDOMEntityOwnershipService.class);
     }
 
@@ -31,5 +28,4 @@ public class MdsalWiring extends AbstractModule {
             DOMEntityOwnershipService domService, BindingNormalizedNodeSerializer conversionCodec) {
         return new BindingDOMEntityOwnershipServiceAdapter(domService, conversionCodec);
     }
-
 }

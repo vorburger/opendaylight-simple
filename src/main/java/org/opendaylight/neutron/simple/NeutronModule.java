@@ -71,7 +71,6 @@ import org.opendaylight.neutron.transcriber.NeutronVpnIkePolicyInterface;
 import org.opendaylight.neutron.transcriber.NeutronVpnIpSecPolicyInterface;
 import org.opendaylight.neutron.transcriber.NeutronVpnIpSecSiteConnectionsInterface;
 import org.opendaylight.neutron.transcriber.NeutronVpnServiceInterface;
-import org.ops4j.pax.cdi.api.OsgiService;
 
 /**
  * Guice module for Neutron.
@@ -87,47 +86,37 @@ public class NeutronModule extends AbstractModule {
         // The following is currently copy/pasted from
         // org.opendaylight.neutron.e2etest.NeutronTestWiring
         // but likely will get replaced with automated classpath scanning anyway later
-        // (strangely though it needs .annotatedWith(OsgiService.class) everywhere, only here)
-        bind(INeutronNetworkCRUD.class).annotatedWith(OsgiService.class).to(NeutronNetworkInterface.class);
-        bind(INeutronSubnetCRUD.class).annotatedWith(OsgiService.class).to(NeutronSubnetInterface.class);
-        bind(INeutronPortCRUD.class).annotatedWith(OsgiService.class).to(NeutronPortInterface.class);
-        bind(INeutronRouterCRUD.class).annotatedWith(OsgiService.class).to(NeutronRouterInterface.class);
-        bind(INeutronFloatingIpCRUD.class).annotatedWith(OsgiService.class).to(NeutronFloatingIpInterface.class);
-        bind(INeutronSecurityGroupCRUD.class).annotatedWith(OsgiService.class).to(NeutronSecurityGroupInterface.class);
-        bind(INeutronSecurityRuleCRUD.class).annotatedWith(OsgiService.class).to(NeutronSecurityRuleInterface.class);
-        bind(INeutronFirewallCRUD.class).annotatedWith(OsgiService.class).to(NeutronFirewallInterface.class);
-        bind(INeutronFirewallPolicyCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronFirewallPolicyInterface.class);
-        bind(INeutronFirewallRuleCRUD.class).annotatedWith(OsgiService.class).to(NeutronFirewallRuleInterface.class);
-        bind(INeutronLoadBalancerCRUD.class).annotatedWith(OsgiService.class).to(NeutronLoadBalancerInterface.class);
-        bind(INeutronLoadBalancerListenerCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronLoadBalancerListenerInterface.class);
-        bind(INeutronLoadBalancerPoolCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronLoadBalancerPoolInterface.class);
-        bind(INeutronBgpvpnCRUD.class).annotatedWith(OsgiService.class).to(NeutronBgpvpnInterface.class);
-        bind(INeutronL2gatewayCRUD.class).annotatedWith(OsgiService.class).to(NeutronL2gatewayInterface.class);
-        bind(INeutronL2gatewayConnectionCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronL2gatewayConnectionInterface.class);
-        bind(INeutronLoadBalancerHealthMonitorCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronLoadBalancerHealthMonitorInterface.class);
-        bind(INeutronMeteringLabelCRUD.class).annotatedWith(OsgiService.class).to(NeutronMeteringLabelInterface.class);
-        bind(INeutronMeteringLabelRuleCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronMeteringLabelRuleInterface.class);
-        bind(INeutronVpnServiceCRUD.class).annotatedWith(OsgiService.class).to(NeutronVpnServiceInterface.class);
-        bind(INeutronVpnIkePolicyCRUD.class).annotatedWith(OsgiService.class).to(NeutronVpnIkePolicyInterface.class);
-        bind(INeutronVpnIpSecPolicyCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronVpnIpSecPolicyInterface.class);
-        bind(INeutronSFCFlowClassifierCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronSFCFlowClassifierInterface.class);
-        bind(INeutronSFCPortChainCRUD.class).annotatedWith(OsgiService.class).to(NeutronSFCPortChainInterface.class);
-        bind(INeutronSFCPortPairGroupCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronSFCPortPairGroupInterface.class);
-        bind(INeutronSFCPortPairCRUD.class).annotatedWith(OsgiService.class).to(NeutronSFCPortPairInterface.class);
-        bind(INeutronQosPolicyCRUD.class).annotatedWith(OsgiService.class).to(NeutronQosPolicyInterface.class);
-        bind(INeutronTrunkCRUD.class).annotatedWith(OsgiService.class).to(NeutronTrunkInterface.class);
-        bind(INeutronTapServiceCRUD.class).annotatedWith(OsgiService.class).to(NeutronTapServiceInterface.class);
-        bind(INeutronTapFlowCRUD.class).annotatedWith(OsgiService.class).to(NeutronTapFlowInterface.class);
-        bind(INeutronVpnIpSecSiteConnectionsCRUD.class).annotatedWith(OsgiService.class)
-                .to(NeutronVpnIpSecSiteConnectionsInterface.class);
+        // (strangely though it needs  everywhere, only here)
+        bind(INeutronNetworkCRUD.class).to(NeutronNetworkInterface.class);
+        bind(INeutronSubnetCRUD.class).to(NeutronSubnetInterface.class);
+        bind(INeutronPortCRUD.class).to(NeutronPortInterface.class);
+        bind(INeutronRouterCRUD.class).to(NeutronRouterInterface.class);
+        bind(INeutronFloatingIpCRUD.class).to(NeutronFloatingIpInterface.class);
+        bind(INeutronSecurityGroupCRUD.class).to(NeutronSecurityGroupInterface.class);
+        bind(INeutronSecurityRuleCRUD.class).to(NeutronSecurityRuleInterface.class);
+        bind(INeutronFirewallCRUD.class).to(NeutronFirewallInterface.class);
+        bind(INeutronFirewallPolicyCRUD.class).to(NeutronFirewallPolicyInterface.class);
+        bind(INeutronFirewallRuleCRUD.class).to(NeutronFirewallRuleInterface.class);
+        bind(INeutronLoadBalancerCRUD.class).to(NeutronLoadBalancerInterface.class);
+        bind(INeutronLoadBalancerListenerCRUD.class).to(NeutronLoadBalancerListenerInterface.class);
+        bind(INeutronLoadBalancerPoolCRUD.class).to(NeutronLoadBalancerPoolInterface.class);
+        bind(INeutronBgpvpnCRUD.class).to(NeutronBgpvpnInterface.class);
+        bind(INeutronL2gatewayCRUD.class).to(NeutronL2gatewayInterface.class);
+        bind(INeutronL2gatewayConnectionCRUD.class).to(NeutronL2gatewayConnectionInterface.class);
+        bind(INeutronLoadBalancerHealthMonitorCRUD.class).to(NeutronLoadBalancerHealthMonitorInterface.class);
+        bind(INeutronMeteringLabelCRUD.class).to(NeutronMeteringLabelInterface.class);
+        bind(INeutronMeteringLabelRuleCRUD.class).to(NeutronMeteringLabelRuleInterface.class);
+        bind(INeutronVpnServiceCRUD.class).to(NeutronVpnServiceInterface.class);
+        bind(INeutronVpnIkePolicyCRUD.class).to(NeutronVpnIkePolicyInterface.class);
+        bind(INeutronVpnIpSecPolicyCRUD.class).to(NeutronVpnIpSecPolicyInterface.class);
+        bind(INeutronSFCFlowClassifierCRUD.class).to(NeutronSFCFlowClassifierInterface.class);
+        bind(INeutronSFCPortChainCRUD.class).to(NeutronSFCPortChainInterface.class);
+        bind(INeutronSFCPortPairGroupCRUD.class).to(NeutronSFCPortPairGroupInterface.class);
+        bind(INeutronSFCPortPairCRUD.class).to(NeutronSFCPortPairInterface.class);
+        bind(INeutronQosPolicyCRUD.class).to(NeutronQosPolicyInterface.class);
+        bind(INeutronTrunkCRUD.class).to(NeutronTrunkInterface.class);
+        bind(INeutronTapServiceCRUD.class).to(NeutronTapServiceInterface.class);
+        bind(INeutronTapFlowCRUD.class).to(NeutronTapFlowInterface.class);
+        bind(INeutronVpnIpSecSiteConnectionsCRUD.class).to(NeutronVpnIpSecSiteConnectionsInterface.class);
     }
 }
