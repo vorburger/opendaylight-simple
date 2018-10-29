@@ -12,15 +12,12 @@ import org.opendaylight.infrautils.caches.CacheProvider;
 import org.opendaylight.infrautils.caches.baseimpl.CacheManagersRegistry;
 import org.opendaylight.infrautils.caches.baseimpl.internal.CacheManagersRegistryImpl;
 import org.opendaylight.infrautils.caches.standard.StandardCacheProvider;
-import org.ops4j.pax.cdi.api.OsgiService;
 
 public class CachesWiring extends AbstractModule {
 
     @Override
     protected void configure() {
         bind(CacheManagersRegistry.class).to(CacheManagersRegistryImpl.class);
-        bind(CacheProvider.class).annotatedWith(OsgiService.class).to(StandardCacheProvider.class);
         bind(CacheProvider.class).to(StandardCacheProvider.class);
     }
-
 }

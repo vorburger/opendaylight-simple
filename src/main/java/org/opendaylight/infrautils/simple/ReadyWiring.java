@@ -11,7 +11,6 @@ import com.google.inject.AbstractModule;
 import org.opendaylight.infrautils.inject.PostFullSystemInjectionListener;
 import org.opendaylight.infrautils.ready.SystemReadyMonitor;
 import org.opendaylight.infrautils.ready.spi.SimpleSystemReadyMonitor;
-import org.ops4j.pax.cdi.api.OsgiService;
 
 public class ReadyWiring extends AbstractModule implements PostFullSystemInjectionListener {
 
@@ -20,7 +19,6 @@ public class ReadyWiring extends AbstractModule implements PostFullSystemInjecti
     @Override
     protected void configure() {
         bind(SystemReadyMonitor.class).toInstance(systemReadyMonitor);
-        bind(SystemReadyMonitor.class).annotatedWith(OsgiService.class).toInstance(systemReadyMonitor);
         bind(PostFullSystemInjectionListener.class).toInstance(this);
     }
 

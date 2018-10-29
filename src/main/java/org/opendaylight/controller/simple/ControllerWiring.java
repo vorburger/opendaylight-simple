@@ -16,7 +16,7 @@ import org.opendaylight.controller.md.sal.binding.test.DataBrokerTestModule;
 import org.opendaylight.controller.md.sal.dom.broker.impl.DOMNotificationRouter;
 import org.opendaylight.infrautils.inject.guice.AbstractCloseableModule;
 import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSerializer;
-import org.ops4j.pax.cdi.api.OsgiService;
+import org.opendaylight.mdsal.simple.MdsalWiring;
 
 @SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
 public class ControllerWiring extends AbstractCloseableModule {
@@ -29,11 +29,12 @@ public class ControllerWiring extends AbstractCloseableModule {
 
     @Override
     protected void configureCloseables() {
+        install(new MdsalWiring());
+
         // TODO this is just for early stage POC! switch to real CDS wiring here, eventually..
         DataBrokerTestModule dataBrokerTestModule = new DataBrokerTestModule(true);
         DataBroker dataBroker = dataBrokerTestModule.getDataBroker();
         bind(DataBroker.class).toInstance(dataBroker);
-        bind(DataBroker.class).annotatedWith(OsgiService.class).toInstance(dataBroker);
 
         bindingToNormalizedNodeCodec = dataBrokerTestModule.getBindingToNormalizedNodeCodec();
         domNotificationPublishService = dataBrokerTestModule.getDOMNotificationRouter();

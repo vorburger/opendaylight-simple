@@ -9,7 +9,9 @@ package org.opendaylight.netvirt.simple.test;
 
 import org.junit.Ignore;
 import org.junit.Rule;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
+import org.opendaylight.infrautils.simple.ShellTestWiring;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.netvirt.simple.NetvirtWiring;
 
@@ -21,6 +23,8 @@ import org.opendaylight.netvirt.simple.NetvirtWiring;
 @Ignore // TODO un-ignore netvirt, once genius works...
 public class NetvirtSimpleDistributionTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(NetvirtWiring.class);
+    private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
+
+    public @Rule GuiceRule2 guice = new GuiceRule2(new NetvirtWiring(CLASS_PATH_BINDER), new ShellTestWiring());
 
 }
