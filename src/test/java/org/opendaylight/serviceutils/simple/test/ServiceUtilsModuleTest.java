@@ -23,7 +23,8 @@ import org.opendaylight.serviceutils.upgrade.UpgradeState;
  */
 public class ServiceUtilsModuleTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(ServiceUtilsWiring.class, ControllerWiring.class, AnnotationsModule.class);
+    public @Rule GuiceRule guice = new GuiceRule(ServiceUtilsWiring.class, ControllerWiring.class,
+            AnnotationsModule.class);
 
     @Inject UpgradeState upgradeState;
 

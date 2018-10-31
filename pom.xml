@@ -204,10 +204,6 @@
           <groupId>org.iq80.leveldb</groupId>
           <artifactId>leveldb-api</artifactId>
         </exclusion>
-        <exclusion>
-          <groupId>org.opendaylight.controller</groupId>
-          <artifactId>blueprint</artifactId>
-        </exclusion>
       </exclusions>
     </dependency>
 

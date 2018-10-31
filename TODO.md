@@ -13,7 +13,7 @@
 
 - [X] working /diagstatus and showSvcStatus (#39) [waiting for infrautils merges]
 
-- [ ] RestConfWiring with Web API
+- [X] RestConfWiring with Web API
 
 - [ ] make RestConfConfig readable from YAML using http://immutables.github.io/json.html and update @ConfigImmutableStyle for it, then upstream to infrautils
 
@@ -43,7 +43,7 @@
 - [ ] create a Binding Generator? (reflecting upon annotated classes)
 - [X] [re-implement ClassPathScanner](https://github.com/vorburger/opendaylight-simple/pull/18#issuecomment-426859615) using [ClassGraph](https://github.com/classgraph/classgraph) used in [INFRAUTILS-52](https://jira.opendaylight.org/browse/INFRAUTILS-52) (and rename it to something more appropriate)
 
-- [ ] read YANG XML configuration files using [DataStoreAppConfigDefaultXMLReader](https://git.opendaylight.org/gerrit/#/c/76416/3/opendaylight/blueprint/src/test/java/org/opendaylight/controller/blueprint/tests/DataStoreAppConfigDefaultXMLReaderTest.java)
+- [X] read YANG XML configuration files using [DataStoreAppConfigDefaultXMLReader](https://git.opendaylight.org/gerrit/#/c/76416/3/opendaylight/blueprint/src/test/java/org/opendaylight/controller/blueprint/tests/DataStoreAppConfigDefaultXMLReaderTest.java)
 
 - [ ] run genius CSIT
 
