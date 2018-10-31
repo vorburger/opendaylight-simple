@@ -55,6 +55,10 @@ public class ConfigReader {
     }
 
     public <T extends DataObject> T read(String resourcePathWithoutExtension, Class<T> yangType) {
+        return read(resourcePathWithoutExtension, yangType, null);
+    }
+
+    public <T extends DataObject> T read(String resourcePathWithoutExtension, Class<T> yangType, String listKeyValue) {
         String xmlResourcePath = resourcePathWithoutExtension + ".xml";
         URL xmlResourceURL = Resources.getResource(ConfigReader.class, xmlResourcePath);
 
@@ -78,8 +82,8 @@ public class ConfigReader {
         try {
             ConfigURLProvider configURLProvider = appConfigFileName -> Optional.of(xmlResourceURL);
             T configuration = new DataStoreAppConfigDefaultXMLReader<T>(xmlResourcePath, xmlResourcePath, schemaService,
-                    bindingSerializer, BindingContext.create(yangType.getName(), yangType, null), configURLProvider)
-                            .createDefaultInstance();
+                    bindingSerializer, BindingContext.create(yangType.getName(), yangType, listKeyValue),
+                        configURLProvider).createDefaultInstance();
             LOG.info("Read configuration from {} : {}", xmlResourceURL, configuration);
             return configuration;
         } catch (ConfigXMLReaderException | ParserConfigurationException | XMLStreamException | IOException

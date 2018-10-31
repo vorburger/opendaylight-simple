@@ -16,7 +16,6 @@ import org.opendaylight.infrautils.simple.InfraUtilsWiring;
 import org.opendaylight.neutron.simple.NeutronModule;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.restconf.simple.RestConfModule;
-import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
 
 public class GeniusWiring extends AbstractModule {
 
@@ -48,10 +47,7 @@ public class GeniusWiring extends AbstractModule {
         install(new NeutronModule());
 
         // OpenFlowPlugin
-        install(new OpenFlowPluginWiring());
-
-        // ServiceUtils
-        install(new ServiceUtilsWiring());
+        install(new OpenFlowPluginWiring(classPathBinder));
 
         // Genius
         install(new MdsalUtilWiring());
