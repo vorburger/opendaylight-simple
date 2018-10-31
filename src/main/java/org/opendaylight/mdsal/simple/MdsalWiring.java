@@ -21,17 +21,39 @@ import org.opendaylight.mdsal.eos.binding.api.EntityOwnershipService;
 import org.opendaylight.mdsal.eos.binding.dom.adapter.BindingDOMEntityOwnershipServiceAdapter;
 import org.opendaylight.mdsal.eos.dom.api.DOMEntityOwnershipService;
 import org.opendaylight.mdsal.eos.dom.simple.SimpleDOMEntityOwnershipService;
+import org.opendaylight.mdsal.singleton.common.api.ClusterSingletonServiceProvider;
+import org.opendaylight.mdsal.singleton.dom.impl.DOMClusterSingletonServiceProviderImpl;
 
 @SuppressWarnings("deprecation") // sure, but that's the point of this class...
 public class MdsalWiring extends AbstractModule {
 
     @Override
     protected void configure() {
+        // TODO This is WRONG; later need to use the DistributedEntityOwnershipService instead here!
         bind(DOMEntityOwnershipService.class).to(SimpleDOMEntityOwnershipService.class);
+    }
+/*
+    @Provides
+    @Singleton DataBroker getDataBroker(org.opendaylight.controller.md.sal.binding.api.DataBroker controllerDB) {
+        return new DataBrokerAdapter(controllerDB);
     }
 
     @Provides
+    @Singleton
+    @PingPong DataBroker getPingPongDataBroker(
+            @PingPong org.opendaylight.controller.md.sal.binding.api.DataBroker controllerDB) {
+        return new DataBrokerAdapter(controllerDB);
+    }
+*/
+    @Provides
     @Singleton DOMDataBroker getDOMDataBroker(org.opendaylight.controller.md.sal.dom.api.DOMDataBroker controllerDDB) {
+        return new DOMDataBrokerAdapter(controllerDDB);
+    }
+
+    @Provides
+    @Singleton
+    @PingPong DOMDataBroker getPingPongDOMDataBroker(
+            @PingPong org.opendaylight.controller.md.sal.dom.api.DOMDataBroker controllerDDB) {
         return new DOMDataBrokerAdapter(controllerDDB);
     }
 
@@ -53,4 +75,16 @@ public class MdsalWiring extends AbstractModule {
             DOMEntityOwnershipService domService, BindingNormalizedNodeSerializer conversionCodec) {
         return new BindingDOMEntityOwnershipServiceAdapter(domService, conversionCodec);
     }
+
+    @Provides
+    @Singleton ClusterSingletonServiceProvider getClusterSingletonServiceProvider(DOMEntityOwnershipService eos) {
+        return new DOMClusterSingletonServiceProviderImpl(eos);
+    }
+/*
+    @Provides
+    @Singleton
+    RpcProviderService getRpcProviderService(DOMRpcProviderService domRpcRegistry, BindingToNormalizedNodeCodec codec) {
+        return new BindingDOMRpcProviderServiceAdapter(domRpcRegistry, codec);
+    }
+*/
 }

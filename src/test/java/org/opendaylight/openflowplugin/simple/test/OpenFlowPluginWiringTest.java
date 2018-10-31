@@ -8,13 +8,21 @@
 package org.opendaylight.openflowplugin.simple.test;
 
 import org.junit.Rule;
+import org.opendaylight.controller.simple.ControllerWiring;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
+import org.opendaylight.infrautils.simple.DiagStatusWiring;
+import org.opendaylight.infrautils.simple.ReadyWiring;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
+import org.opendaylight.infrautils.web.WebWiring;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 
 public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(OpenFlowPluginWiring.class, AnnotationsModule.class);
+    private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
+
+    public @Rule GuiceRule guice = new GuiceRule(new OpenFlowPluginWiring(CLASS_PATH_BINDER), new ControllerWiring(),
+            new DiagStatusWiring(), new WebWiring(), new ReadyWiring(), new AnnotationsModule());
 
 }
