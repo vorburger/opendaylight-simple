@@ -29,4 +29,8 @@ public class GuiceClassPathBinder {
     public void bind(Binder binder, Class<?> requestedInterface) {
         scanner.bind((contract, implementation) -> binder.bind(contract).to(implementation), requestedInterface);
     }
+
+    public void bindAllSingletons(String prefix, Binder binder) {
+        scanner.bindAllSingletons(prefix, (contract, implementation) -> binder.bind(contract).to(implementation));
+    }
 }
