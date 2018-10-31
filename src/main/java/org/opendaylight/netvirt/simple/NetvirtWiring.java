@@ -7,16 +7,14 @@
  */
 package org.opendaylight.netvirt.simple;
 
-import com.google.inject.AbstractModule;
 import org.opendaylight.genius.simple.GeniusWiring;
+import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 
-public class NetvirtWiring extends AbstractModule {
-
-    private final GuiceClassPathBinder classPathBinder;
+public class NetvirtWiring extends AutoWiringModule {
 
     public NetvirtWiring(GuiceClassPathBinder classPathBinder) {
-        this.classPathBinder = classPathBinder;
+        super(classPathBinder);
     }
 
     @Override
@@ -25,5 +23,4 @@ public class NetvirtWiring extends AbstractModule {
 
         install(new AclServiceWiring());
     }
-
 }
