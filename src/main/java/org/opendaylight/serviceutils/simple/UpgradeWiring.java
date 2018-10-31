@@ -15,7 +15,6 @@ import org.opendaylight.controller.simple.ConfigReader;
 import org.opendaylight.serviceutils.upgrade.UpgradeState;
 import org.opendaylight.serviceutils.upgrade.impl.UpgradeStateListener;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.serviceutils.upgrade.rev180702.UpgradeConfig;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.serviceutils.upgrade.rev180702.UpgradeConfigBuilder;
 
 /**
  * Guice Module for the Upgrades API.
@@ -30,7 +29,7 @@ public class UpgradeWiring extends AbstractModule {
 
     @Provides
     @Singleton UpgradeConfig getUpgradeConfig(ConfigReader configReader) {
-        return new UpgradeConfigBuilder().setUpgradeInProgress(false).build();
+        return configReader.read("/initial/serviceutils-upgrade-config", UpgradeConfig.class);
     }
 
     @Provides
