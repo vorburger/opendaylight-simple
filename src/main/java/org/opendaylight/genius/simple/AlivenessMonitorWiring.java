@@ -7,19 +7,12 @@
  */
 package org.opendaylight.genius.simple;
 
-import com.google.inject.AbstractModule;
+import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 
-public class AlivenessMonitorWiring extends AbstractModule {
-
-    private final GuiceClassPathBinder classPathBinder;
+public class AlivenessMonitorWiring extends AutoWiringModule {
 
     public AlivenessMonitorWiring(GuiceClassPathBinder classPathBinder) {
-        this.classPathBinder = classPathBinder;
-    }
-
-    @Override
-    protected void configure() {
-        classPathBinder.bindAllSingletons("org.opendaylight.genius.alivenessmonitor", binder());
+        super(classPathBinder, "org.opendaylight.genius.alivenessmonitor");
     }
 }
