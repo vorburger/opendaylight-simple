@@ -13,5 +13,6 @@ public class ServiceUtilsWiring extends AbstractModule {
     @Override
     protected void configure() {
         install(new ServiceRecoveryWiring());
+        install(new UpgradeWiring());
     }
 }
