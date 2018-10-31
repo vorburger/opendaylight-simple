@@ -16,8 +16,12 @@ This includes support for custom Karaf CLI Commands, based on the [ch.vorburger.
 
 ## How to use
 
-    mvn clean package
+    mvn -s .travis-maven-settings.xml clean package
     cd target/poc-1.5.0-SNAPSHOT-simple/poc-1.5.0-SNAPSHOT
-    java -cp "lib/*" org.opendaylight.genius.simple.GeniusMain
+    java -cp "etc/initial/*:lib/*" org.opendaylight.genius.simple.GeniusMain
 
 You'll also find a `poc-*-simple.tar` in `target/` which contains `lib/*`.
+
+Configuration files, like e.g. the `serviceutils-upgrade-config.xml`, can be changed in the `etc/initial` directory (which is on the beginning of the classpath), where they are copied to on the first run.
+
+The use of the custom `.travis-maven-settings.xml` is required due to [issue TBD](https://github.com/vorburger/opendaylight-simple/issues/37).

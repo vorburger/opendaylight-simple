@@ -7,9 +7,13 @@
  */
 package org.opendaylight.controller.simple;
 
+import com.google.common.io.Files;
 import com.google.common.io.Resources;
+import java.io.File;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.net.URL;
+import java.nio.charset.StandardCharsets;
 import java.util.Optional;
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -22,6 +26,8 @@ import org.opendaylight.controller.blueprint.ext.DataStoreAppConfigDefaultXMLRea
 import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSerializer;
 import org.opendaylight.mdsal.dom.api.DOMSchemaService;
 import org.opendaylight.yangtools.yang.binding.DataObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.xml.sax.SAXException;
 
 /**
@@ -34,6 +40,11 @@ public class ConfigReader {
 
     // TODO this is currently only tested by the ServiceUtilsModuleTest; create a dedicated test when upstreamed
 
+    private static final Logger LOG = LoggerFactory.getLogger(ConfigReader.class);
+
+    // The idea is that this directory is *also* on the classpath, and *before* the main JARs (so that it can override)
+    private final File configurationFilesBaseDirectory = new File("etc/");
+
     private final DOMSchemaService schemaService;
     private final BindingNormalizedNodeSerializer bindingSerializer;
 
@@ -45,12 +56,32 @@ public class ConfigReader {
 
     public <T extends DataObject> T read(String resourcePathWithoutExtension, Class<T> yangType) {
         String xmlResourcePath = resourcePathWithoutExtension + ".xml";
-        ConfigURLProvider configURLProvider = appConfigFileName -> Optional
-                .of(Resources.getResource(ConfigReader.class, xmlResourcePath));
+        URL xmlResourceURL = Resources.getResource(ConfigReader.class, xmlResourcePath);
+
+        if (!xmlResourceURL.toExternalForm().contains("etc/")) {
+            File newConfigurationFile = new File(configurationFilesBaseDirectory, xmlResourcePath);
+            try {
+                File newConfigurationFileDirectory = newConfigurationFile.getParentFile();
+                if (newConfigurationFileDirectory.mkdirs()) {
+                    LOG.info("Created new directory for configuration files: {}", newConfigurationFileDirectory);
+                }
+                String configurationAsText = Resources.toString(xmlResourceURL, StandardCharsets.UTF_8);
+                Files.write(configurationAsText, newConfigurationFile, StandardCharsets.UTF_8);
+                LOG.warn("Copied configuration file to directory where it can be overriden on next start "
+                        + "(but this run isn't reading this, yet): {}", newConfigurationFile);
+            } catch (IOException e) {
+                LOG.error("Failed to copy configuration file {} to directory {}", xmlResourcePath,
+                        configurationFilesBaseDirectory, e);
+            }
+        }
+
         try {
-            return new DataStoreAppConfigDefaultXMLReader<T>(xmlResourcePath, xmlResourcePath, schemaService,
+            ConfigURLProvider configURLProvider = appConfigFileName -> Optional.of(xmlResourceURL);
+            T configuration = new DataStoreAppConfigDefaultXMLReader<T>(xmlResourcePath, xmlResourcePath, schemaService,
                     bindingSerializer, BindingContext.create(yangType.getName(), yangType, null), configURLProvider)
                             .createDefaultInstance();
+            LOG.info("Read configuration from {} : {}", xmlResourceURL, configuration);
+            return configuration;
         } catch (ConfigXMLReaderException | ParserConfigurationException | XMLStreamException | IOException
                 | SAXException | URISyntaxException e) {
             throw new IllegalArgumentException(
