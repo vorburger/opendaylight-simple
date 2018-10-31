@@ -66,7 +66,29 @@ public class ClassPathScanner {
     }
 
     /**
-     * Binds the given interfaces in the given binder, using implementations discovered by scanning the class path.
+     * Binds all {@link Singleton} annotated classes discovered by scanning the class path to all their interfaces.
+     *
+     * @param prefix the package prefix of Singleton implementations to consider
+     * @param binder The binder (modeled as a generic consumer)
+     */
+    public void bindAllSingletons(String prefix, BiConsumer<Class, Class> binder) {
+        implementations.forEach((interfaceName, singletonClass) -> {
+            if (singletonClass.getName().startsWith(prefix)) {
+                try {
+                    Class interfaceClass = Class.forName(interfaceName);
+                    binder.accept(interfaceClass, singletonClass);
+                    // TODO later probably lower this info to debug, but for now it's very useful..
+                    LOG.info("Bound {} to {}", interfaceClass, singletonClass);
+                } catch (ClassNotFoundException e) {
+                    LOG.warn("ClassNotFoundException on Class.forName: {}", interfaceName, e);
+                }
+            }
+        });
+        // we do not want nor have to scan the @Singleton's @Inject annotated constructor; will also auto-discover.
+    }
+
+    /**
+     * Binds the given interfaces, using implementations discovered by scanning the class path.
      *
      * @param binder The binder (modeled as a generic consumer).
      * @param interfaces The requested interfaces.
@@ -83,6 +105,8 @@ public class ClassPathScanner {
         Class implementation = implementations.get(requestedInterface.getName());
         if (implementation != null) {
             binder.accept(requestedInterface, implementation);
+            // TODO later probably lower this info to debug, but for now it's very useful..
+            LOG.info("Bound {} to {}", requestedInterface, implementation);
             for (Constructor constructor : implementation.getDeclaredConstructors()) {
                 Annotation injectAnnotation = constructor.getAnnotation(Inject.class);
                 if (injectAnnotation != null) {

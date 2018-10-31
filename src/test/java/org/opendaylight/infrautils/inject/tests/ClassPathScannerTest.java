@@ -11,21 +11,26 @@ import static com.google.common.truth.Truth.assertThat;
 
 import java.util.HashMap;
 import java.util.Map;
-import org.junit.Before;
 import org.junit.Test;
 import org.opendaylight.infrautils.inject.ClassPathScanner;
 
 public class ClassPathScannerTest {
-    private final Map<Class<?>, Class<?>> bindings = new HashMap<>();
 
-    @Before
-    public void setup() {
-        new ClassPathScanner("org.opendaylight.infrautils.inject.tests").bind(bindings::put,
-            ClassPathScannerTestTopInterface.class);
+    private static final String PREFIX = "org.opendaylight.infrautils.inject.tests";
+
+    @Test
+    public void testExplicitBinding() {
+        Map<Class<?>, Class<?>> bindings = new HashMap<>();
+        new ClassPathScanner(PREFIX).bind(bindings::put,
+                ClassPathScannerTestTopInterface.class);
+        assertThat(bindings).containsExactly(
+                ClassPathScannerTestTopInterface.class, ClassPathScannerTestImplementation.class);
     }
 
     @Test
-    public void verifyImplementationBinding() {
+    public void testImplicitBinding() {
+        Map<Class<?>, Class<?>> bindings = new HashMap<>();
+        new ClassPathScanner(PREFIX).bindAllSingletons(PREFIX, bindings::put);
         assertThat(bindings).containsExactly(
                 ClassPathScannerTestTopInterface.class, ClassPathScannerTestImplementation.class);
     }

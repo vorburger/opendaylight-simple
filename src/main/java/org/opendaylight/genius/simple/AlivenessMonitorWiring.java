@@ -9,7 +9,6 @@ package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.alivenessmonitor.rev160411.AlivenessMonitorService;
 
 public class AlivenessMonitorWiring extends AbstractModule {
 
@@ -21,7 +20,6 @@ public class AlivenessMonitorWiring extends AbstractModule {
 
     @Override
     protected void configure() {
-        classPathBinder.bind(binder(), AlivenessMonitorService.class);
+        classPathBinder.bindAllSingletons("org.opendaylight.genius.alivenessmonitor", binder());
     }
-
 }
