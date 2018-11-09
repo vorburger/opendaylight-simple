@@ -8,16 +8,14 @@
 package org.opendaylight.aaa.simple;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import javax.inject.Singleton;
-import org.opendaylight.aaa.encrypt.AAAEncryptionService;
-import org.opendaylight.aaa.encrypt.impl.AAAEncryptionServiceImpl;
-import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.yang.gen.v1.config.aaa.authn.encrypt.service.config.rev160915.AaaEncryptServiceConfig;
-import org.opendaylight.yang.gen.v1.config.aaa.authn.encrypt.service.config.rev160915.AaaEncryptServiceConfigBuilder;
 
 public class EncryptWiring extends AbstractModule {
 
+    @Override
+    protected void configure() {
+    }
+
+/*
     @Override
     protected void configure() {
         // as per aaa-encrypt-service-config.xml
@@ -33,4 +31,5 @@ public class EncryptWiring extends AbstractModule {
     public AAAEncryptionService aaaEncryptionService(AaaEncryptServiceConfig config, DataBroker db) {
         return new AAAEncryptionServiceImpl(config, db);
     }
+*/
 }
