@@ -8,16 +8,6 @@
 package org.opendaylight.aaa.simple;
 
 import com.google.inject.AbstractModule;
-import com.google.inject.Provides;
-import javax.inject.Singleton;
-import org.opendaylight.aaa.cert.api.ICertificateManager;
-import org.opendaylight.aaa.cert.impl.AaaCertRpcServiceImpl;
-import org.opendaylight.aaa.cert.impl.CertificateManagerService;
-import org.opendaylight.aaa.encrypt.AAAEncryptionService;
-import org.opendaylight.controller.md.sal.binding.api.DataBroker;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.yang.aaa.cert.rev151126.AaaCertServiceConfig;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.yang.aaa.cert.rev151126.AaaCertServiceConfigBuilder;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.yang.aaa.cert.rpc.rev151215.AaaCertRpcService;
 
 /**
  * Guice wiring equivalent of AAA Cert BP XML in
@@ -27,6 +17,11 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.yang.aaa.cert.rpc.rev151215
  */
 public class CertWiring extends AbstractModule {
 
+    @Override
+    protected void configure() {
+    }
+
+/*
     @Override
     protected void configure() {
         // as per aaa-cert-config.xml
@@ -47,4 +42,5 @@ public class CertWiring extends AbstractModule {
     public AaaCertRpcService aaaCertRpcService(AaaCertServiceConfig config, DataBroker db, AAAEncryptionService crypt) {
         return new AaaCertRpcServiceImpl(config, db, crypt);
     }
+*/
 }
