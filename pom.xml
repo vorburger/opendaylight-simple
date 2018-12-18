@@ -211,6 +211,10 @@
           <groupId>org.iq80.leveldb</groupId>
           <artifactId>leveldb-api</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.opendaylight.odlparent</groupId>
+          <artifactId>odl-karaf-feat-jdbc</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
 
