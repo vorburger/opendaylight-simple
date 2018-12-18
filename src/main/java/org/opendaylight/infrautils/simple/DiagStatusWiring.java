@@ -9,17 +9,14 @@ package org.opendaylight.infrautils.simple;
 
 import com.google.inject.AbstractModule;
 import com.google.inject.TypeLiteral;
-import com.google.inject.multibindings.Multibinder;
 import java.util.Collections;
 import java.util.List;
-import org.apache.karaf.shell.api.action.Action;
 import org.opendaylight.infrautils.diagstatus.ClusterMemberInfo;
 import org.opendaylight.infrautils.diagstatus.DiagStatusService;
 import org.opendaylight.infrautils.diagstatus.DiagStatusServiceMBean;
 import org.opendaylight.infrautils.diagstatus.ServiceStatusProvider;
 import org.opendaylight.infrautils.diagstatus.internal.DiagStatusServiceImpl;
 import org.opendaylight.infrautils.diagstatus.internal.DiagStatusServiceMBeanImpl;
-import org.opendaylight.infrautils.diagstatus.shell.DiagStatusCommand;
 import org.opendaylight.infrautils.diagstatus.spi.NoClusterMemberInfo;
 import org.opendaylight.infrautils.diagstatus.web.WebInitializer;
 
@@ -42,7 +39,12 @@ public class DiagStatusWiring extends AbstractModule {
         bind(new TypeLiteral<List<ServiceStatusProvider>>() {}).toInstance(Collections.emptyList());
 
         // Commands
-        Multibinder<Action> actionsBinder = Multibinder.newSetBinder(binder(), Action.class);
-        actionsBinder.addBinding().to(DiagStatusCommand.class);
+        // Multibinder<Action> actionsBinder = Multibinder.newSetBinder(binder(), Action.class);
+        // TODO DiagStatusCommand must be made to (again) implement
+        // org.apache.karaf.shell.api.action.Action, ideally via org.opendaylight.infrautils.shell.LoggingAction
+        // instead of the deprecated legacy Karaf API org.apache.karaf.shell.commands.Action, which
+        // we do not want to (can't) anymore depend in opendaylight-simple.
+        // This was changed in https://github.com/opendaylight/infrautils/commit/c88543dd8823585bbfd1d3cc72c56b922896df9c
+        // actionsBinder.addBinding().to(DiagStatusCommand.class);
     }
 }
