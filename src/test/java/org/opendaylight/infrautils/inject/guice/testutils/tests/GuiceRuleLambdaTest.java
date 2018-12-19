@@ -23,6 +23,7 @@ import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
  */
 public class GuiceRuleLambdaTest {
 
+    @SuppressWarnings("BindingToUnqualifiedCommonType")
     public @Rule GuiceRule guice = new GuiceRule2(
         binder -> binder.bind(String.class).toInstance("hello, world"),
         new AnnotationsModule());

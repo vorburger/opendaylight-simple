@@ -22,7 +22,6 @@ import org.opendaylight.openflowplugin.api.openflow.configuration.ConfigurationS
 import org.opendaylight.openflowplugin.impl.ForwardingPingPongDataBroker;
 import org.opendaylight.openflowplugin.impl.PingPongDataBroker;
 import org.opendaylight.openflowplugin.impl.configuration.ConfigurationServiceFactoryImpl;
-import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketOutput;
@@ -43,10 +42,6 @@ public class OpenFlowPluginWiring extends AutoWiringModule {
     @Override
     protected void configure() {
         super.configure(); // this does the auto-wiring
-
-        install(new ServiceUtilsWiring());
-
-        // TODO remove the remaining manual wiring as soon as these service have switched like https://git.opendaylight.org/gerrit/#/c/77386/
 
         // TODO remove NoPacketProcessingService and replace by real PacketProcessingServiceImpl
         bind(PacketProcessingService.class).to(NoPacketProcessingService.class);
