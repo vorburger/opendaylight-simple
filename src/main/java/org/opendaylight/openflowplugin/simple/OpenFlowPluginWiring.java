@@ -11,6 +11,7 @@ import com.google.common.util.concurrent.ListenableFuture;
 import com.google.inject.Provides;
 import javax.inject.Singleton;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
+import org.opendaylight.controller.simple.ConfigReader;
 import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.mdsal.simple.PingPong;
@@ -25,10 +26,7 @@ import org.opendaylight.openflowplugin.impl.configuration.ConfigurationServiceFa
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketInput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketOutput;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.NonZeroUint16Type;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.NonZeroUint32Type;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfig;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfigBuilder;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.app.forwardingrules.manager.config.rev160511.ForwardingRulesManagerConfig;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.app.forwardingrules.manager.config.rev160511.ForwardingRulesManagerConfigBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
@@ -55,34 +53,6 @@ public class OpenFlowPluginWiring extends AutoWiringModule {
         bind(ForwardingRulesManagerConfig.class).toInstance(
                 new ForwardingRulesManagerConfigBuilder().setDisableReconciliation(false).setStaleMarkingEnabled(false)
                         .setReconciliationRetryCount(5).setBundleBasedReconciliationEnabled(false).build());
-        // TODO ConfigReader for OpenflowProviderConfig XML - but there is none in OFP?  Hard-code, for now:
-        // perhaps we can just replace it with an empty XML??
-        bind(OpenflowProviderConfig.class).toInstance(new OpenflowProviderConfigBuilder()
-                .setRpcRequestsQuota(new NonZeroUint16Type(20000))
-                .setSwitchFeaturesMandatory(false)
-                .setGlobalNotificationQuota(64000L)
-                .setIsStatisticsPollingOn(true)
-                .setIsTableStatisticsPollingOn(true)
-                .setIsFlowStatisticsPollingOn(true)
-                .setIsGroupStatisticsPollingOn(true)
-                .setIsMeterStatisticsPollingOn(true)
-                .setIsPortStatisticsPollingOn(true)
-                .setIsQueueStatisticsPollingOn(true)
-                .setIsStatisticsRpcEnabled(false)
-                .setBarrierIntervalTimeoutLimit(new NonZeroUint32Type(500L))
-                .setBarrierCountLimit(new NonZeroUint16Type(25600))
-                .setEchoReplyTimeout(new NonZeroUint32Type(2000L))
-                .setThreadPoolMinThreads(1)
-                .setThreadPoolMaxThreads(new NonZeroUint16Type(32000))
-                .setThreadPoolTimeout(60L)
-                .setEnableFlowRemovedNotification(true)
-                .setSkipTableFeatures(true)
-                .setBasicTimerDelay(new NonZeroUint32Type(3000L))
-                .setMaximumTimerDelay(new NonZeroUint32Type(900000L))
-                .setUseSingleLayerSerialization(true)
-                .setEnableEqualRole(false)
-                .setDeviceConnectionRateLimitPerMin(0)
-                .build());
     }
 
     @Provides
@@ -99,6 +69,11 @@ public class OpenFlowPluginWiring extends AutoWiringModule {
     @Provides
     @Singleton SwitchConnectionProviderList getOpenFlowJavaWiring(OpenFlowJavaWiring openFlowJavaWiring) {
         return openFlowJavaWiring.getSwitchConnectionProviderList();
+    }
+
+    @Provides
+    @Singleton OpenflowProviderConfig getUpgradeConfig(ConfigReader configReader) {
+        return configReader.read("/initial/openflow-provider-config", OpenflowProviderConfig.class);
     }
 
     private static class NoPacketProcessingService implements PacketProcessingService {

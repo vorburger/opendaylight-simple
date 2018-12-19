@@ -7,7 +7,11 @@
  */
 package org.opendaylight.openflowplugin.simple.test;
 
+import static com.google.common.truth.Truth.assertThat;
+
+import javax.inject.Inject;
 import org.junit.Rule;
+import org.junit.Test;
 import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
@@ -18,6 +22,7 @@ import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTe
 import org.opendaylight.infrautils.web.WebWiring;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfig;
 
 public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
 
@@ -26,5 +31,11 @@ public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
     public @Rule GuiceRule guice = new GuiceRule(new OpenFlowPluginWiring(CLASS_PATH_BINDER), new ServiceUtilsWiring(),
             new ControllerWiring(), new DiagStatusWiring(), new WebWiring(), new ReadyWiring(),
             new AnnotationsModule());
+
+    @Inject OpenflowProviderConfig ofpConfig;
+
+    @Test public void testConfig() {
+        assertThat(ofpConfig.getGlobalNotificationQuota()).named("globalNotificationQuota").isEqualTo(64000L);
+    }
 
 }
