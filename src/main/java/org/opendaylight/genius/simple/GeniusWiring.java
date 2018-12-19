@@ -13,9 +13,9 @@ import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.InfraUtilsWiring;
-import org.opendaylight.neutron.simple.NeutronModule;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.restconf.simple.RestConfModule;
+import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
 
 public class GeniusWiring extends AbstractModule {
 
@@ -36,15 +36,15 @@ public class GeniusWiring extends AbstractModule {
         // MD SAL
         install(new ControllerWiring());
 
+        // ServiceUtils
+        install(new ServiceUtilsWiring());
+
         // RESTCONF
         install(new RestConfModule());
 
         // Daexim
         // TODO write real DaeximWiring, and replace this line with an install(new DaeximWiring());
         bind(DataImportBootReady.class).toInstance(new DataImportBootReady() {});
-
-        // Neutron
-        install(new NeutronModule());
 
         // OpenFlowPlugin
         install(new OpenFlowPluginWiring(classPathBinder));
