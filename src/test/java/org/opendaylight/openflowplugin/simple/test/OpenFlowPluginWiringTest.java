@@ -20,6 +20,7 @@ import org.opendaylight.infrautils.simple.DiagStatusWiring;
 import org.opendaylight.infrautils.simple.ReadyWiring;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.infrautils.web.WebWiring;
+import org.opendaylight.openflowplugin.api.openflow.OpenFlowPluginProvider;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfig;
@@ -33,6 +34,7 @@ public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
             new ControllerWiring(), new DiagStatusWiring(), new WebWiring(), new ReadyWiring(),
             new AnnotationsModule());
 
+    @Inject OpenFlowPluginProvider ofpProvider;
     @Inject OpenflowProviderConfig ofpConfig;
     @Inject ForwardingRulesManagerConfig frmConfig;
 

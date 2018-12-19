@@ -19,15 +19,15 @@
 
 - [ ] ditch AAA and use Filter from Jetty for BASIC auth instead
 
-- [ ] NeutronWiring with Web API (req. by netvirt, but not genius)
+- [X] NeutronModule with Web API (req. by netvirt, but not genius)
 
 - [ ] ovsdb https://github.com/vorburger/opendaylight-simple/issues/47
 
 - [ ] CDS instead of in-memory DS: [CONTROLLER-1831](https://jira.opendaylight.org/browse/CONTROLLER-1831)
 
 - [X] OpenFlowPlugin wiring ConfigurationServiceFactoryImpl (OPNFLWPLUG-1037)
-- [ ] OpenFlowPluginWiring PacketProcessingService <odl:action-provider>
-- [ ] OpenFlowPlugin wiring
+- [X] OpenFlowPluginWiring PacketProcessingService <odl:action-provider>
+- [X] OpenFlowPlugin wiring
 
 - [X] skitt's https://github.com/vorburger/opendaylight-simple/issues/38
 - [ ] DiagStatusWiring auto-discover ServiceStatusProvider
@@ -40,7 +40,6 @@
 - [ ] why does maven-assembly-plugin dependencySet attempt to constantly re-download all SNAPSHOT unless we use -nsu -o
 - [ ] MINOR: why does "java -jar lib/ch.vorburger.opendaylight.simple.poc-1.5.0-SNAPSHOT.jar" not work?  (MANIFEST.MF has all lib/*)
 
-- [ ] create a Binding Generator? (reflecting upon annotated classes)
 - [X] [re-implement ClassPathScanner](https://github.com/vorburger/opendaylight-simple/pull/18#issuecomment-426859615) using [ClassGraph](https://github.com/classgraph/classgraph) used in [INFRAUTILS-52](https://jira.opendaylight.org/browse/INFRAUTILS-52) (and rename it to something more appropriate)
 
 - [X] read YANG XML configuration files using [DataStoreAppConfigDefaultXMLReader](https://git.opendaylight.org/gerrit/#/c/76416/3/opendaylight/blueprint/src/test/java/org/opendaylight/controller/blueprint/tests/DataStoreAppConfigDefaultXMLReaderTest.java)
