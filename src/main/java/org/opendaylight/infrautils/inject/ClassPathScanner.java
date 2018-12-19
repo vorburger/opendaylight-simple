@@ -10,8 +10,6 @@ package org.opendaylight.infrautils.inject;
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
 import io.github.classgraph.ScanResult;
-import java.lang.annotation.Annotation;
-import java.lang.reflect.Constructor;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -85,36 +83,5 @@ public class ClassPathScanner {
             }
         });
         // we do not want nor have to scan the @Singleton's @Inject annotated constructor; will also auto-discover.
-    }
-
-    /**
-     * Binds the given interfaces, using implementations discovered by scanning the class path.
-     *
-     * @param binder The binder (modeled as a generic consumer).
-     * @param interfaces The requested interfaces.
-     */
-    public <T> void bind(BiConsumer<Class<T>, Class<? extends T>> binder, Class... interfaces) {
-        for (Class requestedInterface : interfaces) {
-            bindImplementationFor(binder, requestedInterface);
-        }
-        // TODO Perhaps return interfaces which weren’t bound?
-    }
-
-    @SuppressWarnings("unchecked")
-    private <T> void bindImplementationFor(BiConsumer<Class<T>, Class<? extends T>> binder, Class requestedInterface) {
-        Class implementation = implementations.get(requestedInterface.getName());
-        if (implementation != null) {
-            binder.accept(requestedInterface, implementation);
-            // TODO later probably lower this info to debug, but for now it's very useful..
-            LOG.info("Bound {} to {}", requestedInterface, implementation);
-            for (Constructor constructor : implementation.getDeclaredConstructors()) {
-                Annotation injectAnnotation = constructor.getAnnotation(Inject.class);
-                if (injectAnnotation != null) {
-                    for (Class parameterType : constructor.getParameterTypes()) {
-                        bindImplementationFor(binder, parameterType);
-                    }
-                }
-            }
-        }
     }
 }

@@ -19,15 +19,6 @@ public class ClassPathScannerTest {
     private static final String PREFIX = "org.opendaylight.infrautils.inject.tests";
 
     @Test
-    public void testExplicitBinding() {
-        Map<Class<?>, Class<?>> bindings = new HashMap<>();
-        new ClassPathScanner(PREFIX).bind(bindings::put,
-                ClassPathScannerTestTopInterface.class);
-        assertThat(bindings).containsExactly(
-                ClassPathScannerTestTopInterface.class, ClassPathScannerTestImplementation.class);
-    }
-
-    @Test
     public void testImplicitBinding() {
         Map<Class<?>, Class<?>> bindings = new HashMap<>();
         new ClassPathScanner(PREFIX).bindAllSingletons(PREFIX, bindings::put);
