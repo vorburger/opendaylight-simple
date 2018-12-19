@@ -17,7 +17,7 @@ This includes support for custom Karaf CLI Commands, based on the [ch.vorburger.
 ## How to use
 
     mvn -s .travis-maven-settings.xml clean package
-    cd target/poc-1.5.0-SNAPSHOT-simple/poc-1.5.0-SNAPSHOT
+    cd target/poc-1.0.0-SNAPSHOT-simple/poc-1.0.0-SNAPSHOT
     java -cp "etc/initial/*:lib/*" org.opendaylight.genius.simple.GeniusMain
 
 You'll also find a `poc-*-simple.tar` in `target/` which contains `lib/*`.
