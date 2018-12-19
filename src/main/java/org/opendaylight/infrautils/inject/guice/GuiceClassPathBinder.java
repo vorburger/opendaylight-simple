@@ -8,6 +8,7 @@
 package org.opendaylight.infrautils.inject.guice;
 
 import com.google.inject.Binder;
+import javax.inject.Singleton;
 import org.opendaylight.infrautils.inject.ClassPathScanner;
 
 /**
@@ -21,15 +22,11 @@ public class GuiceClassPathBinder {
     }
 
     /**
-     * Binds the implementation of the given interface, if any, in the given binder, along with all dependencies.
+     * Binds all {@link Singleton} annotated classes discovered by scanning the class path to all their interfaces.
      *
+     * @param prefix the package prefix of Singleton implementations to consider
      * @param binder The binder to set up.
-     * @param requestedInterface The requested interface.
      */
-    public void bind(Binder binder, Class<?> requestedInterface) {
-        scanner.bind((contract, implementation) -> binder.bind(contract).to(implementation), requestedInterface);
-    }
-
     public void bindAllSingletons(String prefix, Binder binder) {
         scanner.bindAllSingletons(prefix, (contract, implementation) -> binder.bind(contract).to(implementation));
     }
