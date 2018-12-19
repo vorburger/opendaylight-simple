@@ -23,6 +23,7 @@ import org.opendaylight.infrautils.web.WebWiring;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginWiring;
 import org.opendaylight.serviceutils.simple.ServiceUtilsWiring;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfig;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.app.forwardingrules.manager.config.rev160511.ForwardingRulesManagerConfig;
 
 public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
 
@@ -33,9 +34,11 @@ public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
             new AnnotationsModule());
 
     @Inject OpenflowProviderConfig ofpConfig;
+    @Inject ForwardingRulesManagerConfig frmConfig;
 
     @Test public void testConfig() {
         assertThat(ofpConfig.getGlobalNotificationQuota()).named("globalNotificationQuota").isEqualTo(64000L);
+        assertThat(frmConfig.getReconciliationRetryCount()).named("reconciliationRetryCount").isEqualTo(5);
     }
 
 }

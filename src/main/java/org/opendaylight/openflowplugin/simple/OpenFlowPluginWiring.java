@@ -28,7 +28,6 @@ import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.Tr
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.TransmitPacketOutput;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfig;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.app.forwardingrules.manager.config.rev160511.ForwardingRulesManagerConfig;
-import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.app.forwardingrules.manager.config.rev160511.ForwardingRulesManagerConfigBuilder;
 import org.opendaylight.yangtools.yang.common.RpcResult;
 
 public class OpenFlowPluginWiring extends AutoWiringModule {
@@ -46,13 +45,6 @@ public class OpenFlowPluginWiring extends AutoWiringModule {
 
         // TODO curious that this is needed despite SwitchConnectionProviderFactoryImpl being annotated?!
         bind(SwitchConnectionProviderFactory.class).to(SwitchConnectionProviderFactoryImpl.class);
-
-        // Configurations:
-        // TODO ConfigReader for ForwardingRulesManagerConfig XML - but there is none?  Hard-code defaults, for now:
-        // perhaps we can just replace it with an empty XML??
-        bind(ForwardingRulesManagerConfig.class).toInstance(
-                new ForwardingRulesManagerConfigBuilder().setDisableReconciliation(false).setStaleMarkingEnabled(false)
-                        .setReconciliationRetryCount(5).setBundleBasedReconciliationEnabled(false).build());
     }
 
     @Provides
@@ -74,6 +66,11 @@ public class OpenFlowPluginWiring extends AutoWiringModule {
     @Provides
     @Singleton OpenflowProviderConfig getUpgradeConfig(ConfigReader configReader) {
         return configReader.read("/initial/openflow-provider-config", OpenflowProviderConfig.class);
+    }
+
+    @Provides
+    @Singleton ForwardingRulesManagerConfig getForwardingRulesManagerConfig(ConfigReader configReader) {
+        return configReader.read("/initial/openflow-frm-config", ForwardingRulesManagerConfig.class);
     }
 
     private static class NoPacketProcessingService implements PacketProcessingService {
