@@ -13,7 +13,7 @@ import org.junit.Test;
 import org.junit.runners.model.Statement;
 import org.opendaylight.infrautils.inject.guice.AbstractCloseableModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 
 /**
  * Test PreDestroy in Module.
@@ -39,7 +39,7 @@ public class AbstractCloseableModuleTest {
     @Test public void testModuleWithPreDestroy() throws Throwable {
         @SuppressWarnings("resource")
         TestModule testModule = new TestModule();
-        new GuiceRule(testModule, new AnnotationsModule()).apply(EMPTY_STATEMENT, null, new Object()).evaluate();
+        new GuiceRule2(testModule, new AnnotationsModule()).apply(EMPTY_STATEMENT, null, new Object()).evaluate();
         assertThat(testModule.isClosed).isTrue();
     }
 

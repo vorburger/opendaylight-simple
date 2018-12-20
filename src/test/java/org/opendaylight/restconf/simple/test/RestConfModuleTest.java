@@ -17,7 +17,6 @@ import org.junit.Test;
 import org.opendaylight.aaa.web.WebServer;
 import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.infrautils.testutils.TestHttpClient;
@@ -31,7 +30,7 @@ import org.opendaylight.restconf.simple.RestConfModule;
  */
 public class RestConfModuleTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule2(
+    public @Rule GuiceRule2 guice = new GuiceRule2(
             RestConfModule.class, ControllerWiring.class, WebWiring.class, AnnotationsModule.class);
 
     @Inject WebServer webServer;
