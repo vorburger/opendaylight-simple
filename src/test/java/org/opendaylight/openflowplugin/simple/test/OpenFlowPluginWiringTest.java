@@ -15,7 +15,7 @@ import org.junit.Test;
 import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.DiagStatusWiring;
 import org.opendaylight.infrautils.simple.ReadyWiring;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
@@ -30,15 +30,15 @@ public class OpenFlowPluginWiringTest extends AbstractSimpleDistributionTest {
 
     private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
 
-    public @Rule GuiceRule guice = new GuiceRule(new OpenFlowPluginWiring(CLASS_PATH_BINDER), new ServiceUtilsWiring(),
-            new ControllerWiring(), new DiagStatusWiring(), new WebWiring(), new ReadyWiring(),
-            new AnnotationsModule());
+    public @Rule GuiceRule2 guice = new GuiceRule2(new OpenFlowPluginWiring(CLASS_PATH_BINDER),
+            new ServiceUtilsWiring(), new ControllerWiring(), new DiagStatusWiring(), new WebWiring(),
+            new ReadyWiring(), new AnnotationsModule());
 
     @Inject OpenFlowPluginProvider ofpProvider;
     @Inject OpenflowProviderConfig ofpConfig;
     @Inject ForwardingRulesManagerConfig frmConfig;
 
-    @Test public void testConfig() {
+    @Test public void testConfig() throws InterruptedException {
         assertThat(ofpConfig.getGlobalNotificationQuota()).named("globalNotificationQuota").isEqualTo(64000L);
         assertThat(frmConfig.getReconciliationRetryCount()).named("reconciliationRetryCount").isEqualTo(5);
     }

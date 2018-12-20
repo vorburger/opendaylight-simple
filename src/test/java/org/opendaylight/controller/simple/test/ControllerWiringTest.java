@@ -10,11 +10,11 @@ package org.opendaylight.controller.simple.test;
 import org.junit.Rule;
 import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 
 public class ControllerWiringTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(ControllerWiring.class, AnnotationsModule.class);
+    public @Rule GuiceRule2 guice = new GuiceRule2(ControllerWiring.class, AnnotationsModule.class);
 
 }

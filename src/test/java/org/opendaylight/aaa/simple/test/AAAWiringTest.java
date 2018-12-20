@@ -12,13 +12,13 @@ import org.junit.Rule;
 import org.opendaylight.aaa.simple.AAAWiring;
 import org.opendaylight.controller.simple.ControllerWiring;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 
 @Ignore // TODO fix NullPointerException at org.opendaylight.aaa.cert.impl.DefaultMdsalSslData.createKeyStores :155
 public class AAAWiringTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule guice = new GuiceRule(new AAAWiring(), new ControllerWiring(),
+    public @Rule GuiceRule2 guice = new GuiceRule2(new AAAWiring(), new ControllerWiring(),
             // TODO new WebWiring(true), new ReferencesWiring(),
             new AnnotationsModule());
 
