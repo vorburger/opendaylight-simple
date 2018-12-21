@@ -25,12 +25,6 @@ public class AutoWiringModule extends AbstractCheckedModule {
         this.packagePrefix = Optional.of(packagePrefix);
     }
 
-    @Deprecated // TODO Remove this, it makes little sense and should ultimately not really be required anymore
-    protected AutoWiringModule(GuiceClassPathBinder classPathBinder) {
-        this.classPathBinder = classPathBinder;
-        this.packagePrefix = Optional.empty();
-    }
-
     @Override
     protected final void checkedConfigure() throws Exception {
         packagePrefix.ifPresent(prefix -> classPathBinder.bindAllSingletons(prefix, binder()));
