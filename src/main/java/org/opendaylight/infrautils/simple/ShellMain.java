@@ -12,7 +12,7 @@ import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import java.util.Set;
 import javax.inject.Inject;
 import org.apache.karaf.shell.api.action.Action;
-import org.opendaylight.infrautils.karaf.KarafStandaloneShell;
+import org.opendaylight.infrautils.karaf.shell.KarafStandaloneShell;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

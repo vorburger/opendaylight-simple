@@ -5,7 +5,7 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-package org.opendaylight.infrautils.karaf;
+package org.opendaylight.infrautils.karaf.shell;
 
 import java.util.List;
 import java.util.concurrent.Callable;
