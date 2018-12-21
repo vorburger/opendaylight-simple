@@ -7,26 +7,33 @@
  */
 package org.opendaylight.genius.simple;
 
-import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import javax.inject.Singleton;
+import org.opendaylight.controller.simple.ConfigReader;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.daexim.DataImportBootReady;
+import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.InfraUtilsModule;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginModule;
 import org.opendaylight.restconf.simple.RestConfModule;
 import org.opendaylight.serviceutils.simple.ServiceUtilsModule;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.networkutils.config.rev181129.NetworkConfig;
 
-public class GeniusModule extends AbstractModule {
-
-    private final GuiceClassPathBinder classPathBinder;
+public class GeniusModule extends AutoWiringModule {
 
     public GeniusModule(GuiceClassPathBinder classPathBinder) {
-        this.classPathBinder = classPathBinder;
+        super(classPathBinder, "org.opendaylight.genius");
+    }
+
+    @Provides
+    @Singleton NetworkConfig getUpgradeConfig(ConfigReader configReader) {
+        return configReader.read("/initial/genius-network-config", NetworkConfig.class);
     }
 
     @Override
-    protected void configure() {
+    protected void configureMore() {
         // Guice
         install(new AnnotationsModule());
 
@@ -49,15 +56,9 @@ public class GeniusModule extends AbstractModule {
         // OpenFlowPlugin
         install(new OpenFlowPluginModule(classPathBinder));
 
-        // Genius
-        install(new MdsalUtilModule());
-        install(new LockManagerModule());
-        install(new IdManagerModule());
-        install(new AlivenessMonitorModule(classPathBinder));
+        // TODO remove these, by ... using ConfigReader as above
         install(new InterfaceManagerModule());
         install(new ItmModule());
-        install(new DatastoreUtilsModule());
-        // TODO install(new ResourceManagerWiring());
     }
 
 }
