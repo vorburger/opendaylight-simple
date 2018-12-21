@@ -18,7 +18,7 @@ public class NetvirtModule extends AutoWiringModule {
     }
 
     @Override
-    protected void configure() {
+    protected void configureMore() {
         install(new GeniusModule(classPathBinder));
 
         install(new AclServiceModule());

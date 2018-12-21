@@ -32,9 +32,7 @@ public class OpenFlowPluginModule extends AutoWiringModule {
     }
 
     @Override
-    protected void configure() {
-        super.configure(); // this does the auto-wiring
-
+    protected void configureMore() {
         // TODO curious that this is needed despite SwitchConnectionProviderFactoryImpl being annotated?!
         bind(SwitchConnectionProviderFactory.class).to(SwitchConnectionProviderFactoryImpl.class);
     }
