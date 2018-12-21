@@ -8,7 +8,7 @@
 package org.opendaylight.genius.simple;
 
 import com.google.inject.AbstractModule;
-import org.opendaylight.controller.simple.ControllerModule;
+import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
@@ -34,7 +34,7 @@ public class GeniusModule extends AbstractModule {
         install(new InfraUtilsModule());
 
         // MD SAL
-        install(new ControllerModule());
+        install(new InMemoryControllerModule());
 
         // ServiceUtils
         install(new ServiceUtilsModule());

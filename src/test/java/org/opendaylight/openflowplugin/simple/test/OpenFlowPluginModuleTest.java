@@ -12,7 +12,7 @@ import static com.google.common.truth.Truth.assertThat;
 import javax.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
-import org.opendaylight.controller.simple.ControllerModule;
+import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
@@ -31,7 +31,7 @@ public class OpenFlowPluginModuleTest extends AbstractSimpleDistributionTest {
     private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
 
     public @Rule GuiceRule2 guice = new GuiceRule2(new OpenFlowPluginModule(CLASS_PATH_BINDER),
-            new ServiceUtilsModule(), new ControllerModule(), new DiagStatusModule(), new WebModule(),
+            new ServiceUtilsModule(), new InMemoryControllerModule(), new DiagStatusModule(), new WebModule(),
             new ReadyModule(), new AnnotationsModule());
 
     @Inject OpenFlowPluginProvider ofpProvider;
