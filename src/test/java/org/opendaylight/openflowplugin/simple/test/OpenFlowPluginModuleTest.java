@@ -23,6 +23,7 @@ import org.opendaylight.infrautils.web.WebModule;
 import org.opendaylight.openflowplugin.api.openflow.OpenFlowPluginProvider;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginModule;
 import org.opendaylight.serviceutils.simple.ServiceUtilsModule;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfig;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.app.forwardingrules.manager.config.rev160511.ForwardingRulesManagerConfig;
 
@@ -34,6 +35,7 @@ public class OpenFlowPluginModuleTest extends AbstractSimpleDistributionTest {
             new ServiceUtilsModule(), new InMemoryControllerModule(), new DiagStatusModule(), new WebModule(),
             new ReadyModule(), new AnnotationsModule());
 
+    @Inject PacketProcessingService packetProcessingService; // OPNFLWPLUG-1059
     @Inject OpenFlowPluginProvider ofpProvider;
     @Inject OpenflowProviderConfig ofpConfig;
     @Inject ForwardingRulesManagerConfig frmConfig;
