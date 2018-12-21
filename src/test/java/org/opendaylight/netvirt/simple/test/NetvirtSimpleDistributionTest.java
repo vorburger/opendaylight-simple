@@ -11,9 +11,9 @@ import org.junit.Ignore;
 import org.junit.Rule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
-import org.opendaylight.infrautils.simple.ShellTestWiring;
+import org.opendaylight.infrautils.simple.ShellTestModule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
-import org.opendaylight.netvirt.simple.NetvirtWiring;
+import org.opendaylight.netvirt.simple.NetvirtModule;
 
 /**
  * Netvirt full distribution component test.
@@ -25,6 +25,6 @@ public class NetvirtSimpleDistributionTest extends AbstractSimpleDistributionTes
 
     private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(new NetvirtWiring(CLASS_PATH_BINDER), new ShellTestWiring());
+    public @Rule GuiceRule2 guice = new GuiceRule2(new NetvirtModule(CLASS_PATH_BINDER), new ShellTestModule());
 
 }

@@ -7,15 +7,20 @@
  */
 package org.opendaylight.netvirt.simple;
 
+import org.opendaylight.genius.simple.GeniusModule;
+import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
-import org.opendaylight.infrautils.simple.Main;
 
-public final class NetvirtMain {
+public class NetvirtModule extends AutoWiringModule {
 
-    private NetvirtMain() { }
+    public NetvirtModule(GuiceClassPathBinder classPathBinder) {
+        super(classPathBinder);
+    }
 
-    public static void main(String[] args) {
-        GuiceClassPathBinder classPathBinder = new GuiceClassPathBinder("org.opendaylight");
-        new Main(new NetvirtModule(classPathBinder)).awaitShutdown();
+    @Override
+    protected void configure() {
+        install(new GeniusModule(classPathBinder));
+
+        install(new AclServiceModule());
     }
 }

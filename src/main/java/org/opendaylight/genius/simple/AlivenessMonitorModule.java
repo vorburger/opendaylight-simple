@@ -5,17 +5,14 @@
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html
  */
-package org.opendaylight.netvirt.simple;
+package org.opendaylight.genius.simple;
 
+import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
-import org.opendaylight.infrautils.simple.Main;
 
-public final class NetvirtMain {
+public class AlivenessMonitorModule extends AutoWiringModule {
 
-    private NetvirtMain() { }
-
-    public static void main(String[] args) {
-        GuiceClassPathBinder classPathBinder = new GuiceClassPathBinder("org.opendaylight");
-        new Main(new NetvirtModule(classPathBinder)).awaitShutdown();
+    public AlivenessMonitorModule(GuiceClassPathBinder classPathBinder) {
+        super(classPathBinder, "org.opendaylight.genius.alivenessmonitor");
     }
 }

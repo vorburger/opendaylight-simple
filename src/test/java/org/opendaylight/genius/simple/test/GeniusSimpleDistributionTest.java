@@ -11,10 +11,10 @@ import javax.inject.Inject;
 import org.junit.Rule;
 import org.opendaylight.genius.interfacemanager.interfaces.InterfaceManagerService;
 import org.opendaylight.genius.itm.api.IITMProvider;
-import org.opendaylight.genius.simple.GeniusWiring;
+import org.opendaylight.genius.simple.GeniusModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
-import org.opendaylight.infrautils.simple.ShellTestWiring;
+import org.opendaylight.infrautils.simple.ShellTestModule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 
 /**
@@ -29,7 +29,7 @@ public class GeniusSimpleDistributionTest extends AbstractSimpleDistributionTest
 
     private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(new GeniusWiring(CLASS_PATH_BINDER), new ShellTestWiring());
+    public @Rule GuiceRule2 guice = new GuiceRule2(new GeniusModule(CLASS_PATH_BINDER), new ShellTestModule());
 
     @Inject InterfaceManagerService interfaceManagerService;
 
