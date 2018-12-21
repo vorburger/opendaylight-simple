@@ -7,15 +7,15 @@
  */
 package org.opendaylight.infrautils.inject.guice;
 
-import com.google.inject.AbstractModule;
 import java.util.Optional;
+import org.opendaylight.infrautils.inject.guice.testutils.AbstractCheckedModule;
 
 /**
  * Guice Module with classpath scanning based autowiring.
  *
  * @author Michael Vorburger.ch
  */
-public class AutoWiringModule extends AbstractModule {
+public class AutoWiringModule extends AbstractCheckedModule {
 
     protected final GuiceClassPathBinder classPathBinder;
     private final Optional<String> packagePrefix;
@@ -25,13 +25,18 @@ public class AutoWiringModule extends AbstractModule {
         this.packagePrefix = Optional.of(packagePrefix);
     }
 
+    @Deprecated // TODO Remove this, it makes little sense and should ultimately not really be required anymore
     protected AutoWiringModule(GuiceClassPathBinder classPathBinder) {
         this.classPathBinder = classPathBinder;
         this.packagePrefix = Optional.empty();
     }
 
     @Override
-    protected void configure() {
+    protected final void checkedConfigure() throws Exception {
         packagePrefix.ifPresent(prefix -> classPathBinder.bindAllSingletons(prefix, binder()));
+        configureMore();
+    }
+
+    protected void configureMore() throws Exception {
     }
 }
