@@ -7,6 +7,7 @@
  */
 package org.opendaylight.mdsal.simple.test;
 
+import java.util.concurrent.ExecutionException;
 import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,7 +25,7 @@ public class InMemoryMdsalModuleTest extends AbstractSimpleDistributionTest {
     DataBroker dataBroker;
 
     @Ignore // TODO sort out DataBrokerAdapter in MdsalModule
-    @Test public void testDataBroker() {
-        // dataBroker.newReadWriteTransaction().commit();
+    @Test public void testDataBroker() throws InterruptedException, ExecutionException {
+        // dataBroker.newReadWriteTransaction().commit().get();
     }
 }

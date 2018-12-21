@@ -7,6 +7,7 @@
  */
 package org.opendaylight.controller.simple.test;
 
+import java.util.concurrent.ExecutionException;
 import javax.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
@@ -22,7 +23,7 @@ public class InMemoryControllerModuleTest extends AbstractSimpleDistributionTest
 
     @Inject DataBroker dataBroker;
 
-    @Test public void testDataBroker() {
-        dataBroker.newReadWriteTransaction().commit();
+    @Test public void testDataBroker() throws InterruptedException, ExecutionException {
+        dataBroker.newReadWriteTransaction().commit().get();
     }
 }
