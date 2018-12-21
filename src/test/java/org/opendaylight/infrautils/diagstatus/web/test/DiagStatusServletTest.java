@@ -28,7 +28,7 @@ import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.testutils.Partials;
 import org.opendaylight.infrautils.testutils.TestHttpClient;
-import org.opendaylight.infrautils.web.WebWiring;
+import org.opendaylight.infrautils.web.WebModule;
 
 /**
  * Test for {@link DiagStatusServlet}.
@@ -39,7 +39,7 @@ public class DiagStatusServletTest {
 
     private static final TestDiagStatusService SRVC = Partials.newPartial(TestDiagStatusService.class);
 
-    public static class DiagStatusServletTestWiring extends AbstractModule {
+    public static class DiagStatusServletTestModule extends AbstractModule {
         @Override
         protected void configure() {
             bind(DiagStatusService.class).toInstance(SRVC);
@@ -48,7 +48,7 @@ public class DiagStatusServletTest {
     }
 
     public @Rule GuiceRule2 guice = new GuiceRule2(
-            WebWiring.class, DiagStatusServletTestWiring.class, AnnotationsModule.class);
+            WebModule.class, DiagStatusServletTestModule.class, AnnotationsModule.class);
 
     @Inject WebServer webServer;
     @Inject TestHttpClient http;

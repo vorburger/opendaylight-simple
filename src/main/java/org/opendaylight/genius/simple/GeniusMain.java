@@ -16,6 +16,6 @@ public final class GeniusMain {
 
     public static void main(String[] args) {
         GuiceClassPathBinder classPathBinder = new GuiceClassPathBinder("org.opendaylight");
-        new ShellMain(new GeniusWiring(classPathBinder)).awaitShutdown();
+        new ShellMain(new GeniusModule(classPathBinder)).awaitShutdown();
     }
 }

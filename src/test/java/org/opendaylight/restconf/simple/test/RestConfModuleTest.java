@@ -15,12 +15,12 @@ import javax.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendaylight.aaa.web.WebServer;
-import org.opendaylight.controller.simple.ControllerWiring;
+import org.opendaylight.controller.simple.ControllerModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.infrautils.testutils.TestHttpClient;
-import org.opendaylight.infrautils.web.WebWiring;
+import org.opendaylight.infrautils.web.WebModule;
 import org.opendaylight.restconf.simple.RestConfModule;
 
 /**
@@ -31,7 +31,7 @@ import org.opendaylight.restconf.simple.RestConfModule;
 public class RestConfModuleTest extends AbstractSimpleDistributionTest {
 
     public @Rule GuiceRule2 guice = new GuiceRule2(
-            RestConfModule.class, ControllerWiring.class, WebWiring.class, AnnotationsModule.class);
+            RestConfModule.class, ControllerModule.class, WebModule.class, AnnotationsModule.class);
 
     @Inject WebServer webServer;
     @Inject TestHttpClient http;
