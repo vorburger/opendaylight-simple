@@ -34,8 +34,7 @@ import org.opendaylight.mdsal.simple.MdsalModule;
 import org.opendaylight.mdsal.simple.PingPong;
 
 @SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
-public class ControllerModule extends AbstractCloseableModule {
-    // TODO rename this to InMemoryDataStoreModule - because that's what most of this really is
+public class InMemoryControllerModule extends AbstractCloseableModule {
 
     // TODO re-use org.opendaylight.controller.md.sal.binding.impl.BindingBrokerWiring
 

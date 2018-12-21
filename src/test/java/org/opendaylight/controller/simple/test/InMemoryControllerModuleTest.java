@@ -8,13 +8,13 @@
 package org.opendaylight.controller.simple.test;
 
 import org.junit.Rule;
-import org.opendaylight.controller.simple.ControllerModule;
+import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 
-public class ControllerModuleTest extends AbstractSimpleDistributionTest {
+public class InMemoryControllerModuleTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(ControllerModule.class, AnnotationsModule.class);
+    public @Rule GuiceRule2 guice = new GuiceRule2(InMemoryControllerModule.class, AnnotationsModule.class);
 
 }
