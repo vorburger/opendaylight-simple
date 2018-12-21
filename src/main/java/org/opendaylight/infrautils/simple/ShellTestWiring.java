@@ -13,7 +13,7 @@ import com.google.inject.Provides;
 import com.google.inject.Singleton;
 import java.util.Set;
 import org.apache.karaf.shell.api.action.Action;
-import org.opendaylight.infrautils.karaf.KarafStandaloneShell;
+import org.opendaylight.infrautils.karaf.shell.KarafStandaloneShell;
 
 /**
  * Guice wiring which tests shell commands wiring.
