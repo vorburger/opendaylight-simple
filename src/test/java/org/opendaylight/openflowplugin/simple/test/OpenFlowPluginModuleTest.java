@@ -9,11 +9,17 @@ package org.opendaylight.openflowplugin.simple.test;
 
 import static com.google.common.truth.Truth.assertThat;
 
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 import javax.inject.Inject;
+import junit.framework.AssertionFailedError;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendaylight.aaa.web.testutils.WebTestModule;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
+import org.opendaylight.infrautils.diagstatus.DiagStatusService;
+import org.opendaylight.infrautils.diagstatus.ServiceStatusSummary;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
@@ -21,6 +27,7 @@ import org.opendaylight.infrautils.ready.guice.ReadyModule;
 import org.opendaylight.infrautils.simple.DiagStatusModule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.openflowplugin.api.openflow.OpenFlowPluginProvider;
+import org.opendaylight.openflowplugin.impl.OpenFlowPluginProviderImpl;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginModule;
 import org.opendaylight.serviceutils.simple.ServiceUtilsModule;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
@@ -40,9 +47,21 @@ public class OpenFlowPluginModuleTest extends AbstractSimpleDistributionTest {
     @Inject OpenflowProviderConfig ofpConfig;
     @Inject ForwardingRulesManagerConfig frmConfig;
 
+    @Inject OpenFlowPluginProviderImpl openFlowPluginProviderImpl;
+    @Inject DiagStatusService diagStatus;
+
     @Test public void testConfig() throws InterruptedException {
         assertThat(ofpConfig.getGlobalNotificationQuota()).named("globalNotificationQuota").isEqualTo(64000L);
         assertThat(frmConfig.getReconciliationRetryCount()).named("reconciliationRetryCount").isEqualTo(5);
+    }
+
+    @Test public void testDiagStatus() throws InterruptedException, ExecutionException, TimeoutException {
+        openFlowPluginProviderImpl.getFullyStarted().get(60, TimeUnit.SECONDS);
+        ServiceStatusSummary status = diagStatus.getServiceStatusSummary();
+        if (!status.isOperational()) {
+            throw new AssertionFailedError(
+                    "diagStatus reports non operational, details: " + status);
+        }
     }
 
 }
