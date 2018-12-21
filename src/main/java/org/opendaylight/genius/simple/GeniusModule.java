@@ -7,11 +7,14 @@
  */
 package org.opendaylight.genius.simple;
 
-import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import javax.inject.Singleton;
+import org.opendaylight.controller.simple.ConfigReader;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.daexim.DataImportBootReady;
 import org.opendaylight.genius.arputil.internal.ArpUtilImpl;
 import org.opendaylight.genius.ipv6util.nd.Ipv6NdUtilServiceImpl;
+import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.InfraUtilsModule;
@@ -20,17 +23,27 @@ import org.opendaylight.restconf.simple.RestConfModule;
 import org.opendaylight.serviceutils.simple.ServiceUtilsModule;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.arputil.rev160406.OdlArputilService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.ipv6.nd.util.rev170210.Ipv6NdUtilService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.networkutils.config.rev181129.NetworkConfig;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.mdsalutil.rev170830.Config;
 
-public class GeniusModule extends AbstractModule {
-
-    private final GuiceClassPathBinder classPathBinder;
+public class GeniusModule extends AutoWiringModule {
 
     public GeniusModule(GuiceClassPathBinder classPathBinder) {
-        this.classPathBinder = classPathBinder;
+        super(classPathBinder, "org.opendaylight.genius");
+    }
+
+    @Provides
+    @Singleton NetworkConfig getUpgradeConfig(ConfigReader configReader) {
+        return configReader.read("/initial/genius-network-config", NetworkConfig.class);
+    }
+
+    @Provides
+    @Singleton Config mdsalUtilConfig(ConfigReader configReader) {
+        return configReader.read("/initial/genius-mdsalutil-config", Config.class);
     }
 
     @Override
-    protected void configure() {
+    protected void configureMore() {
         // Guice
         install(new AnnotationsModule());
 
@@ -53,15 +66,9 @@ public class GeniusModule extends AbstractModule {
         // OpenFlowPlugin
         install(new OpenFlowPluginModule(classPathBinder));
 
-        // Genius
-        install(new MdsalUtilModule());
-        install(new LockManagerModule());
-        install(new IdManagerModule());
-        install(new AlivenessMonitorModule(classPathBinder));
+        // TODO remove these, by ... using ConfigReader as above
         install(new InterfaceManagerModule());
         install(new ItmModule());
-        install(new DatastoreUtilsModule());
-        // TODO install(new ResourceManagerWiring());
 
         // ARP Util
         bind(OdlArputilService.class).to(ArpUtilImpl.class);
