@@ -14,7 +14,7 @@ import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 public class NetvirtModule extends AutoWiringModule {
 
     public NetvirtModule(GuiceClassPathBinder classPathBinder) {
-        super(classPathBinder);
+        super(classPathBinder, "org.opendaylight.netvirt");
     }
 
     @Override
