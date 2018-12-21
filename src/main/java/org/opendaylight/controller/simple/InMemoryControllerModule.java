@@ -10,9 +10,11 @@ package org.opendaylight.controller.simple;
 import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
+import org.opendaylight.controller.md.sal.binding.api.NotificationService;
 import org.opendaylight.controller.md.sal.binding.compat.HeliumRpcProviderRegistry;
 import org.opendaylight.controller.md.sal.binding.impl.BindingDOMDataBrokerAdapter;
 import org.opendaylight.controller.md.sal.binding.impl.BindingDOMNotificationPublishServiceAdapter;
+import org.opendaylight.controller.md.sal.binding.impl.BindingDOMNotificationServiceAdapter;
 import org.opendaylight.controller.md.sal.binding.impl.BindingDOMRpcProviderServiceAdapter;
 import org.opendaylight.controller.md.sal.binding.impl.BindingDOMRpcServiceAdapter;
 import org.opendaylight.controller.md.sal.binding.impl.BindingToNormalizedNodeCodec;
@@ -66,6 +68,8 @@ public class InMemoryControllerModule extends AbstractCloseableModule {
 
         domNotificationPublishService = dataBrokerTestModule.getDOMNotificationRouter();
         bind(DOMNotificationService.class).toInstance(domNotificationPublishService);
+        bind(NotificationService.class).toInstance(
+                new BindingDOMNotificationServiceAdapter(bindingToNormalizedNodeCodec, domNotificationPublishService));
 
         bindingDOMNotificationPublishServiceAdapter = new BindingDOMNotificationPublishServiceAdapter(
                 bindingToNormalizedNodeCodec, domNotificationPublishService);
