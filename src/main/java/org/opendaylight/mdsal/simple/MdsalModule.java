@@ -31,6 +31,9 @@ import org.opendaylight.mdsal.singleton.dom.impl.DOMClusterSingletonServiceProvi
 @SuppressWarnings("deprecation") // sure, but that's the point of this class...
 public class MdsalModule extends AbstractModule {
 
+    // TODO [LOW] like InMemoryControllerModule extends AbstractCloseableModule and close up..
+    // or rather, better, instead just annotate respective classes with @PreDestroy!
+
     @Override
     protected void configure() {
         // TODO This is WRONG; later need to use the DistributedEntityOwnershipService instead here!
