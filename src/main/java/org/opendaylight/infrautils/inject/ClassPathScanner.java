@@ -15,19 +15,13 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
  * Class path scanner designed to be used with Guice. This provides a way for modules to request the bindings they
- * need by scanning the class path; bindings are processed recursively on {@link Singleton} constructors, for all
- * all {@link Inject}-annotated constructors.
- *
- * <p>Implementations are only mapped to interfaces for which they are the sole available implementation. If the class
- * path contains multiple implementations of a requested interface, the scanner won’t bind any of them, and the
- * caller will have to bind one explicitly.
+ * need by scanning the class path.
  */
 @SuppressWarnings("rawtypes")
 public class ClassPathScanner {
@@ -36,7 +30,7 @@ public class ClassPathScanner {
     private final Map<String, Class> implementations = new HashMap<>();
 
     /**
-     * Create a class path scanner, scanning packages with the given prefix.
+     * Create a class path scanner, scanning packages with the given prefix for {@literal @}Singleton annotated classes.
      *
      * @param prefix The package prefix.
      */
