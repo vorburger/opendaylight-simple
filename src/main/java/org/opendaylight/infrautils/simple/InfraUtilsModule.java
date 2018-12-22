@@ -8,6 +8,7 @@
 package org.opendaylight.infrautils.simple;
 
 import com.google.inject.AbstractModule;
+import org.opendaylight.infrautils.ready.guice.ReadyModule;
 import org.opendaylight.infrautils.web.WebModule;
 
 public class InfraUtilsModule extends AbstractModule {
