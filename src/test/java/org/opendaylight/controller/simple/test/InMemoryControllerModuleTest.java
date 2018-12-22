@@ -17,12 +17,14 @@ import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
+import org.opendaylight.mdsal.simple.PingPong;
 
 public class InMemoryControllerModuleTest extends AbstractSimpleDistributionTest {
 
     public @Rule GuiceRule2 guice = new GuiceRule2(InMemoryControllerModule.class, AnnotationsModule.class);
 
     @Inject DataBroker dataBroker;
+    @Inject @PingPong DataBroker pingPongDataBroker;
     @Inject NotificationService notificationService;
 
     @Test public void testDataBroker() throws InterruptedException, ExecutionException {
