@@ -272,6 +272,10 @@
     </dependency>
 
     <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>inject.guice</artifactId>
+    </dependency>
+    <dependency>
       <groupId>com.google.inject.extensions</groupId>
       <artifactId>guice-multibindings</artifactId>
       <!-- TODO remove when we bumped to Guice 4.2.0,
@@ -304,13 +308,6 @@
       <groupId>com.mycila.guice.extensions</groupId>
       <artifactId>mycila-guice-jsr250</artifactId>
       <scope>compile</scope>
-    </dependency>
-
-    <!-- TODO remove when infrautils' ClasspathHellDuplicatesCheckRule pulls in classgraph, see https://git.opendaylight.org/gerrit/#/c/76625/ -->
-    <dependency>
-      <groupId>io.github.classgraph</groupId>
-      <artifactId>classgraph</artifactId>
-      <version>4.6.10</version>
     </dependency>
   </dependencies>
 
