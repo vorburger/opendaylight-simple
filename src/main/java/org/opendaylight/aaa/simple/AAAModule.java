@@ -13,7 +13,6 @@ public class AAAModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        install(new EncryptModule());
         install(new CertModule());
         install(new ShiroModule());
     }

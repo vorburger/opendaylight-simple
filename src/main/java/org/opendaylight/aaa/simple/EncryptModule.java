@@ -8,22 +8,19 @@
 package org.opendaylight.aaa.simple;
 
 import com.google.inject.AbstractModule;
+import com.google.inject.Provides;
+import javax.inject.Singleton;
+import org.opendaylight.aaa.encrypt.AAAEncryptionService;
+import org.opendaylight.aaa.encrypt.impl.AAAEncryptionServiceImpl;
+import org.opendaylight.controller.simple.ConfigReader;
+import org.opendaylight.mdsal.binding.api.DataBroker;
+import org.opendaylight.yang.gen.v1.config.aaa.authn.encrypt.service.config.rev160915.AaaEncryptServiceConfig;
 
 public class EncryptModule extends AbstractModule {
 
-    @Override
-    protected void configure() {
-    }
-
-/*
-    @Override
-    protected void configure() {
-        // as per aaa-encrypt-service-config.xml
-        // TODO read this from XML with that helper I once wrote somewhere for tests instead of duplicating here..
-        bind(AaaEncryptServiceConfig.class).toInstance(new AaaEncryptServiceConfigBuilder()
-                .setEncryptKey("V1S1ED4OMeEh").setPasswordLength(12).setEncryptSalt("TdtWeHbch/7xP52/rp3Usw==")
-                .setEncryptMethod("PBKDF2WithHmacSHA1").setEncryptType("AES").setEncryptIterationCount(32768)
-                .setEncryptKeyLength(128).setCipherTransforms("AES/CBC/PKCS5Padding").build());
+    @Provides
+    @Singleton AaaEncryptServiceConfig getEncryptServiceConfig(ConfigReader configReader) {
+        return configReader.read("/initial/aaa-encrypt-service-config", AaaEncryptServiceConfig.class);
     }
 
     @Provides
@@ -31,5 +28,8 @@ public class EncryptModule extends AbstractModule {
     public AAAEncryptionService aaaEncryptionService(AaaEncryptServiceConfig config, DataBroker db) {
         return new AAAEncryptionServiceImpl(config, db);
     }
-*/
+
+    @Override
+    protected void configure() {
+    }
 }
