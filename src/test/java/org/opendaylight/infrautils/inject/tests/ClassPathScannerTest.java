@@ -10,7 +10,9 @@ package org.opendaylight.infrautils.inject.tests;
 import static com.google.common.truth.Truth.assertThat;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 import org.junit.Test;
 import org.opendaylight.infrautils.inject.ClassPathScanner;
 
@@ -19,11 +21,22 @@ public class ClassPathScannerTest {
     private static final String PREFIX = "org.opendaylight.infrautils.inject.tests";
 
     @Test
-    public void testImplicitBinding() {
+    public void testClasspathScanning() {
+        Set<Class<?>> singletons = new HashSet<>();
         Map<Class<?>, Class<?>> bindings = new HashMap<>();
-        new ClassPathScanner(PREFIX).bindAllSingletons(PREFIX, bindings::put);
+        new ClassPathScanner(PREFIX).bindAllSingletons(PREFIX, bindings::put, singletons::add);
         assertThat(bindings).containsExactly(
                 ClassPathScannerTestTopInterface.class, ClassPathScannerTestImplementation.class,
                 ClassPathScannerTestAnotherInterface.class, ClassPathScannerTestImplementation.class);
+        assertThat(singletons).containsExactly(ClassPathScannerTestNoInterfacesImplementation.class);
+    }
+
+    @Test
+    public void testClasspathExclusion() {
+        Set<Class<?>> singletons = new HashSet<>();
+        Map<Class<?>, Class<?>> bindings = new HashMap<>();
+        new ClassPathScanner(PREFIX).bindAllSingletons("nope", bindings::put, singletons::add);
+        assertThat(bindings).isEmpty();
+        assertThat(singletons).isEmpty();
     }
 }

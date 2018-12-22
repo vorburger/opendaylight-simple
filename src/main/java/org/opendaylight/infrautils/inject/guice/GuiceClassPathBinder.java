@@ -29,6 +29,8 @@ public class GuiceClassPathBinder {
      */
     @SuppressWarnings("unchecked")
     public void bindAllSingletons(String prefix, Binder binder) {
-        scanner.bindAllSingletons(prefix, (contract, implementation) -> binder.bind(contract).to(implementation));
+        scanner.bindAllSingletons(prefix,
+            (contract, implementation) -> binder.bind(contract).to(implementation),
+            singleton -> binder.bind(singleton));
     }
 }

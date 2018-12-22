@@ -9,12 +9,14 @@ package org.opendaylight.infrautils.inject;
 
 import io.github.classgraph.ClassGraph;
 import io.github.classgraph.ClassInfo;
+import io.github.classgraph.ClassInfoList;
 import io.github.classgraph.ScanResult;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.function.BiConsumer;
+import java.util.function.Consumer;
 import javax.inject.Singleton;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,6 +30,7 @@ public class ClassPathScanner {
     private static final Logger LOG = LoggerFactory.getLogger(ClassPathScanner.class);
 
     private final Map<String, Class> implementations = new HashMap<>();
+    private final Set<Class<?>> singletons = new HashSet<>();
 
     /**
      * Create a class path scanner, scanning packages with the given prefix for {@literal @}Singleton annotated classes.
@@ -43,13 +46,18 @@ public class ClassPathScanner {
                      .scan()) {
             Set<String> duplicateInterfaces = new HashSet<>();
             for (ClassInfo singletonInfo : scanResult.getClassesWithAnnotation(Singleton.class.getName())) {
-                for (ClassInfo interfaceInfo : singletonInfo.getInterfaces()) {
-                    String interfaceName = interfaceInfo.getName();
-                    if (!duplicateInterfaces.contains(interfaceName)) {
-                        if (implementations.put(interfaceName, singletonInfo.loadClass()) != null) {
-                            LOG.debug("{} is declared multiple times, ignoring it", interfaceName);
-                            implementations.remove(interfaceName);
-                            duplicateInterfaces.add(interfaceName);
+                ClassInfoList interfaces = singletonInfo.getInterfaces();
+                if (interfaces.isEmpty()) {
+                    singletons.add(singletonInfo.loadClass());
+                } else {
+                    for (ClassInfo interfaceInfo : interfaces) {
+                        String interfaceName = interfaceInfo.getName();
+                        if (!duplicateInterfaces.contains(interfaceName)) {
+                            if (implementations.put(interfaceName, singletonInfo.loadClass()) != null) {
+                                LOG.debug("{} is declared multiple times, ignoring it", interfaceName);
+                                implementations.remove(interfaceName);
+                                duplicateInterfaces.add(interfaceName);
+                            }
                         }
                     }
                 }
@@ -63,7 +71,7 @@ public class ClassPathScanner {
      * @param prefix the package prefix of Singleton implementations to consider
      * @param binder The binder (modeled as a generic consumer)
      */
-    public void bindAllSingletons(String prefix, BiConsumer<Class, Class> binder) {
+    public void bindAllSingletons(String prefix, BiConsumer<Class, Class> binder, Consumer<Class> singletonConsumer) {
         implementations.forEach((interfaceName, singletonClass) -> {
             if (singletonClass.getName().startsWith(prefix)) {
                 try {
@@ -76,6 +84,7 @@ public class ClassPathScanner {
                 }
             }
         });
-        // we do not want nor have to scan the @Singleton's @Inject annotated constructor; will also auto-discover.
+        singletons.stream().filter(singletonClass -> singletonClass.getName().startsWith(prefix))
+                .forEach(singletonClass -> singletonConsumer.accept(singletonClass));
     }
 }
