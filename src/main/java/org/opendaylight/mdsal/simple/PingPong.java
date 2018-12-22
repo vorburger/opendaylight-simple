@@ -7,6 +7,7 @@
  */
 package org.opendaylight.mdsal.simple;
 
+import static java.lang.annotation.ElementType.FIELD;
 import static java.lang.annotation.ElementType.METHOD;
 import static java.lang.annotation.ElementType.PARAMETER;
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
@@ -33,7 +34,7 @@ import org.opendaylight.mdsal.binding.api.DataBroker;
 @Qualifier
 @Documented
 @Retention(RUNTIME)
-@Target({ PARAMETER, METHOD })
+@Target({ PARAMETER, METHOD, FIELD })
 public @interface PingPong {
 
 }

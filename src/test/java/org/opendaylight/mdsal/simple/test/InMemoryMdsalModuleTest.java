@@ -16,11 +16,13 @@ import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.mdsal.binding.api.DataBroker;
+import org.opendaylight.mdsal.simple.PingPong;
 
 public class InMemoryMdsalModuleTest extends AbstractSimpleDistributionTest {
 
     public @Rule GuiceRule2 guice = new GuiceRule2(InMemoryControllerModule.class, AnnotationsModule.class);
 
+    @Inject @PingPong DataBroker pingPongDataBroker;
     @Inject DataBroker dataBroker;
 
     @Test public void testDataBroker() throws InterruptedException, ExecutionException {

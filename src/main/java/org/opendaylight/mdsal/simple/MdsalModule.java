@@ -20,6 +20,7 @@ import org.opendaylight.mdsal.dom.api.DOMDataBroker;
 import org.opendaylight.mdsal.dom.api.DOMMountPointService;
 import org.opendaylight.mdsal.dom.api.DOMNotificationService;
 import org.opendaylight.mdsal.dom.broker.DOMMountPointServiceImpl;
+import org.opendaylight.mdsal.dom.broker.pingpong.PingPongDataBroker;
 import org.opendaylight.mdsal.eos.binding.api.EntityOwnershipService;
 import org.opendaylight.mdsal.eos.binding.dom.adapter.BindingDOMEntityOwnershipServiceAdapter;
 import org.opendaylight.mdsal.eos.dom.api.DOMEntityOwnershipService;
@@ -40,14 +41,6 @@ public class MdsalModule extends AbstractModule {
     @Singleton DataBroker getDataBroker(DOMDataBroker domDataBroker, BindingToNormalizedNodeCodec codec) {
         return new BindingDOMDataBrokerAdapter(domDataBroker, codec);
     }
-/*
-    @Provides
-    @Singleton
-    @PingPong DataBroker getPingPongDataBroker(
-            @PingPong org.opendaylight.controller.md.sal.binding.api.DataBroker controllerDB) {
-        return new DataBrokerAdapter(controllerDB);
-    }
-*/
 
     @Provides
     @Singleton DOMDataBroker getDOMDataBroker(org.opendaylight.controller.md.sal.dom.api.DOMDataBroker controllerDDB) {
@@ -56,9 +49,15 @@ public class MdsalModule extends AbstractModule {
 
     @Provides
     @Singleton
-    @PingPong DOMDataBroker getPingPongDOMDataBroker(
-            @PingPong org.opendaylight.controller.md.sal.dom.api.DOMDataBroker controllerDDB) {
-        return new DOMDataBrokerAdapter(controllerDDB);
+    @PingPong DOMDataBroker getDOMPingPongDataBroker(DOMDataBroker domDataBroker) {
+        return new PingPongDataBroker(domDataBroker);
+    }
+
+    @Provides
+    @Singleton
+    @PingPong
+    DataBroker getPingPongDOMDataBroker(@PingPong DOMDataBroker domDataBroker, BindingToNormalizedNodeCodec codec) {
+        return new BindingDOMDataBrokerAdapter(domDataBroker, codec);
     }
 
     @Provides
