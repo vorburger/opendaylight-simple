@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.opendaylight.aaa.web.WebServer;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
+import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
@@ -30,8 +31,10 @@ import org.opendaylight.neutron.simple.NeutronModule;
  */
 public class NeutronModuleTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(
-            NeutronModule.class, InMemoryControllerModule.class, WebModule.class, AnnotationsModule.class);
+    private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
+
+    public @Rule GuiceRule2 guice = new GuiceRule2(new NeutronModule(CLASS_PATH_BINDER),
+            new InMemoryControllerModule(), new WebModule(), new AnnotationsModule());
 
     @Inject WebServer webServer;
     @Inject TestHttpClient http;
