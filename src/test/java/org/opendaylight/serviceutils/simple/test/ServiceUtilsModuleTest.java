@@ -11,7 +11,7 @@ import javax.inject.Inject;
 import org.junit.Rule;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.serviceutils.simple.ServiceUtilsModule;
 import org.opendaylight.serviceutils.upgrade.UpgradeState;
@@ -23,7 +23,7 @@ import org.opendaylight.serviceutils.upgrade.UpgradeState;
  */
 public class ServiceUtilsModuleTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(ServiceUtilsModule.class, InMemoryControllerModule.class,
+    public @Rule GuiceRule guice = new GuiceRule(ServiceUtilsModule.class, InMemoryControllerModule.class,
             AnnotationsModule.class);
 
     @Inject UpgradeState upgradeState;

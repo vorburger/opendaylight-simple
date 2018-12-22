@@ -15,9 +15,9 @@ import org.junit.Test;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
+import org.opendaylight.infrautils.ready.guice.ReadyModule;
 import org.opendaylight.infrautils.simple.DiagStatusModule;
-import org.opendaylight.infrautils.simple.ReadyModule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 import org.opendaylight.infrautils.web.WebModule;
 import org.opendaylight.openflowplugin.api.openflow.OpenFlowPluginProvider;
@@ -30,7 +30,7 @@ public class OpenFlowPluginModuleTest extends AbstractSimpleDistributionTest {
 
     private static final GuiceClassPathBinder CLASS_PATH_BINDER = new GuiceClassPathBinder("org.opendaylight");
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(new OpenFlowPluginModule(CLASS_PATH_BINDER),
+    public @Rule GuiceRule guice = new GuiceRule(new OpenFlowPluginModule(CLASS_PATH_BINDER),
             new ServiceUtilsModule(), new InMemoryControllerModule(), new DiagStatusModule(), new WebModule(),
             new ReadyModule(), new AnnotationsModule());
 

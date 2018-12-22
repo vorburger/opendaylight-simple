@@ -9,8 +9,8 @@ package org.opendaylight.infrautils.simple.test;
 
 import org.junit.Test;
 import org.opendaylight.infrautils.inject.guice.testutils.AbstractGuiceJsr250Module;
+import org.opendaylight.infrautils.ready.guice.ReadyModule;
 import org.opendaylight.infrautils.simple.Main;
-import org.opendaylight.infrautils.simple.ReadyModule;
 
 /**
  * Unit test for Main.
