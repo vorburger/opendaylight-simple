@@ -170,6 +170,12 @@
           <groupId>org.opendaylight.netvirt</groupId>
           <artifactId>neutronvpn-impl</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>org.opendaylight.netvirt</groupId>
+          <!-- bgpmanager needs Thrift, which for some reason is not transitively pulled (TODO find out why);
+               But we, currently at least, have no interest in bgpmanager anyway, so exclude it here, for now. -->
+          <artifactId>bgpmanager-impl</artifactId>
+        </exclusion>
         <!-- karaf.shell.console leads to various duplicate classpath entries; we only support shell.core -->
         <exclusion>
           <groupId>org.apache.karaf.shell</groupId>
