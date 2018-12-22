@@ -12,6 +12,9 @@ import com.google.inject.Provides;
 import javax.inject.Singleton;
 import org.opendaylight.controller.sal.core.compat.DOMDataBrokerAdapter;
 import org.opendaylight.controller.sal.core.compat.DOMNotificationServiceAdapter;
+import org.opendaylight.mdsal.binding.api.DataBroker;
+import org.opendaylight.mdsal.binding.dom.adapter.BindingDOMDataBrokerAdapter;
+import org.opendaylight.mdsal.binding.dom.adapter.BindingToNormalizedNodeCodec;
 import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSerializer;
 import org.opendaylight.mdsal.dom.api.DOMDataBroker;
 import org.opendaylight.mdsal.dom.api.DOMMountPointService;
@@ -32,12 +35,12 @@ public class MdsalModule extends AbstractModule {
         // TODO This is WRONG; later need to use the DistributedEntityOwnershipService instead here!
         bind(DOMEntityOwnershipService.class).to(SimpleDOMEntityOwnershipService.class);
     }
-/*
-    @Provides
-    @Singleton DataBroker getDataBroker(org.opendaylight.controller.md.sal.binding.api.DataBroker controllerDB) {
-        return new DataBrokerAdapter(controllerDB);
-    }
 
+    @Provides
+    @Singleton DataBroker getDataBroker(DOMDataBroker domDataBroker, BindingToNormalizedNodeCodec codec) {
+        return new BindingDOMDataBrokerAdapter(domDataBroker, codec);
+    }
+/*
     @Provides
     @Singleton
     @PingPong DataBroker getPingPongDataBroker(
@@ -45,6 +48,7 @@ public class MdsalModule extends AbstractModule {
         return new DataBrokerAdapter(controllerDB);
     }
 */
+
     @Provides
     @Singleton DOMDataBroker getDOMDataBroker(org.opendaylight.controller.md.sal.dom.api.DOMDataBroker controllerDDB) {
         return new DOMDataBrokerAdapter(controllerDDB);
@@ -55,6 +59,13 @@ public class MdsalModule extends AbstractModule {
     @PingPong DOMDataBroker getPingPongDOMDataBroker(
             @PingPong org.opendaylight.controller.md.sal.dom.api.DOMDataBroker controllerDDB) {
         return new DOMDataBrokerAdapter(controllerDDB);
+    }
+
+    @Provides
+    @Singleton
+    BindingToNormalizedNodeCodec getBindingToNormalizedNodeCodec(
+            org.opendaylight.controller.md.sal.binding.impl.BindingToNormalizedNodeCodec controllerCodec) {
+        return controllerCodec;
     }
 
     @Provides
