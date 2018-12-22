@@ -25,7 +25,7 @@ import org.opendaylight.infrautils.diagstatus.ServiceDescriptor;
 import org.opendaylight.infrautils.diagstatus.web.DiagStatusServlet;
 import org.opendaylight.infrautils.diagstatus.web.WebInitializer;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.testutils.Partials;
 import org.opendaylight.infrautils.testutils.TestHttpClient;
 import org.opendaylight.infrautils.web.WebModule;
@@ -47,7 +47,7 @@ public class DiagStatusServletTest {
         }
     }
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(
+    public @Rule GuiceRule guice = new GuiceRule(
             WebModule.class, DiagStatusServletTestModule.class, AnnotationsModule.class);
 
     @Inject WebServer webServer;

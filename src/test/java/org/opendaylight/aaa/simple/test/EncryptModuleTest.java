@@ -13,12 +13,12 @@ import org.opendaylight.aaa.encrypt.AAAEncryptionService;
 import org.opendaylight.aaa.simple.EncryptModule;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 import org.opendaylight.infrautils.simple.testutils.AbstractSimpleDistributionTest;
 
 public class EncryptModuleTest extends AbstractSimpleDistributionTest {
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(
+    public @Rule GuiceRule guice = new GuiceRule(
             new EncryptModule(), new InMemoryControllerModule(), new AnnotationsModule());
 
     @Inject AAAEncryptionService encryptionService;

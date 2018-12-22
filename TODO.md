@@ -54,7 +54,7 @@
 
 - [ ] dependency convergence with Maven Enforcer plugin
 
-- [ ] add all *Wiring+++ upstream, and make the project disappear (incl GuiceRule2 etc.)
+- [ ] add all *Wiring+++ upstream, and make the project disappear
 
 - [ ] headless distribution without shell
 

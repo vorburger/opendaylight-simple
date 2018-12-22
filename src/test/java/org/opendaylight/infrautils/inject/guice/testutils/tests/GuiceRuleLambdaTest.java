@@ -13,7 +13,7 @@ import javax.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
-import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
+import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule;
 
 /**
  * Test illustrating how to use the GuiceRule with an inline lamda binding.
@@ -23,7 +23,7 @@ import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 public class GuiceRuleLambdaTest {
 
     @SuppressWarnings("BindingToUnqualifiedCommonType")
-    public @Rule GuiceRule2 guice = new GuiceRule2(
+    public @Rule GuiceRule guice = new GuiceRule(
         binder -> binder.bind(String.class).toInstance("hello, world"),
         new AnnotationsModule());
 
