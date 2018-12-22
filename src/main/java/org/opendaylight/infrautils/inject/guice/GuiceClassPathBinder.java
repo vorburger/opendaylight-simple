@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2017 Red Hat, Inc. and others. All rights reserved.
+ * Copyright (c) 2018 Red Hat, Inc. and others. All rights reserved.
  *
  * This program and the accompanying materials are made available under the
  * terms of the Eclipse Public License v1.0 which accompanies this distribution,
@@ -27,6 +27,7 @@ public class GuiceClassPathBinder {
      * @param prefix the package prefix of Singleton implementations to consider
      * @param binder The binder to set up.
      */
+    @SuppressWarnings("unchecked")
     public void bindAllSingletons(String prefix, Binder binder) {
         scanner.bindAllSingletons(prefix, (contract, implementation) -> binder.bind(contract).to(implementation));
     }
