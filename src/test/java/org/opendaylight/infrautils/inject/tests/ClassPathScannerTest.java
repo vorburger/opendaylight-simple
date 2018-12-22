@@ -23,6 +23,7 @@ public class ClassPathScannerTest {
         Map<Class<?>, Class<?>> bindings = new HashMap<>();
         new ClassPathScanner(PREFIX).bindAllSingletons(PREFIX, bindings::put);
         assertThat(bindings).containsExactly(
-                ClassPathScannerTestTopInterface.class, ClassPathScannerTestImplementation.class);
+                ClassPathScannerTestTopInterface.class, ClassPathScannerTestImplementation.class,
+                ClassPathScannerTestAnotherInterface.class, ClassPathScannerTestImplementation.class);
     }
 }

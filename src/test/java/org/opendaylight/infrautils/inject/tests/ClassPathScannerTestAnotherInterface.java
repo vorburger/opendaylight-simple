@@ -7,9 +7,5 @@
  */
 package org.opendaylight.infrautils.inject.tests;
 
-import javax.inject.Singleton;
-
-@Singleton
-public class ClassPathScannerTestImplementation
-        implements ClassPathScannerTestTopInterface, ClassPathScannerTestAnotherInterface {
+public interface ClassPathScannerTestAnotherInterface {
 }
