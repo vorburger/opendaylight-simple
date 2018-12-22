@@ -61,6 +61,8 @@ public class InMemoryControllerModule extends AbstractCloseableModule {
         bind(DataBroker.class).toInstance(dataBroker);
 
         bindingToNormalizedNodeCodec = dataBrokerTestModule.getBindingToNormalizedNodeCodec();
+        bind(BindingToNormalizedNodeCodec.class).toInstance(bindingToNormalizedNodeCodec);
+
         PingPongDataBroker domPingPongDataBroker = new PingPongDataBroker(domDefaultDataBroker);
         bind(DOMDataBroker.class).annotatedWith(PingPong.class).toInstance(domPingPongDataBroker);
         bind(DataBroker.class).annotatedWith(PingPong.class)

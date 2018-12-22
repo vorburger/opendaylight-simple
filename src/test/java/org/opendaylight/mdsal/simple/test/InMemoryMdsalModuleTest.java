@@ -8,7 +8,7 @@
 package org.opendaylight.mdsal.simple.test;
 
 import java.util.concurrent.ExecutionException;
-import org.junit.Ignore;
+import javax.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
@@ -21,11 +21,9 @@ public class InMemoryMdsalModuleTest extends AbstractSimpleDistributionTest {
 
     public @Rule GuiceRule2 guice = new GuiceRule2(InMemoryControllerModule.class, AnnotationsModule.class);
 
-    // TODO @Inject
-    DataBroker dataBroker;
+    @Inject DataBroker dataBroker;
 
-    @Ignore // TODO sort out DataBrokerAdapter in MdsalModule
     @Test public void testDataBroker() throws InterruptedException, ExecutionException {
-        // dataBroker.newReadWriteTransaction().commit().get();
+        dataBroker.newReadWriteTransaction().commit().get();
     }
 }
