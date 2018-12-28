@@ -246,7 +246,7 @@
       <groupId>io.dropwizard.metrics</groupId>
       <artifactId>metrics-jvm</artifactId>
       <!-- This version must be kept in line with the one used in metrics-impl -->
-      <version>4.0.3</version>
+      <version>4.0.5</version>
     </dependency>
 
     <!-- Implementation specials, these are not transitively inherited via the Karaf feature dependency -->
