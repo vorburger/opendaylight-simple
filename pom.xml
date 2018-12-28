@@ -240,7 +240,7 @@
       <groupId>io.dropwizard.metrics</groupId>
       <artifactId>metrics-core</artifactId>
       <!-- This version must be kept in line with the one used in metrics-impl -->
-      <version>4.0.3</version>
+      <version>4.0.5</version>
     </dependency>
     <dependency>
       <groupId>io.dropwizard.metrics</groupId>
