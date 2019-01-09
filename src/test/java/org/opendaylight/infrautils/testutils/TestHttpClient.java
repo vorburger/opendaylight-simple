@@ -8,11 +8,11 @@
 package org.opendaylight.infrautils.testutils;
 
 import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import javax.inject.Inject;
 import javax.inject.Singleton;
 import org.opendaylight.aaa.web.WebServer;
+import org.opendaylight.infrautils.testutils.web.TestWebClient;
+import org.opendaylight.infrautils.testutils.web.TestWebClient.Method;
 
 /**
  * HTTP Client.
@@ -22,21 +22,14 @@ import org.opendaylight.aaa.web.WebServer;
 @Singleton
 public class TestHttpClient {
 
-    public enum Method {
-        GET, POST, HEAD, OPTIONS, PUT, DELETE, TRACE
-    }
-
-    private final WebServer webServer;
+    private final TestWebClient webClient;
 
     @Inject
     public TestHttpClient(WebServer webServer) {
-        this.webServer = webServer;
+        this.webClient = new TestWebClient(webServer.getBaseURL());
     }
 
     public int responseCode(Method httpMethod, String path) throws IOException {
-        URL url = new URL(webServer.getBaseURL() + path);
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod(httpMethod.name());
-        return conn.getResponseCode();
+        return webClient.request(httpMethod, path).getStatus();
     }
 }
