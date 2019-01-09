@@ -8,7 +8,7 @@
 package org.opendaylight.neutron.simple.test;
 
 import static com.google.common.truth.Truth.assertThat;
-import static org.opendaylight.infrautils.testutils.TestHttpClient.Method.GET;
+import static org.opendaylight.infrautils.testutils.web.TestWebClient.Method.GET;
 
 import java.io.IOException;
 import javax.inject.Inject;

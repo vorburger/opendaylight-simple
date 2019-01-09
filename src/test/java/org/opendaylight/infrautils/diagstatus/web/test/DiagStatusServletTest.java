@@ -9,8 +9,8 @@ package org.opendaylight.infrautils.diagstatus.web.test;
 
 import static com.google.common.truth.Truth.assertThat;
 import static org.opendaylight.infrautils.diagstatus.web.WebInitializer.DIAGSTATUS_URL;
-import static org.opendaylight.infrautils.testutils.TestHttpClient.Method.GET;
-import static org.opendaylight.infrautils.testutils.TestHttpClient.Method.HEAD;
+import static org.opendaylight.infrautils.testutils.web.TestWebClient.Method.GET;
+import static org.opendaylight.infrautils.testutils.web.TestWebClient.Method.HEAD;
 
 import com.google.inject.AbstractModule;
 import java.io.IOException;
