@@ -9,6 +9,8 @@ package org.opendaylight.restconf.simple;
 
 import com.google.inject.AbstractModule;
 import java.net.InetAddress;
+import org.opendaylight.netconf.sal.restconf.api.Bierman02RestConfWiring;
+import org.opendaylight.netconf.sal.restconf.api.RestConfConfig;
 
 /**
  * Guice module for RestConf, based on {@link RestConfWiring}.
@@ -19,11 +21,19 @@ public class RestConfModule extends AbstractModule {
 
     @Override
     protected void configure() {
-        bind(RestConfWiring.class);
-        bind(RestConfConfig.class).toInstance(RestConfConfig.builder()
-                // TODO webSocketAddress should be required, and read from WebServer (configurable in WebWiring)
-                .webSocketAddress(InetAddress.getLoopbackAddress())
+        bind(Bierman02RestConfWiring.class);
+        bind(RestConfConfig.class).toInstance(new RestConfConfig() {
+
+            @Override
+            public InetAddress webSocketAddress() {
+                return InetAddress.getLoopbackAddress();
+            }
+
+            @Override
+            public int webSocketPort() {
                 // TODO webSocketPort should be read from some configuration file
-                .webSocketPort(9090).build());
+                return 9090;
+            }
+        });
     }
 }
