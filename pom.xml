@@ -286,6 +286,12 @@
 
     <!-- Now <scope>test... -->
     <dependency>
+      <groupId>org.opendaylight.aaa.web</groupId>
+      <artifactId>testutils</artifactId>
+      <version>0.9.0-SNAPSHOT</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.opendaylight.infrautils</groupId>
       <artifactId>infrautils-testutils</artifactId>
       <scope>test</scope>
