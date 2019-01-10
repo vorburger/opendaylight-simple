@@ -10,12 +10,12 @@ package org.opendaylight.infrautils.simple.test;
 import javax.inject.Inject;
 import org.junit.Rule;
 import org.junit.Test;
+import org.opendaylight.aaa.web.testutils.WebTestModule;
 import org.opendaylight.infrautils.diagstatus.DiagStatusService;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.inject.guice.testutils.GuiceRule2;
 import org.opendaylight.infrautils.simple.DiagStatusModule;
 import org.opendaylight.infrautils.simple.ReadyModule;
-import org.opendaylight.infrautils.web.WebModule;
 
 /**
  * Unit test for {@link DiagStatusModule}.
@@ -24,7 +24,7 @@ import org.opendaylight.infrautils.web.WebModule;
  */
 public class DiagStatusModuleTest {
 
-    public @Rule GuiceRule2 guice = new GuiceRule2(WebModule.class, DiagStatusModule.class, ReadyModule.class,
+    public @Rule GuiceRule2 guice = new GuiceRule2(WebTestModule.class, DiagStatusModule.class, ReadyModule.class,
             AnnotationsModule.class);
 
     @Inject DiagStatusService diagStatusService;

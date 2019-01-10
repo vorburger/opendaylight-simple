@@ -21,6 +21,8 @@ import org.opendaylight.aaa.web.servlet.jersey2.JerseyServletSupport;
  */
 public class WebModule extends AbstractModule {
 
+    // TODO note (new) org.opendaylight.aaa.web.testutils.WebTestModule .. integrate?
+
     @Override
     protected void configure() {
         // TODO read port from a -D parameter or configuration file instead of hard-coding
