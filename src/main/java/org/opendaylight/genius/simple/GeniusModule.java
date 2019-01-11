@@ -10,12 +10,16 @@ package org.opendaylight.genius.simple;
 import com.google.inject.AbstractModule;
 import org.opendaylight.controller.simple.InMemoryControllerModule;
 import org.opendaylight.daexim.DataImportBootReady;
+import org.opendaylight.genius.arputil.internal.ArpUtilImpl;
+import org.opendaylight.genius.ipv6util.nd.Ipv6NdUtilServiceImpl;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
 import org.opendaylight.infrautils.inject.guice.testutils.AnnotationsModule;
 import org.opendaylight.infrautils.simple.InfraUtilsModule;
 import org.opendaylight.openflowplugin.simple.OpenFlowPluginModule;
 import org.opendaylight.restconf.simple.RestConfModule;
 import org.opendaylight.serviceutils.simple.ServiceUtilsModule;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.arputil.rev160406.OdlArputilService;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.genius.ipv6.nd.util.rev170210.Ipv6NdUtilService;
 
 public class GeniusModule extends AbstractModule {
 
@@ -58,6 +62,12 @@ public class GeniusModule extends AbstractModule {
         install(new ItmModule());
         install(new DatastoreUtilsModule());
         // TODO install(new ResourceManagerWiring());
+
+        // ARP Util
+        bind(OdlArputilService.class).to(ArpUtilImpl.class);
+
+        // IPv6
+        bind(Ipv6NdUtilService.class).to(Ipv6NdUtilServiceImpl.class);
     }
 
 }
