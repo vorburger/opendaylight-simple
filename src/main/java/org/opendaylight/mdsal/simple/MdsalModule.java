@@ -13,13 +13,20 @@ import javax.inject.Singleton;
 import org.opendaylight.controller.sal.core.compat.DOMDataBrokerAdapter;
 import org.opendaylight.controller.sal.core.compat.DOMNotificationServiceAdapter;
 import org.opendaylight.mdsal.binding.api.DataBroker;
+import org.opendaylight.mdsal.binding.api.RpcConsumerRegistry;
+import org.opendaylight.mdsal.binding.api.RpcProviderService;
 import org.opendaylight.mdsal.binding.dom.adapter.BindingDOMDataBrokerAdapter;
+import org.opendaylight.mdsal.binding.dom.adapter.BindingDOMRpcProviderServiceAdapter;
+import org.opendaylight.mdsal.binding.dom.adapter.BindingDOMRpcServiceAdapter;
 import org.opendaylight.mdsal.binding.dom.adapter.BindingToNormalizedNodeCodec;
 import org.opendaylight.mdsal.binding.dom.codec.api.BindingNormalizedNodeSerializer;
 import org.opendaylight.mdsal.dom.api.DOMDataBroker;
 import org.opendaylight.mdsal.dom.api.DOMMountPointService;
 import org.opendaylight.mdsal.dom.api.DOMNotificationService;
+import org.opendaylight.mdsal.dom.api.DOMRpcProviderService;
+import org.opendaylight.mdsal.dom.api.DOMRpcService;
 import org.opendaylight.mdsal.dom.broker.DOMMountPointServiceImpl;
+import org.opendaylight.mdsal.dom.broker.DOMRpcRouter;
 import org.opendaylight.mdsal.dom.broker.pingpong.PingPongDataBroker;
 import org.opendaylight.mdsal.eos.binding.api.EntityOwnershipService;
 import org.opendaylight.mdsal.eos.binding.dom.adapter.BindingDOMEntityOwnershipServiceAdapter;
@@ -96,11 +103,26 @@ public class MdsalModule extends AbstractModule {
     @Singleton ClusterSingletonServiceProvider getClusterSingletonServiceProvider(DOMEntityOwnershipService eos) {
         return new DOMClusterSingletonServiceProviderImpl(eos);
     }
-/*
+
+//    @Provides
+//    @Singleton DOMRpcService getDOMService(org.opendaylight.controller.md.sal.dom.api.DOMRpcService controllerDRSA) {
+//        return new DOMRpcServiceAdapter(controllerDRSA);
+//    }
+
+    @Provides
+    @Singleton
+    RpcConsumerRegistry getRpcConsumerRegistry(DOMRpcService domService, BindingToNormalizedNodeCodec codec) {
+        return new BindingDOMRpcServiceAdapter(domService, codec);
+    }
+
     @Provides
     @Singleton
     RpcProviderService getRpcProviderService(DOMRpcProviderService domRpcRegistry, BindingToNormalizedNodeCodec codec) {
         return new BindingDOMRpcProviderServiceAdapter(domRpcRegistry, codec);
     }
-*/
+
+    @Provides
+    @Singleton DOMRpcProviderService getDOMRpcProviderService(DOMRpcRouter domRpcRouter) {
+        return domRpcRouter.getRpcProviderService();
+    }
 }

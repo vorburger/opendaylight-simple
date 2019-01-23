@@ -13,6 +13,7 @@ import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.simple.ConfigReader;
 import org.opendaylight.infrautils.inject.guice.AutoWiringModule;
 import org.opendaylight.infrautils.inject.guice.GuiceClassPathBinder;
+import org.opendaylight.mdsal.binding.api.RpcConsumerRegistry;
 import org.opendaylight.mdsal.simple.PingPong;
 import org.opendaylight.openflowjava.protocol.impl.core.SwitchConnectionProviderFactoryImpl;
 import org.opendaylight.openflowjava.protocol.spi.connection.SwitchConnectionProviderFactory;
@@ -22,6 +23,7 @@ import org.opendaylight.openflowplugin.api.openflow.configuration.ConfigurationS
 import org.opendaylight.openflowplugin.impl.ForwardingPingPongDataBroker;
 import org.opendaylight.openflowplugin.impl.PingPongDataBroker;
 import org.opendaylight.openflowplugin.impl.configuration.ConfigurationServiceFactoryImpl;
+import org.opendaylight.yang.gen.v1.urn.opendaylight.packet.service.rev130709.PacketProcessingService;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflow.provider.config.rev160510.OpenflowProviderConfig;
 import org.opendaylight.yang.gen.v1.urn.opendaylight.params.xml.ns.yang.openflowplugin.app.forwardingrules.manager.config.rev160511.ForwardingRulesManagerConfig;
 
@@ -35,6 +37,11 @@ public class OpenFlowPluginModule extends AutoWiringModule {
     protected void configureMore() {
         // TODO curious that this is needed despite SwitchConnectionProviderFactoryImpl being annotated?!
         bind(SwitchConnectionProviderFactory.class).to(SwitchConnectionProviderFactoryImpl.class);
+    }
+
+    @Provides
+    @Singleton PacketProcessingService getPacketProcessingService(RpcConsumerRegistry rpcConsumerRegistry) {
+        return rpcConsumerRegistry.getRpcService(PacketProcessingService.class);
     }
 
     @Provides

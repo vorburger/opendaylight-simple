@@ -81,6 +81,8 @@ public class InMemoryControllerModule extends AbstractCloseableModule {
         bind(DOMMountPointService.class).to(DOMMountPointServiceImpl.class);
 
         DOMRpcRouter domRpcRouter = DOMRpcRouter.newInstance(domSchemaService);
+        bind(DOMRpcRouter.class).toInstance(domRpcRouter);
+
         DOMRpcService rpcService = domRpcRouter.getRpcService();
         bind(DOMRpcService.class).toInstance(rpcService);
 
