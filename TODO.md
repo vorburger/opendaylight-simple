@@ -29,6 +29,10 @@
 - [X] OpenFlowPluginWiring PacketProcessingService <odl:action-provider>
 - [X] OpenFlowPlugin wiring
 
+- [ ] add a Dockerfile to build a demo container
+- [ ] create a Hello World toaster example
+- [ ] kubectl apply YAML to get started
+
 - [X] skitt's https://github.com/vorburger/opendaylight-simple/issues/38
 - [ ] DiagStatusWiring auto-discover ServiceStatusProvider
 - [ ] CLI commands, such as ItmWiring's TepShowState and DiagStatusCommand in DiagStatusWiring, which `implements Action`, should be auto-discovered
