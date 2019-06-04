@@ -33,3 +33,7 @@ You'll also find a `poc-*-simple.tar` in `target/` which contains `lib/*`.
 Configuration files, like e.g. the `serviceutils-upgrade-config.xml`, can be changed in the `etc/initial` directory (which is on the beginning of the classpath), where they are copied to on the first run.
 
 The use of the custom `.travis-maven-settings.xml` is required due to [issue TBD](https://github.com/vorburger/opendaylight-simple/issues/37).
+
+## FAQ
+
+* _Q: Is this goal of this project to get rid of the use of Apache Karaf in ODL?_ A: Yes, this project explores how to run ODL without Karaf.  It illustrates this simply by building another distribution in parallel, see above.  It's not necessarily a goal of this project to completely remove Karaf of all of OpenDaylight - that decision can be taken separately and in parallel by those needing distributions - perhaps some will still see any benefit in Karaf, while others won't anymore.
