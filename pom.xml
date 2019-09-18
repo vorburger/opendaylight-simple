@@ -13,7 +13,7 @@
   <parent>
     <groupId>org.opendaylight.infrautils</groupId>
     <artifactId>parent</artifactId>
-    <version>1.5.0-SNAPSHOT</version>
+    <version>1.5.0</version>
     <relativePath />
   </parent>
 
@@ -34,7 +34,7 @@
       <dependency>
         <groupId>org.opendaylight.infrautils</groupId>
         <artifactId>infrautils-artifacts</artifactId>
-        <version>1.5.0-SNAPSHOT</version>
+        <version>1.5.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -46,9 +46,16 @@
         <scope>import</scope>
       </dependency>
       <dependency>
+        <groupId>org.opendaylight.aaa</groupId>
+        <artifactId>aaa-artifacts</artifactId>
+        <version>0.9.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
         <groupId>org.opendaylight.controller</groupId>
         <artifactId>mdsal-artifacts</artifactId>
-        <version>1.9.0-SNAPSHOT</version>
+        <version>1.9.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -61,8 +68,15 @@
       </dependency>
       <dependency>
         <groupId>org.opendaylight.netconf</groupId>
+        <artifactId>netconf-artifacts</artifactId>
+        <version>1.6.0</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.opendaylight.netconf</groupId>
         <artifactId>restconf-artifacts</artifactId>
-        <version>1.9.0-SNAPSHOT</version>
+        <version>1.9.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -71,14 +85,14 @@
       <dependency>
         <groupId>org.opendaylight.neutron</groupId>
         <artifactId>neutron-artifacts</artifactId>
-        <version>0.10.0-SNAPSHOT</version>
+        <version>0.10.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
       <dependency>
         <groupId>org.opendaylight.daexim</groupId>
         <artifactId>daexim-artifacts</artifactId>
-        <version>1.3.0-SNAPSHOT</version>
+        <version>1.3.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -86,7 +100,7 @@
       <dependency>
         <groupId>org.opendaylight.netvirt</groupId>
         <artifactId>netvirt-artifacts</artifactId>
-        <version>0.8.0-SNAPSHOT</version>
+        <version>0.8.0</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -109,7 +123,7 @@
     <dependency>
       <groupId>org.opendaylight.neutron</groupId>
       <artifactId>integration-test-standalone</artifactId>
-      <version>0.12.0-SNAPSHOT</version>
+      <version>0.12.0</version>
       <scope>test</scope>
     </dependency>
 -->
@@ -149,6 +163,81 @@
       </exclusions>
  -->
     </dependency>
+
+    <dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-shiro</artifactId>
+       <version>0.9.0</version>
+    </dependency>
+
+    <!--dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-shiro-api</artifactId>
+       <version>0.9.0</version>
+    </dependency>
+
+    <dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-shiro-act</artifactId>
+       <version>0.9.0</version>
+    </dependency-->
+
+    <dependency>
+      <groupId>org.opendaylight.aaa</groupId>
+      <artifactId>aaa-authn-api</artifactId>
+       <version>0.9.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>aaa-authn-odl-plugin</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>netconf-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>netconf-config</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>netconf-mapping-api</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>netconf-impl</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>netconf-topology</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>netconf-topology-singleton</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>netconf-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>sal-netconf-connector</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>mdsal-netconf-connector</artifactId>
+    </dependency>
+
     <dependency>
       <groupId>org.opendaylight.netconf</groupId>
       <artifactId>restconf-nb-rfc8040</artifactId>
@@ -232,12 +321,12 @@
     <dependency>
       <groupId>org.opendaylight.aaa.web</groupId>
       <artifactId>web-jetty-impl</artifactId>
-      <version>0.9.0-SNAPSHOT</version>
+      <version>0.9.0</version>
     </dependency>
     <dependency>
       <groupId>org.opendaylight.aaa.web</groupId>
       <artifactId>servlet-jersey2</artifactId>
-      <version>0.9.0-SNAPSHOT</version>
+      <version>0.9.0</version>
     </dependency>
 
     <!-- TODO Align dropwizard.metrics in odlparent, controller and infrautils and ditch this -->
@@ -293,7 +382,7 @@
     <dependency>
       <groupId>org.opendaylight.aaa.web</groupId>
       <artifactId>testutils</artifactId>
-      <version>0.9.0-SNAPSHOT</version>
+      <version>0.9.0</version>
       <scope>test</scope>
     </dependency>
     <dependency>

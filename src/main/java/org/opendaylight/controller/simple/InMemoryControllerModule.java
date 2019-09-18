@@ -7,7 +7,11 @@
  */
 package org.opendaylight.controller.simple;
 
-import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import javax.inject.Singleton;
+
+import org.opendaylight.controller.config.yang.netty.eventexecutor.AutoCloseableEventExecutor;
+import org.opendaylight.controller.config.yang.netty.threadgroup.NioEventLoopGroupCloseable;
+import org.opendaylight.controller.config.yang.netty.timer.HashedWheelTimerCloseable;
 import org.opendaylight.controller.md.sal.binding.api.DataBroker;
 import org.opendaylight.controller.md.sal.binding.api.NotificationPublishService;
 import org.opendaylight.controller.md.sal.binding.api.NotificationService;
@@ -34,6 +38,13 @@ import org.opendaylight.mdsal.dom.api.DOMSchemaService;
 import org.opendaylight.mdsal.dom.broker.DOMRpcRouter;
 import org.opendaylight.mdsal.simple.MdsalModule;
 import org.opendaylight.mdsal.simple.PingPong;
+
+import com.google.inject.Provides;
+
+import edu.umd.cs.findbugs.annotations.SuppressFBWarnings;
+import io.netty.channel.EventLoopGroup;
+import io.netty.util.Timer;
+import io.netty.util.concurrent.EventExecutor;
 
 @SuppressFBWarnings("UWF_FIELD_NOT_INITIALIZED_IN_CONSTRUCTOR")
 public class InMemoryControllerModule extends AbstractCloseableModule {
@@ -103,6 +114,41 @@ public class InMemoryControllerModule extends AbstractCloseableModule {
         bind(RpcProviderRegistry.class).toInstance(
                 new HeliumRpcProviderRegistry(bindingDOMRpcServiceAdapter, bindingDOMRpcProviderServiceAdapter));
     }
+
+    // NETCONF
+	// FIXME Add configuration for thread-count
+	@Provides
+	@Singleton
+	@GlobalBossGroup
+	EventLoopGroup getGlobalBossGroup() {
+		return NioEventLoopGroupCloseable.newInstance(0);
+	}
+
+    // NETCONF
+	// FIXME Add configuration for thread-count
+	@Provides
+	@Singleton
+	@GlobalWorkerGroup
+	EventLoopGroup getGlobalWorkerGroup() {
+		return NioEventLoopGroupCloseable.newInstance(0);
+	}
+
+    // NETCONF
+	// FIXME Add configuration for thread-count
+	@Provides
+	@Singleton
+	@GlobalTimer
+	Timer getGlobalTimer() {
+		return HashedWheelTimerCloseable.newInstance(0L, 0);
+	}
+
+    // NETCONF
+	@Provides
+	@Singleton
+	@GlobalEventExecutor
+	EventExecutor getGlobalEventExecutor() {
+		return AutoCloseableEventExecutor.globalEventExecutor();
+	}
 
     @Override
     public void close() throws Exception {
