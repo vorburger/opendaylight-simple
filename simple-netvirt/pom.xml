@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright © 2018 Red Hat, Inc. and others. All rights reserved.
+
+ This program and the accompanying materials are made available under the
+ terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ and is available at http://www.eclipse.org/legal/epl-v10.html
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ch.vorburger.opendaylight.simple</groupId>
+    <artifactId>simple-aggregator</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+  <groupId>ch.vorburger.opendaylight.simple</groupId>
+  <artifactId>simple-netvirt</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>ch.vorburger.opendaylight.simple</groupId>
+      <artifactId>simple-genius</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.netvirt</groupId>
+      <artifactId>odl-netvirt-openstack</artifactId>
+      <classifier>features</classifier>
+      <type>xml</type>
+      <exclusions>
+        <!-- TODO Figure out why M2E breaks down over (just) neutronvpn-impl's <classifier>config <type>xml ... -->
+        <exclusion>
+          <groupId>org.opendaylight.netvirt</groupId>
+          <artifactId>neutronvpn-impl</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.opendaylight.netvirt</groupId>
+          <!-- bgpmanager needs Thrift, which for some reason is not transitively pulled (TODO find out why);
+               But we, currently at least, have no interest in bgpmanager anyway, so exclude it here, for now. -->
+          <artifactId>bgpmanager-impl</artifactId>
+        </exclusion>
+        <!-- karaf.shell.console leads to various duplicate classpath entries; we only support shell.core -->
+        <exclusion>
+          <groupId>org.apache.karaf.shell</groupId>
+          <artifactId>org.apache.karaf.shell.console</artifactId>
+        </exclusion>
+        <!-- osgi.core overlaps (x5) with felix.configadmin, and we don't need it here anyway
+             TODO EXCLUDE IT AGAIN LATER; FOR NOW, SOME CLASSES UNFORTUNATELY STILL REFERENCE IT
+        <exclusion>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.core</artifactId>
+        </exclusion>
+         -->
+        <!-- osgi.compendium (big) overlaps (x12) with (small) felix.configadmin, and with org.osgi.service.event (x9)
+        <exclusion>
+          <groupId>org.osgi</groupId>
+          <artifactId>org.osgi.compendium</artifactId>
+        </exclusion>
+    TODO but shiro.web.env.EnvironmentLoader currently requires org.osgi.service.http.NamespaceException,
+    which is available in osgi.compendium, thus commented; so sort out duplicate classpath entries with exclusion of felix.configadmin instead, and remove this
+ -->
+        <exclusion>
+          <groupId>org.opendaylight.netconf</groupId>
+          <artifactId>odl-restconf-noauth</artifactId>
+        </exclusion>
+        <!-- TODO Remove when this is merged and we bumped to an odlparent with it: https://git.opendaylight.org/gerrit/#/c/67184/ -->
+        <exclusion>
+          <groupId>javax.annotation</groupId>
+          <artifactId>jsr250-api</artifactId>
+        </exclusion>
+        <!-- TODO Remove when this is merged and we bumped to an odlparent with it: https://git.opendaylight.org/gerrit/#/c/67185/ -->
+        <exclusion>
+          <groupId>org.iq80.leveldb</groupId>
+          <artifactId>leveldb-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.opendaylight.odlparent</groupId>
+          <artifactId>odl-karaf-feat-jdbc</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.opendaylight.aaa</groupId>
+          <artifactId>odl-aaa-shiro</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.opendaylight.aaa</groupId>
+          <artifactId>aaa-shiro-api</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.opendaylight.aaa</groupId>
+          <artifactId>aaa-shiro-act</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <!-- TODO upstream version into odlparent pluginManagement -->
+        <version>3.1.1</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/simple.xml</descriptor>
+          </descriptors>
+          <tarLongFileMode>gnu</tarLongFileMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <!-- <classpathLayoutType>repository</classpathLayoutType> -->
+              <classpathLayoutType>custom</classpathLayoutType>
+              <!-- This must match the outputFileNameMapping in the simple.xml assembly descriptor -->
+              <customClasspathLayout>$${artifact.groupId}.$${artifact.artifactId}-$${artifact.version}$${dashClassifier?}.$${artifact.extension}</customClasspathLayout>
+              <mainClass>org.opendaylight.netvirt.simple.NetvirtMain</mainClass>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
