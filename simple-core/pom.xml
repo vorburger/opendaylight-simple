@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+ Copyright © 2018 Red Hat, Inc. and others. All rights reserved.
+
+ This program and the accompanying materials are made available under the
+ terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ and is available at http://www.eclipse.org/legal/epl-v10.html
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <parent>
+    <groupId>ch.vorburger.opendaylight.simple</groupId>
+    <artifactId>simple-aggregator</artifactId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../</relativePath>
+  </parent>
+
+  <groupId>ch.vorburger.opendaylight.simple</groupId>
+  <artifactId>simple-core</artifactId>
+  <version>1.0.0-SNAPSHOT</version>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.immutables</groupId>
+      <artifactId>value</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.aries.blueprint</groupId>
+      <artifactId>blueprint-maven-plugin-annotation</artifactId>
+      <optional>true</optional>
+    </dependency>
+    <!-- TODO Remove pax-web-api dependency eventually -->
+    <dependency>
+      <groupId>org.ops4j.pax.web</groupId>
+      <artifactId>pax-web-api</artifactId>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-common</artifactId>
+      <version>4.1.31.Final</version>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>diagstatus-api</artifactId>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>diagstatus-impl</artifactId>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>diagstatus-web</artifactId>
+    </dependency>
+
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>metrics-impl</artifactId>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>jobcoordinator-api</artifactId>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>jobcoordinator-impl</artifactId>
+    </dependency>
+
+    <!--controller-->
+    <dependency>
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>netty-event-executor-config</artifactId>
+      <version>0.10.0</version>
+    </dependency>
+
+    <!--controller-->
+    <dependency>
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>netty-threadgroup-config</artifactId>
+      <version>0.10.0</version>
+    </dependency>
+
+    <!--controller-->
+    <dependency>
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>netty-timer-config</artifactId>
+      <version>0.10.0</version>
+    </dependency>
+
+    <!--controller-->
+    <dependency>
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>threadpool-config-impl</artifactId>
+      <version>0.10.0</version>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>org.opendaylight.mdsal</groupId>
+      <artifactId>mdsal-eos-dom-simple</artifactId>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>org.opendaylight.mdsal</groupId>
+      <artifactId>mdsal-eos-binding-api</artifactId>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>org.opendaylight.mdsal</groupId>
+      <artifactId>mdsal-singleton-common-api</artifactId>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>org.opendaylight.mdsal</groupId>
+      <artifactId>mdsal-singleton-dom-impl</artifactId>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>org.opendaylight.mdsal</groupId>
+      <artifactId>mdsal-eos-binding-adapter</artifactId>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>org.opendaylight.mdsal</groupId>
+      <artifactId>mdsal-binding-dom-adapter</artifactId>
+    </dependency>
+
+    <!--mdsal-->
+    <dependency>
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>sal-binding-broker-impl</artifactId>
+    </dependency>
+
+    <!--restconf-->
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>restconf-nb-rfc8040</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>restconf-nb-bierman02</artifactId>
+    </dependency>
+
+    <!--aaa-->
+    <dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-cert</artifactId>
+       <version>0.9.0</version>
+       <scope>compile</scope>
+    </dependency>
+
+    <!--aaa-->
+    <dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-encrypt-service-impl</artifactId>
+       <version>0.9.0</version>
+    </dependency>
+
+    <!--aaa-->
+    <dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-shiro</artifactId>
+       <version>0.9.0</version>
+    </dependency>
+
+    <!--aaa -->
+    <!--dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-shiro-api</artifactId>
+       <version>0.9.0</version>
+    </dependency-->
+
+    <!--aaa-->
+    <!--dependency>
+       <groupId>org.opendaylight.aaa</groupId>
+       <artifactId>aaa-shiro-act</artifactId>
+       <version>0.9.0</version>
+    </dependency-->
+
+    <!--aaa-->
+    <dependency>
+      <groupId>org.opendaylight.aaa</groupId>
+      <artifactId>aaa-authn-api</artifactId>
+       <version>0.9.0</version>
+    </dependency>
+
+    <!--aaa-->
+    <dependency>
+      <groupId>org.opendaylight.netconf</groupId>
+      <artifactId>aaa-authn-odl-plugin</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.karaf.shell</groupId>
+      <artifactId>org.apache.karaf.shell.core</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.opendaylight.aaa.web</groupId>
+      <artifactId>web-jetty-impl</artifactId>
+      <version>0.9.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.aaa.web</groupId>
+      <artifactId>servlet-jersey2</artifactId>
+      <version>0.9.0</version>
+    </dependency>
+
+    <!--serviceutils-->
+    <dependency>
+      <groupId>org.opendaylight.serviceutils</groupId>
+      <artifactId>srm-api</artifactId>
+      <version>0.3.0</version>
+    </dependency>
+
+    <!--serviceutils-->
+    <dependency>
+      <groupId>org.opendaylight.serviceutils</groupId>
+      <artifactId>srm-impl</artifactId>
+      <version>0.3.0</version>
+    </dependency>
+
+    <!--serviceutils-->
+    <dependency>
+      <groupId>org.opendaylight.serviceutils</groupId>
+      <artifactId>upgrade</artifactId>
+      <version>0.3.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- TODO Align dropwizard.metrics in odlparent, controller and infrautils and ditch this -->
+    <dependency>
+      <groupId>io.dropwizard.metrics</groupId>
+      <artifactId>metrics-core</artifactId>
+      <!-- This version must be kept in line with the one used in metrics-impl -->
+      <version>4.0.3</version>
+    </dependency>
+    <dependency>
+      <groupId>io.dropwizard.metrics</groupId>
+      <artifactId>metrics-jvm</artifactId>
+      <!-- This version must be kept in line with the one used in metrics-impl -->
+      <version>4.0.3</version>
+    </dependency>
+
+    <!-- Implementation specials, these are not transitively inherited via the Karaf feature dependency -->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>caches-standard-impl</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.yangtools</groupId>
+      <artifactId>util</artifactId>
+    </dependency>
+
+    <!-- Logging related -->
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-api</artifactId>
+      <!-- Must override odlparent's <scope>provided so that it gets bundled -->
+      <scope>compile</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.slf4j</groupId>
+      <artifactId>slf4j-simple</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-slf4j-impl</artifactId>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>inject.guice</artifactId>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>inject.guice.testutils</artifactId>
+    </dependency>
+
+    <!--infrautils-->
+    <dependency>
+      <groupId>com.google.inject.extensions</groupId>
+      <artifactId>guice-multibindings</artifactId>
+      <!-- TODO remove when we bumped to Guice 4.2.0,
+           because there this is already included according to https://github.com/google/guice/wiki/Guice42;
+           and if we never bump, then move this dependency into the (TBD) infrautils:inject.guice instead  -->
+      <version>4.1.0</version>
+    </dependency>
+
+    <!-- Now <scope>test... -->
+    <dependency>
+      <groupId>org.opendaylight.aaa.web</groupId>
+      <artifactId>testutils</artifactId>
+      <version>0.9.0</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>infrautils-testutils</artifactId>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.opendaylight.infrautils</groupId>
+      <artifactId>inject.guice.testutils</artifactId>
+      <scope>compile</scope>
+      <!-- TODO <scope>test</scope> instead of compile here once I'll create
+           a new infrautils:inject.guice.testutils (non-testutils) for the run-time part.. -->
+    </dependency>
+    <!--  TODO remove, this is just a temporary hack, see above -->
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <scope>compile</scope>
+    </dependency>
+    <!--  TODO remove when https://git.opendaylight.org/gerrit/#/c/67763/ is merged and odlparent bumped -->
+    <dependency>
+      <groupId>com.mycila.guice.extensions</groupId>
+      <artifactId>mycila-guice-jsr250</artifactId>
+      <scope>compile</scope>
+    </dependency>
+
+    <!--controller-->
+    <dependency>
+      <groupId>org.opendaylight.controller</groupId>
+      <artifactId>blueprint</artifactId>
+      <version>0.10.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <!-- TODO upstream version into odlparent pluginManagement -->
+        <version>3.1.1</version>
+        <configuration>
+          <descriptors>
+            <descriptor>src/assembly/simple.xml</descriptor>
+          </descriptors>
+          <tarLongFileMode>gnu</tarLongFileMode>
+        </configuration>
+        <executions>
+          <execution>
+            <id>make-assembly</id>
+            <phase>package</phase>
+            <goals>
+              <goal>single</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <classpathPrefix>lib/</classpathPrefix>
+              <!-- <classpathLayoutType>repository</classpathLayoutType> -->
+              <classpathLayoutType>custom</classpathLayoutType>
+              <!-- This must match the outputFileNameMapping in the simple.xml assembly descriptor -->
+              <customClasspathLayout>$${artifact.groupId}.$${artifact.artifactId}-$${artifact.version}$${dashClassifier?}.$${artifact.extension}</customClasspathLayout>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
